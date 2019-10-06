@@ -24,11 +24,4 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>main.cpp</name>
-			<type>1</type>
-			<locationURI>PARENT-4-PROJECT_LOC/media/mateusz/AE960D8A960D546D/Dropbox/My%20projects/FlightBooking/main.cpp</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>
