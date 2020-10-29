@@ -11,8 +11,8 @@
  *     @Notes: Program builds with Gcc compiler with c++ dialect selected to C++14 (-std=c++14)
  *
  */
-#include "DateTime.hpp"
-#include "FlightManager.hpp"
+#include "Common/DateTime.hpp"
+#include "FlightManagement/FlightManager.hpp"
 #include "UserInterface.hpp"
 
 #include <iostream>
