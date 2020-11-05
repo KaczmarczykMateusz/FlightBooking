@@ -29,11 +29,9 @@ static const uint32_t DEPARTURE_TIME_LENGTH = 4;
 static const uint32_t NEW_LINE_OFFSET = DEPARTURE_TIME_OFFSET + DEPARTURE_TIME_LENGTH;
 static const uint32_t NEW_LINE_LENGTH = 1;
 
-static const uint32_t RECORD_OFFSET = NEW_LINE_OFFSET + NEW_LINE_LENGTH;
-static const uint32_t RECORD_LENGTH = RECORD_OFFSET;
+static const uint32_t RECORD_LENGTH = NEW_LINE_OFFSET + NEW_LINE_LENGTH;
+static const uint32_t RECORD_OFFSET = RECORD_LENGTH + 1;
 
-static const std::string departureCityReq = "Insert departure airport name:\n\n";
-static const std::string arrivalCityReq = "Insert arrival airport name:\n\n";
 static const std::string newLineStr = "\n\n\n\n\n\n\n\n\n";
 static const char SEPARATOR = ' ';
 

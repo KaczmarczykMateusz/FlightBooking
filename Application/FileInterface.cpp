@@ -83,9 +83,9 @@ void FileInterface::SearchFlight() {
 	std::string arrivalCity(ARRIVAL_AIRPORT_LENGTH, SEPARATOR);
 
 //	string date = UI.GetDate();
-	UI.RegisterRecord(depatrureCity, departureCityReq, 0, DEPARTURE_AIRPORT_LENGTH);
+	depatrureCity = UI.GetDepartureCity();
 	UI.rtrim(depatrureCity);
-	UI.RegisterRecord(arrivalCity, arrivalCityReq, 0, ARRIVAL_AIRPORT_LENGTH);
+	UI.RegisterRecord(arrivalCity, "Insert arrival airport name:\n\n", 0, ARRIVAL_AIRPORT_LENGTH);
 	UI.rtrim(arrivalCity);
 
 	std::vector<std::string> retVal;

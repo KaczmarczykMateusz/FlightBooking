@@ -12,6 +12,8 @@
 #include <stdarg.h>  // For va_start, etc.
 #include <cassert>
 
+static const std::string departureCityReq = "Insert departure airport name:\n\n";
+static const std::string arrivalCityReq = "Insert arrival airport name:\n\n";
 
 void UserInterface::Display(const std::string fmt, ...) {
 	va_list ap;
@@ -89,25 +91,88 @@ std::string UserInterface::GetDate() {
 
 //Ask user to enter detail and save this detail into dst string
 void UserInterface::RegisterRecord(std::string & dst, std::string output, uint32_t offset, uint32_t length) {
-	while(1) {
+	do {
 		//output.insert(0, newLineStr);
 		Display("%s%s", newLineStr.c_str(), output.c_str());
 		std::string input(length, '\0');
 		getline(std::cin, input);
-		if(length < strlen(input.c_str())) {
-			Display("Please enter name not longer than %d", (uint32_t)length-1 );
+		if(validateLength(input, length)) {
 			continue;
-		} else {
-			//We need to insert separator because getline adds null termination sign
-			input.insert(input.length(), length-input.length(), SEPARATOR);
-			try {
-				dst.replace(offset, strlen(input.c_str()), input);
-			}
-			catch(...) {
-				Display("dst.size: %d\toffset: %d\tlength: %d", dst.size(), offset, length);
-				assert(0);// TODO: consider some action
-			}
-			break;
 		}
+
+		//We need to insert separator because getline adds null termination sign
+		input.insert(input.length(), length-input.length(), SEPARATOR);
+		try {
+			dst.replace(offset, strlen(input.c_str()), input);
+		}
+		catch(...) {
+			Display("dst.size: %d\toffset: %d\tlength: %d", dst.size(), offset, length);
+			assert(0);// TODO: consider some action
+		}
+	} while(0);
+}
+
+//Ask user to enter detail and save this detail into dst string
+void UserInterface::RegisterRecordLow(std::string & dst, std::string input, uint32_t offset, uint32_t length) {
+	do {
+		try {
+			dst.replace(offset, strlen(input.c_str()), input);
+		}
+		catch(...) {
+			Display("dst.size: %d\toffset: %d\tlength: %d", dst.size(), offset, length);
+			assert(0);// TODO: consider some action
+		}
+	} while(0);
+}
+
+std::string UserInterface::FormatLine(uint32_t flightNo, const std::string & company, const std::string & departureAirport, const std::string & arrivalAirport, const std::string & date) {
+	std::string dst(RECORD_LENGTH, ' ');
+
+	RegisterRecordLow(dst, std::to_string(flightNo), NUMBER_OFFSET, NUMBER_LENGTH);
+	RegisterRecordLow(dst, company, COMPANY_NAME_OFFSET, COMPANY_NAME_LENGTH);
+	RegisterRecordLow(dst, departureAirport, DEPARTURE_AIRPORT_OFFSET, DEPARTURE_AIRPORT_LENGTH);
+	RegisterRecordLow(dst, arrivalAirport, ARRIVAL_AIRPORT_OFFSET, ARRIVAL_AIRPORT_LENGTH);
+	RegisterRecordLow(dst, date, DEPARTURE_DATE_OFFSET, DEPARTURE_DATE_LENGTH);
+	RegisterRecordLow(dst, "\n", NEW_LINE_OFFSET, NEW_LINE_LENGTH);
+
+	return dst;
+}
+
+void UserInterface::getLine(std::string & dst, uint32_t length) {
+	do {
+		getline(std::cin, dst);
+		if(!validateLength(dst, length)) {
+			continue;
+		}
+	} while(0);
+}
+
+std::string UserInterface::GetCompany() {
+	Display("%sInsert company name:\n\n", newLineStr.c_str());
+	std::string str;
+	getLine(str, COMPANY_NAME_LENGTH);
+	return str;
+}
+
+std::string UserInterface::GetDepartureCity() {
+	Display("%s%s", newLineStr.c_str(), departureCityReq.c_str());
+	std::string str;
+	getLine(str, DEPARTURE_AIRPORT_LENGTH);
+	return str;
+}
+
+std::string UserInterface::GetArrivalCity() {
+	Display("%s%s", newLineStr.c_str(), arrivalCityReq.c_str());
+	std::string str;
+	getLine(str, ARRIVAL_AIRPORT_LENGTH);
+	return str;
+}
+
+
+bool UserInterface::validateLength(const std::string & str, uint32_t length) {
+	bool rc = (length > strlen(str.c_str()));
+	if(!rc) {
+		Display("Please enter name not longer than %d", (uint32_t)length-1 );
 	}
+	return rc;
 }

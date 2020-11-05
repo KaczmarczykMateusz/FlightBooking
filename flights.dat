@@ -9,7 +9,7 @@
 9     Wizz Air             Gdansk               Warsaw               1312191110
 10    Wizz Air             Sofia                Warsaw               0812191110
 11    Wizz Air             Hong-Kong            Warsaw               1312191110
-12    Wizz Air             Sofia                Warna                0812191110
+12    Wizz Air             Sofia                Warsaw               0812191110
 13    Ryanair              Katowice             Warsaw               1312191110
 14    Turkish Airlines     Istanbul             Ankara               1512191110
 15    LOT                  Aqaba                Warsaw               1512191110
@@ -20,4 +20,10 @@
 22    LOT                  Wroclaw              Krakow               1812191110
 23    Wizz Air             Dubai                Berlin               1812191110
 24    Lufthansa            Frankfurt Der Oder   Berlin               1512191110
-25    LOT                  Lublin               Rzeszow              1512191315
+25    China Air            Berlin               Moscow               1511201110
+26    Lufthansa            Warsaw               Berlin               1511201110
+27    Lufthansa            Berlin               Warsaw               1511201110
+28    China Air            Hong Kong            Kioto                1611201110
+29    Wizz Air             Paris                London               1611201110
+30    LOT                  Krakow               Gdansk               2011201110
+31    Russia Air           Vostock              Petersburg           1611201110

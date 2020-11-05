@@ -33,6 +33,17 @@ public:
 
 	//Ask user to enter detail and save this detail into dst string
 	void RegisterRecord(std::string & dst, std::string output, uint32_t offset, uint32_t length);
+
+	void RegisterRecordLow(std::string & dst, std::string input, uint32_t offset, uint32_t length);
+	std::string FormatLine(uint32_t flightNo, const std::string & company, const std::string & departureAirport, const std::string & arrivalAirport, const std::string & date);
+
+	std::string GetCompany();
+	std::string GetDepartureCity();
+	std::string GetArrivalCity();
+	bool validateLength(const std::string & str, uint32_t length);
+
+private:
+	void getLine(std::string & dst, uint32_t length);
 };
 
 #endif /* APPLICATION_USERINTERFACE_HPP_ */

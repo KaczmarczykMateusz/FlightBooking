@@ -56,7 +56,7 @@ void FlightManager::DisplayAllRecords(FileInterface & file) {
 	std::string output(RECORD_LENGTH, '\0');
 	while(file.GetRecord(output, getIndex)) {
 		getIndex +=1;
-		std::cout << output;
+		UI.Display(output);
 		output.resize(RECORD_OFFSET, '\0');
 	}
 }
@@ -73,29 +73,15 @@ void FlightManager::Book() {
 }
 
 void FlightManager::RegisterNew() {
-
-	std::string record(RECORD_LENGTH, '\0');
-
 	std::string numberStr(NUMBER_LENGTH+1, ' ');
 	uint32_t flightNo = GeteGreatestFlightNo(File) + 1;
-	numberStr.replace(0, std::to_string(flightNo).size(), std::to_string(flightNo)); //TODO: exception handling?
-	record.replace(NUMBER_OFFSET, NUMBER_LENGTH, numberStr);
 
-	UI.RegisterRecord(record, "Insert company name:\n\n", COMPANY_NAME_OFFSET, COMPANY_NAME_LENGTH);
-	UI.RegisterRecord(record, departureCityReq, DEPARTURE_AIRPORT_OFFSET, DEPARTURE_AIRPORT_LENGTH);
-	UI.RegisterRecord(record, arrivalCityReq, ARRIVAL_AIRPORT_OFFSET, ARRIVAL_AIRPORT_LENGTH);
+	std::string company = UI.GetCompany();
+	std::string departureCity = UI.GetDepartureCity();
+	std::string arrivalCity = UI.GetArrivalCity();
+	std::string date = UI.GetDate();
 
-	try {
-		record.replace(DEPARTURE_DATE_OFFSET, DEPARTURE_DATE_LENGTH, UI.GetDate());
-		record.replace(NEW_LINE_OFFSET, NEW_LINE_LENGTH, "\n");
-	}
-	catch(std::out_of_range & arg) {
-		std::cout << "\trecord.size(): " <<record.size() << std::endl;
-		std::cout << "NEW_LINE_OFFSET: " << NEW_LINE_OFFSET << "\tNEW_LINE_LENGTH: " << NEW_LINE_LENGTH << std::endl;
-	}
-	catch(const char* message) {
-		std::cout << "\n\n\n" << message;
-	};
+	std::string record = UI.FormatLine(flightNo, company, departureCity, arrivalCity, date);
 
 	File.writeFlights(record, RECORD_LENGTH);
 }
