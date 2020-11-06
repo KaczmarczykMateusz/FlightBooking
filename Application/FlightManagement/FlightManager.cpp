@@ -9,6 +9,7 @@
 
 #include <cassert>
 #include <iostream>
+#include <vector>
 
 uint8_t FlightManager::MainMenu() {
 	uint8_t choice = 0;
@@ -21,7 +22,7 @@ uint8_t FlightManager::MainMenu() {
 		"--------------------------------------------------------\n"
 		"What would you like to do: (chose with numeric keypad)\n"
 		"1 - Book new fligt            2 - Check-in\n"
-		"3 - Check your fligt          4 - Check flight schedule\n"
+		"3 - Search flight             4 - Check flight schedule\n"
 		"5 - Register new flight       6 - Delete flight\n"
 		"7 - Exit system\n" };
 		UI.Display(text);
@@ -62,14 +63,23 @@ void FlightManager::DisplayAllRecords(FileInterface & file) {
 }
 
 void FlightManager::Book() {
-/*		string str(DEPARTURE_AIRPORT_LENGTH ,'\0');
-	UI.Display("From where do you want to departure? Enter city name: ");
-	getline(cin, str);
-	str.empty();
-	UI.Display("Where do you want to go? Enter city name: ");
-	getline(cin, str);*/
-	File.SearchFlight();
+	Search();
 	//TODO: continue with booking
+}
+
+void FlightManager::Search() {
+	std::string depatrureCity = UI.GetDepartureCity();
+	std::string arrivalCity = UI.GetArrivalCity();
+
+	std::vector<std::string> records = File.SearchFlight(depatrureCity, arrivalCity);
+
+	if(!records.empty()) {
+		for(auto record : records) {
+			UI.Display(record);
+		}
+	} else {
+		UI.Display("Not found \n");
+	}
 }
 
 void FlightManager::RegisterNew() {
@@ -88,14 +98,14 @@ void FlightManager::RegisterNew() {
 
 void FlightManager::ChooseAction(uint8_t mainChoice) {
 	switch(mainChoice) {
-	case 1:    //Book new fligt
+	case 1:    //Book new flight
 		Book();
 		break;
 	case 2:    //Check-in
 		assert(0); //TODO: fill case
 		break;
-	case 3:    //Check your fligt
-		assert(0);
+	case 3:    //Search flight
+		Search();
 		break;
 	case 4:    //Check flight schedule
 		DisplayAllRecords(File);

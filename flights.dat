@@ -1,15 +1,15 @@
 1     LOT                  Skopie               Sofia                1212191110
-2     Wizz Air             Sofia                Warsaw               0812191110
+2     Wizz Air             Sofia                Warsaw               0112191110
 3     Wizz Air             Berlin               Warsaw               1312191110
 4     Wizz Air             Sofia                Warsaw               0812191110
 5     Wizz Air             Berlin               Warsaw               1312191110
-6     Wizz Air             Sofia                Warsaw               0812191110
+6     Wizz Air             Sofia                Warsaw               1512191110
 7     Wizz Air             Berlin               Warsaw               1312191110
-8     Wizz Air             Sofia                Warna                0812191110
+8     Wizz Air             Sofia                Warna                2212191110
 9     Wizz Air             Gdansk               Warsaw               1312191110
-10    Wizz Air             Sofia                Warsaw               0812191110
+10    Wizz Air             Sofia                Warsaw               2912191110
 11    Wizz Air             Hong-Kong            Warsaw               1312191110
-12    Wizz Air             Sofia                Warsaw               0812191110
+12    Wizz Air             Sofia                Warsaw               0601201110
 13    Ryanair              Katowice             Warsaw               1312191110
 14    Turkish Airlines     Istanbul             Ankara               1512191110
 15    LOT                  Aqaba                Warsaw               1512191110
@@ -27,3 +27,5 @@
 29    Wizz Air             Paris                London               1611201110
 30    LOT                  Krakow               Gdansk               2011201110
 31    Russia Air           Vostock              Petersburg           1611201110
+32    LOT                  Skopie               Tirana               151120    
+33    Wizz Air             Barcelona            Madrid               191120    

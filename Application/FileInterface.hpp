@@ -12,6 +12,7 @@
 #include "Common/Common.hpp"
 
 #include <fstream>
+#include <vector>
 
 class FileInterface {
 	UserInterface UI;
@@ -39,7 +40,7 @@ public:
 
 	bool SearchDetail(std::string & dst, uint32_t offset, uint16_t length);
 
-	void SearchFlight();
+	std::vector<std::string> SearchFlight(std::string departureAirport, std::string arrivalAirport);
 
 	void writeFlights(const std::string input, uint8_t length) ;
 };

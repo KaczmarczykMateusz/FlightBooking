@@ -90,30 +90,8 @@ std::string UserInterface::GetDate() {
 }
 
 //Ask user to enter detail and save this detail into dst string
-void UserInterface::RegisterRecord(std::string & dst, std::string output, uint32_t offset, uint32_t length) {
-	do {
-		//output.insert(0, newLineStr);
-		Display("%s%s", newLineStr.c_str(), output.c_str());
-		std::string input(length, '\0');
-		getline(std::cin, input);
-		if(validateLength(input, length)) {
-			continue;
-		}
-
-		//We need to insert separator because getline adds null termination sign
-		input.insert(input.length(), length-input.length(), SEPARATOR);
-		try {
-			dst.replace(offset, strlen(input.c_str()), input);
-		}
-		catch(...) {
-			Display("dst.size: %d\toffset: %d\tlength: %d", dst.size(), offset, length);
-			assert(0);// TODO: consider some action
-		}
-	} while(0);
-}
-
-//Ask user to enter detail and save this detail into dst string
 void UserInterface::RegisterRecordLow(std::string & dst, std::string input, uint32_t offset, uint32_t length) {
+	//dst.resize(length, ' ');
 	do {
 		try {
 			dst.replace(offset, strlen(input.c_str()), input);
@@ -151,6 +129,7 @@ std::string UserInterface::GetCompany() {
 	Display("%sInsert company name:\n\n", newLineStr.c_str());
 	std::string str;
 	getLine(str, COMPANY_NAME_LENGTH);
+	rtrim(str);
 	return str;
 }
 
@@ -158,6 +137,7 @@ std::string UserInterface::GetDepartureCity() {
 	Display("%s%s", newLineStr.c_str(), departureCityReq.c_str());
 	std::string str;
 	getLine(str, DEPARTURE_AIRPORT_LENGTH);
+	rtrim(str);
 	return str;
 }
 
@@ -165,6 +145,7 @@ std::string UserInterface::GetArrivalCity() {
 	Display("%s%s", newLineStr.c_str(), arrivalCityReq.c_str());
 	std::string str;
 	getLine(str, ARRIVAL_AIRPORT_LENGTH);
+	rtrim(str);
 	return str;
 }
 

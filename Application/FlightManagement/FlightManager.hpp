@@ -19,6 +19,7 @@ public:
 	uint8_t MainMenu();
 	void DisplayAllRecords(FileInterface & file);
 	void Book();
+	void Search();
 	void RegisterNew();
 	void ChooseAction(uint8_t mainChoice);
 	UserInterface & GetUI();

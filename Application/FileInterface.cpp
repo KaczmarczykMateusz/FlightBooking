@@ -8,7 +8,6 @@
 #include "FileInterface.hpp"
 
 #include <iostream>
-#include <vector>
 
 bool FileInterface::GetRecord(std::string &dst, uint16_t recordNumber) {
 	bool rc = true;
@@ -78,37 +77,21 @@ bool FileInterface::SearchDetail(std::string & dst, uint32_t offset, uint16_t le
 	return rc;
 }
 
-void FileInterface::SearchFlight() {
-	std::string depatrureCity(DEPARTURE_AIRPORT_LENGTH, SEPARATOR);
-	std::string arrivalCity(ARRIVAL_AIRPORT_LENGTH, SEPARATOR);
-
-//	string date = UI.GetDate();
-	depatrureCity = UI.GetDepartureCity();
-	UI.rtrim(depatrureCity);
-	UI.RegisterRecord(arrivalCity, "Insert arrival airport name:\n\n", 0, ARRIVAL_AIRPORT_LENGTH);
-	UI.rtrim(arrivalCity);
-
+std::vector<std::string> FileInterface::SearchFlight(std::string departureAirport, std::string arrivalAirport) {
 	std::vector<std::string> retVal;
 	std::string output(DEPARTURE_AIRPORT_LENGTH, '\0');
 	uint32_t recordOffset = 0;
 	while(SearchDetail(output, DEPARTURE_AIRPORT_OFFSET + recordOffset, DEPARTURE_AIRPORT_LENGTH)) {
-		if(output == depatrureCity) {\
+		if(output == departureAirport) {
 			output.resize(ARRIVAL_AIRPORT_LENGTH, '\0');
 			if(SearchDetail(output, ARRIVAL_AIRPORT_OFFSET + recordOffset, ARRIVAL_AIRPORT_LENGTH)) {
-				if(output == arrivalCity) {
+				if(output == arrivalAirport) {
 					output.clear();
 					output.resize(NUMBER_LENGTH, '\0');
-				//	SearchDetail(output, recordOffset, RECORD_LENGTH);
-
-
 					SearchDetail(output,  NUMBER_OFFSET + recordOffset, NUMBER_LENGTH);
 					output.resize(RECORD_LENGTH, '\0');
 					GetRecord(output, std::stoul(output));
-				//	output.resize(RECORD_LENGTH, '\0');
-
-
 					retVal.push_back(output);
-					std::cout << output;
 				}
 			}
 		}
@@ -116,9 +99,7 @@ void FileInterface::SearchFlight() {
 		output.resize(DEPARTURE_AIRPORT_LENGTH, '\0');
 		recordOffset += RECORD_OFFSET; //TODO: do we need it
 	}
-	if(retVal.empty()) {
-		std::cout << "NOT found: " << depatrureCity << ", output: " <<  output << std::endl;
-	}
+	return std::move(retVal);
 }
 
 void FileInterface::writeFlights(const std::string input, uint8_t length) {
