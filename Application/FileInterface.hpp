@@ -8,6 +8,7 @@
 #ifndef APPLICATION_FILEINTERFACE_HPP_
 #define APPLICATION_FILEINTERFACE_HPP_
 
+#include "FlightManagement/Flight.hpp"
 #include "UserInterface.hpp"
 #include "Common/Common.hpp"
 
@@ -15,7 +16,6 @@
 #include <vector>
 
 class FileInterface {
-	UserInterface UI;
 	std::fstream flights;
 
 
@@ -34,15 +34,13 @@ public:
 	// Return: false if record doesn't exist
 	bool GetRecord(std::string &dst, uint16_t recordNumber);
 
-	std::string search(SearchBy key, const std::string);
-
 	uint32_t SearchGreatestNo();
 
 	bool SearchDetail(std::string & dst, uint32_t offset, uint16_t length);
 
-	std::vector<std::string> SearchFlight(std::string departureAirport, std::string arrivalAirport);
+	std::vector<Flight> SearchFlight(std::string departureAirport, std::string arrivalAirport);
 
-	void writeFlights(const std::string input, uint8_t length) ;
+	void WriteFlights(const std::string input, uint8_t length) ;
 };
 
 

@@ -11,22 +11,23 @@
 #include <iostream>
 #include <vector>
 
+using std::ostream;
+
 uint8_t FlightManager::MainMenu() {
 	uint8_t choice = 0;
 	do {
-		//memcpy(&text[0], " ", 1);	//It's allowed since c++11
-		std::string text =
-		{ "\n"
-		"--------------------------------------------------------\n"
-		"***************FLIGHT CENTER POKAHONTAS****************\n"
-		"--------------------------------------------------------\n"
-		"What would you like to do: (chose with numeric keypad)\n"
-		"1 - Book new fligt            2 - Check-in\n"
-		"3 - Search flight             4 - Check flight schedule\n"
-		"5 - Register new flight       6 - Delete flight\n"
-		"7 - Exit system\n" };
-		UI.Display(text);
+		std::ostringstream text;
+		text << "\n"
+		<< "--------------------------------------------------------\n"
+		<< "***************FLIGHT CENTER POKAHONTAS****************\n"
+		<< "--------------------------------------------------------\n"
+		<< "What would you like to do: (chose with numeric keypad)\n"
+		<< BOOK		<< " - Book new fligt            " << CHECK_IN << " - Check-in\n"
+		<< SEARCH	<< " - Search flight             " << SHOW_SCHEDULE << " - Check flight schedule\n"
+		<< REGISTER	<< " - Register new flight       " << DELETE << " - Delete flight\n"
+		<< EXIT		<< " - Exit system\n";
 
+		UI.Display(text.str());
 		std::string input(1, '\0');
 		//TODO: find solution for below
 //			getline(cin, input); //In debug session input is not clear and this eats cin buffer//TODO: check why
@@ -40,25 +41,32 @@ uint8_t FlightManager::MainMenu() {
 		}
 		if(7 < choice-'0') {
 			//TODO: consider to replace new lines with console clearing
-			text = { "\n\n\n\n\n\nInvalid number, please enter right digit\n\n" };
-			std::cout << "\n\n\n Entered digit:   " << choice << std::endl;
-			UI.Display(text);
+			text << "\n\nInvalid number, please enter right digit\n\n"
+				 << "\n\n\n Entered digit:   " << choice << std::endl;
+			UI.Display(text.str());
 		}
 	} while(7 < (choice-'0'));
 	return choice;
 }
 
-uint32_t FlightManager::GeteGreatestFlightNo(FileInterface & file) {
-	return file.SearchGreatestNo();
+uint32_t FlightManager::GetGreatestFlightNo(FileInterface & file) {
+	uint32_t rc = file.SearchGreatestNo();
+	if(!rc) {
+		UI.Display("FAIL SEARCHING FOR NUMBER \n");
+	}
+	return rc;
 }
 
 void FlightManager::DisplayAllRecords(FileInterface & file) {
 	uint8_t getIndex = 1;
-	std::string output(RECORD_LENGTH, '\0');
-	while(file.GetRecord(output, getIndex)) {
+	std::string record;
+	while(file.GetRecord(record, getIndex)) {
+		Flight flight(record);
+		std::ostringstream flightStream;
+		flight.Print(flightStream);
+		UI.Display(flightStream.str());
+
 		getIndex +=1;
-		UI.Display(output);
-		output.resize(RECORD_OFFSET, '\0');
 	}
 }
 
@@ -71,11 +79,14 @@ void FlightManager::Search() {
 	std::string depatrureCity = UI.GetDepartureCity();
 	std::string arrivalCity = UI.GetArrivalCity();
 
-	std::vector<std::string> records = File.SearchFlight(depatrureCity, arrivalCity);
+	std::vector<Flight> flights = File.SearchFlight(depatrureCity, arrivalCity);
 
-	if(!records.empty()) {
-		for(auto record : records) {
-			UI.Display(record);
+	if(!flights.empty()) {
+		UI.Display(FlightHeader);
+		for(auto flight : flights) {
+			std::ostringstream flightInfo;
+			flight.Print(flightInfo);
+			UI.Display(flightInfo.str());
 		}
 	} else {
 		UI.Display("Not found \n");
@@ -84,7 +95,7 @@ void FlightManager::Search() {
 
 void FlightManager::RegisterNew() {
 	std::string numberStr(NUMBER_LENGTH+1, ' ');
-	uint32_t flightNo = GeteGreatestFlightNo(File) + 1;
+	uint32_t flightNo = GetGreatestFlightNo(File) + 1;
 
 	std::string company = UI.GetCompany();
 	std::string departureCity = UI.GetDepartureCity();
@@ -93,30 +104,30 @@ void FlightManager::RegisterNew() {
 
 	std::string record = UI.FormatLine(flightNo, company, departureCity, arrivalCity, date);
 
-	File.writeFlights(record, RECORD_LENGTH);
+	File.WriteFlights(record, RECORD_LENGTH);
 }
 
 void FlightManager::ChooseAction(uint8_t mainChoice) {
 	switch(mainChoice) {
-	case 1:    //Book new flight
+	case BOOK:
 		Book();
 		break;
-	case 2:    //Check-in
+	case CHECK_IN:
 		assert(0); //TODO: fill case
 		break;
-	case 3:    //Search flight
+	case SEARCH:
 		Search();
 		break;
-	case 4:    //Check flight schedule
+	case SHOW_SCHEDULE:
 		DisplayAllRecords(File);
 		break;
-	case 5:    //Register new flight
+	case REGISTER:
 		RegisterNew();
 		break;
-	case 6:    //Delete flight
+	case DELETE:
 		assert(0); //TODO: fill case
 		break;
-	case 7:    //Exit program
+	case EXIT:
 		break;
 	default:
 		assert(0);

@@ -25,10 +25,20 @@ public:
 	UserInterface & GetUI();
 
 private:
+	enum CHOICE {
+		BOOK = 1,
+		CHECK_IN,
+		SEARCH,
+		SHOW_SCHEDULE,
+		REGISTER,
+		DELETE,
+		EXIT
+	};
+
 	UserInterface UI;
 	FileInterface File;
 
-	uint32_t GeteGreatestFlightNo(FileInterface & file);
+	uint32_t GetGreatestFlightNo(FileInterface & file);
 };
 
 

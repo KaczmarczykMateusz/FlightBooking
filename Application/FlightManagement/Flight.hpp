@@ -9,22 +9,29 @@
 #define APPLICATION_FLIGHT_HPP_
 
 #include "../Common/DateTime.hpp"
-#include "../Common/Common.hpp"
 
-//TODO: make use of this class !!
+#include <cstdint>
+#include <string>
+
 
 class Flight {
-	uint16_t Number;
-	char Company[COMPANY_NAME_LENGTH];
-	DateTime Departure;
-
 public:
-	Flight();
+	Flight(uint32_t Number, std::string Company, DateTime Date, std::string Departure, std::string Arrival, uint16_t Seats);
 
-	void DisplayDetails(uint16_t flightNo);
-	void SetNumber(uint16_t numb);
-	void SetCompanyName(const char * name);
-	void SetDeparture(const DateTime & depart);
+	Flight(std::string str);
+
+	void Print(std::ostringstream & out);
+	void ChangeDate(const DateTime & depart);
+
+private:
+	uint32_t Number;
+	std::string Company;
+	DateTime Date;
+	std::string Departure;
+	std::string Arrival;
+
+	uint16_t Seats;
+	uint16_t OccupiedSeats;
 };
 
 #endif /* APPLICATION_FLIGHT_HPP_ */

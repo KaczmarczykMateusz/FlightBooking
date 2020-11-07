@@ -17,7 +17,7 @@ static const uint32_t NAME_LENGTH = 30 + 1;
 static const uint32_t NUMBER_OFFSET = 0;
 static const uint32_t NUMBER_LENGTH = 5 + 1;
 static const uint32_t COMPANY_NAME_OFFSET = NUMBER_OFFSET + NUMBER_LENGTH;
-static const uint32_t COMPANY_NAME_LENGTH = 20 + 1;
+static const uint32_t COMPANY_NAME_LENGTH = 16 + 1;
 static const uint32_t DEPARTURE_AIRPORT_OFFSET = COMPANY_NAME_OFFSET + COMPANY_NAME_LENGTH;
 static const uint32_t DEPARTURE_AIRPORT_LENGTH = 20 + 1;
 static const uint32_t ARRIVAL_AIRPORT_OFFSET = DEPARTURE_AIRPORT_OFFSET + DEPARTURE_AIRPORT_LENGTH;
@@ -33,6 +33,10 @@ static const uint32_t RECORD_LENGTH = NEW_LINE_OFFSET + NEW_LINE_LENGTH;
 static const uint32_t RECORD_OFFSET = RECORD_LENGTH + 1;
 
 static const std::string newLineStr = "\n\n\n\n\n\n\n\n\n";
+
+static const std::string FlightHeader = "No.:  Departure city:       Arrival City:         "
+										"Company:          Date:      Time:\n";
+
 static const char SEPARATOR = ' ';
 
 

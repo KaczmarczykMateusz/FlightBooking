@@ -2,34 +2,26 @@
  * FileInterface.cpp
  *
  *  Created on: 29 Oct 2020
- *      Author: mateusz
+ *      Author: Mateusz Kaczmarczyk
  */
 
 #include "FileInterface.hpp"
 
+#include <cassert>
 #include <iostream>
+
 
 bool FileInterface::GetRecord(std::string &dst, uint16_t recordNumber) {
 	bool rc = true;
 	openToRead();
-	flights.seekg(RECORD_OFFSET*(recordNumber - 1));
+	dst.resize(RECORD_LENGTH, '\0');
+	flights.seekg(  RECORD_OFFSET * (recordNumber - 1)  );
 	flights.read(&dst[0], RECORD_LENGTH);
 	if(flights.eof()) {
 		rc = false;
 	}
 	closeFile();
-	dst.insert(DEPARTURE_DATE_OFFSET + 2, "/");
-	dst.insert(DEPARTURE_DATE_OFFSET + 5, "/");
-	dst.insert(DEPARTURE_DATE_OFFSET + 6, "20");
-	dst.insert(DEPARTURE_TIME_OFFSET + 4, " ");
-	dst.insert(DEPARTURE_TIME_OFFSET + 7, ":");
 	return rc;
-}
-
-std::string FileInterface::search(SearchBy key, const std::string) {
-	std::string str(RECORD_LENGTH, '\0');
-
-	return str;
 }
 
 uint32_t FileInterface::SearchGreatestNo() {
@@ -48,7 +40,8 @@ uint32_t FileInterface::SearchGreatestNo() {
 				}
 			}
 			catch(...) {
-				std::cout << "FAIL SEARCHING FOR NUMBER " << output << std::endl;
+				greatest = 0;
+				assert(false);
 			}
 		}
 	}
@@ -62,13 +55,12 @@ bool FileInterface::SearchDetail(std::string & dst, uint32_t offset, uint16_t le
 	openToRead();
 	flights.seekg(offset);
 	std::string str(length, SEPARATOR);
-	//str.replace(0, dst.size(), dst);
 	flights.read(&str[0], length);
 	if(!flights.eof()) {
 		if(str.length() > length)  {
 			rc = false;
 		} else {
-			UI.rtrim(str);
+			StringUtilities::rtrim(str);
 			dst = str;
 		}
 		rc = true;
@@ -77,8 +69,8 @@ bool FileInterface::SearchDetail(std::string & dst, uint32_t offset, uint16_t le
 	return rc;
 }
 
-std::vector<std::string> FileInterface::SearchFlight(std::string departureAirport, std::string arrivalAirport) {
-	std::vector<std::string> retVal;
+std::vector<Flight> FileInterface::SearchFlight(std::string departureAirport, std::string arrivalAirport) {
+	std::vector<Flight> retVal;
 	std::string output(DEPARTURE_AIRPORT_LENGTH, '\0');
 	uint32_t recordOffset = 0;
 	while(SearchDetail(output, DEPARTURE_AIRPORT_OFFSET + recordOffset, DEPARTURE_AIRPORT_LENGTH)) {
@@ -91,7 +83,7 @@ std::vector<std::string> FileInterface::SearchFlight(std::string departureAirpor
 					SearchDetail(output,  NUMBER_OFFSET + recordOffset, NUMBER_LENGTH);
 					output.resize(RECORD_LENGTH, '\0');
 					GetRecord(output, std::stoul(output));
-					retVal.push_back(output);
+					retVal.emplace_back(Flight(output));
 				}
 			}
 		}
@@ -102,7 +94,7 @@ std::vector<std::string> FileInterface::SearchFlight(std::string departureAirpor
 	return std::move(retVal);
 }
 
-void FileInterface::writeFlights(const std::string input, uint8_t length) {
+void FileInterface::WriteFlights(const std::string input, uint8_t length) {
 	openToWrite();
 	std::string text(length, '\0');
 	text.replace(0, length, input);
