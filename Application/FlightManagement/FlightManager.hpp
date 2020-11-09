@@ -8,7 +8,7 @@
 #ifndef APPLICATION_FLIGHTMANAGER_HPP_
 #define APPLICATION_FLIGHTMANAGER_HPP_
 
-#include "../FileInterface.hpp"
+#include "../File/FlightFile.hpp"
 
 #include <sstream>
 
@@ -17,10 +17,10 @@ public:
 	FlightManager() = default;
 
 	uint8_t MainMenu();
-	void DisplayAllRecords(FileInterface & file);
+	void DisplayAllRecords();  //TODO: change to get records and display them in another function
 	void Book();
 	void Search();
-	void RegisterNew();
+	void RegisterNew();  //TODO: consider returning error codes
 	void ChooseAction(uint8_t mainChoice);
 	UserInterface & GetUI();
 
@@ -36,9 +36,9 @@ private:
 	};
 
 	UserInterface UI;
-	FileInterface File;
+	FlightFile File;
 
-	uint32_t GetGreatestFlightNo(FileInterface & file);
+	uint32_t GetGreatestFlightNo();
 };
 
 

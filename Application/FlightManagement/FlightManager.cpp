@@ -49,24 +49,24 @@ uint8_t FlightManager::MainMenu() {
 	return choice;
 }
 
-uint32_t FlightManager::GetGreatestFlightNo(FileInterface & file) {
-	uint32_t rc = file.SearchGreatestNo();
+uint32_t FlightManager::GetGreatestFlightNo() {
+	uint32_t rc = File.SearchGreatestNo();
 	if(!rc) {
 		UI.Display("FAIL SEARCHING FOR NUMBER \n");
 	}
 	return rc;
 }
 
-void FlightManager::DisplayAllRecords(FileInterface & file) {
+void FlightManager::DisplayAllRecords() {
 	uint8_t getIndex = 1;
 	std::string record;
-	while(file.GetRecord(record, getIndex)) {
+	while(File.GetRecord(record, getIndex)) {
 		Flight flight(record);
 		std::ostringstream flightStream;
 		flight.Print(flightStream);
 		UI.Display(flightStream.str());
 
-		getIndex +=1;
+		getIndex += 1;
 	}
 }
 
@@ -94,8 +94,8 @@ void FlightManager::Search() {
 }
 
 void FlightManager::RegisterNew() {
-	std::string numberStr(NUMBER_LENGTH+1, ' ');
-	uint32_t flightNo = GetGreatestFlightNo(File) + 1;
+	std::string numberStr(NUMBER_LENGTH + 1, ' ');
+	uint32_t flightNo = GetGreatestFlightNo() + 1;
 
 	std::string company = UI.GetCompany();
 	std::string departureCity = UI.GetDepartureCity();
@@ -114,12 +114,18 @@ void FlightManager::ChooseAction(uint8_t mainChoice) {
 		break;
 	case CHECK_IN:
 		assert(0); //TODO: fill case
+		/*
+		 * We will generate separate files for every flight number,
+		 * they will contain passangers check-in info, file will be
+		 * generated automaticallly after firt passanger check in.
+		 * We will put those files i separate folder
+		 */
 		break;
 	case SEARCH:
 		Search();
 		break;
 	case SHOW_SCHEDULE:
-		DisplayAllRecords(File);
+		DisplayAllRecords();
 		break;
 	case REGISTER:
 		RegisterNew();
