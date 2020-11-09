@@ -10,13 +10,13 @@
 
 #include "../FlightManagement/Flight.hpp"
 #include "../UserInterface.hpp"
-#include "FileInterface.hpp"
+#include "File.hpp"
 #include "../Common/Common.hpp"
 
 #include <fstream>
 #include <vector>
 
-class FlightFile : public FileInterface {
+class FlightFile : public File {
 
 public:
 	FlightFile();
@@ -28,14 +28,11 @@ public:
 
 	uint32_t SearchGreatestNo();
 
-	bool SearchDetail(std::string & dst, uint32_t offset, uint16_t length);
+	std::string SearchDetail(uint32_t offset, uint16_t length);  //TODO: remove this function as far as it is totally unnecessary
 
 	std::vector<Flight> SearchFlight(std::string departureAirport, std::string arrivalAirport);
 
-	void WriteFlights(const std::string input, uint8_t length) ;
-
-private:
-	std::fstream flights;
+	void RegisterFlight(const std::string input);
 };
 
 

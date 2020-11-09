@@ -89,33 +89,6 @@ std::string UserInterface::GetDate() {
 	return rc;
 }
 
-//Ask user to enter detail and save this detail into dst string
-void UserInterface::RegisterRecordLow(std::string & dst, std::string input, uint32_t offset, uint32_t length) {
-	//dst.resize(length, ' ');
-	do {
-		try {
-			dst.replace(offset, strlen(input.c_str()), input);
-		}
-		catch(...) {
-			Display("dst.size: %d\toffset: %d\tlength: %d", dst.size(), offset, length);
-			assert(0);// TODO: consider some action
-		}
-	} while(0);
-}
-
-std::string UserInterface::FormatLine(uint32_t flightNo, const std::string & company, const std::string & departureAirport, const std::string & arrivalAirport, const std::string & date) {
-	std::string dst(RECORD_LENGTH, ' ');
-
-	RegisterRecordLow(dst, std::to_string(flightNo), NUMBER_OFFSET, NUMBER_LENGTH);
-	RegisterRecordLow(dst, company, COMPANY_NAME_OFFSET, COMPANY_NAME_LENGTH);
-	RegisterRecordLow(dst, departureAirport, DEPARTURE_AIRPORT_OFFSET, DEPARTURE_AIRPORT_LENGTH);
-	RegisterRecordLow(dst, arrivalAirport, ARRIVAL_AIRPORT_OFFSET, ARRIVAL_AIRPORT_LENGTH);
-	RegisterRecordLow(dst, date, DEPARTURE_DATE_OFFSET, DEPARTURE_DATE_LENGTH);
-	RegisterRecordLow(dst, "\n", NEW_LINE_OFFSET, NEW_LINE_LENGTH);
-
-	return dst;
-}
-
 void UserInterface::getLine(std::string & dst, uint32_t length) {
 	do {
 		getline(std::cin, dst);

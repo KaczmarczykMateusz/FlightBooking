@@ -11,6 +11,7 @@
 #include <iostream>
 #include <vector>
 
+#include "../Common/StringFormatter.hpp"
 using std::ostream;
 
 uint8_t FlightManager::MainMenu() {
@@ -51,9 +52,11 @@ uint8_t FlightManager::MainMenu() {
 
 uint32_t FlightManager::GetGreatestFlightNo() {
 	uint32_t rc = File.SearchGreatestNo();
+#if DEBUG
 	if(!rc) {
 		UI.Display("FAIL SEARCHING FOR NUMBER \n");
 	}
+#endif
 	return rc;
 }
 
@@ -94,7 +97,6 @@ void FlightManager::Search() {
 }
 
 void FlightManager::RegisterNew() {
-	std::string numberStr(NUMBER_LENGTH + 1, ' ');
 	uint32_t flightNo = GetGreatestFlightNo() + 1;
 
 	std::string company = UI.GetCompany();
@@ -102,9 +104,9 @@ void FlightManager::RegisterNew() {
 	std::string arrivalCity = UI.GetArrivalCity();
 	std::string date = UI.GetDate();
 
-	std::string record = UI.FormatLine(flightNo, company, departureCity, arrivalCity, date);
+	std::string record = StringFormatter::FormatLine(flightNo, company, departureCity, arrivalCity, date);
 
-	File.WriteFlights(record, RECORD_LENGTH);
+	File.RegisterFlight(record);
 }
 
 void FlightManager::ChooseAction(uint8_t mainChoice) {
