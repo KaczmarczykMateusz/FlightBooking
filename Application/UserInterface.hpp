@@ -13,6 +13,9 @@
 
 #include <string>
 
+class Date;
+class Time;
+class DateTime;
 
 class UserInterface: public StringUtilities {
 public:
@@ -29,7 +32,10 @@ public:
 	 */
 	void Display(const std::string fmt, ...);
 
-	std::string GetDate();
+
+	Date GetDate();
+	Time GetTime();
+	DateTime GetDateTime();
 
 	std::string GetCompany();
 	std::string GetDepartureCity();

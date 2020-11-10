@@ -32,7 +32,7 @@ public:
 
 	std::vector<Flight> SearchFlight(std::string departureAirport, std::string arrivalAirport);
 
-	void RegisterFlight(const std::string input);
+	void RegisterFlight(const Flight & flight);
 };
 
 

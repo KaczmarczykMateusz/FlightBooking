@@ -6,6 +6,7 @@
  */
 
 #include "FlightFile.hpp"
+#include "../Common/StringFormatter.hpp"
 
 #include <cassert>
 #include <iostream>
@@ -75,8 +76,7 @@ std::vector<Flight> FlightFile::SearchFlight(std::string departureAirport, std::
 	return std::move(retVal);
 }
 
-void FlightFile::RegisterFlight(const std::string input) {
-	std::string text(RECORD_LENGTH, '\0');
-	text.replace(0, RECORD_LENGTH, input);
-	File::write(text);
+void FlightFile::RegisterFlight(const Flight & flight) {
+	std::string record = StringFormatter::FormatLine(flight.GetNo(), flight.GetCompany(), flight.GetDeparture(), flight.GetArrival(), flight.getDateTime());
+	File::write(record);
 }

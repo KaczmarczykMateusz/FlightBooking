@@ -102,11 +102,11 @@ void FlightManager::RegisterNew() {
 	std::string company = UI.GetCompany();
 	std::string departureCity = UI.GetDepartureCity();
 	std::string arrivalCity = UI.GetArrivalCity();
-	std::string date = UI.GetDate();
+	DateTime date = UI.GetDateTime();
 
-	std::string record = StringFormatter::FormatLine(flightNo, company, departureCity, arrivalCity, date);
+	Flight flight(flightNo, company, date, departureCity, arrivalCity, 300);
 
-	File.RegisterFlight(record);
+	File.RegisterFlight(flight);
 }
 
 void FlightManager::ChooseAction(uint8_t mainChoice) {

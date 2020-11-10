@@ -8,58 +8,61 @@
 #ifndef APPLICATION_DATETIME_HPP_
 #define APPLICATION_DATETIME_HPP_
 
+#include <cstdint>
 
-class DateTime {
-	class Time {
-		int Hour;
-		int Minute;
-	public:
-		Time(int Hour, int Minute) :
-			Hour(Hour),
-			Minute(Minute)
-		{}
-		int getHour() const {
-			return Hour;
-		}
-		int getMinute() const {
-			return Minute;
-		}
-	};
+//TODO: consider to export to different files
+class Time {
+	uint8_t Hour;
+	uint8_t Minute;
+public:
+	Time(uint8_t Hour, uint8_t Minute) :
+		Hour(Hour),
+		Minute(Minute)
+	{}
+	uint8_t getHour() const {
+		return Hour;
+	}
+	uint8_t getMinute() const {
+		return Minute;
+	}
+};
 
-	class Date {
-		int Year;
-		int Month;
-		int Day;
-
-	public:
-		Date(int Year, int Month, int Day) :
-			Year(Year),
-			Month(Month),
-			Day(Day)
-		{}
-
-		int getYear() const {
-			return Year;
-		}
-		int getMonth() const {
-			return Month;
-		}
-		int getDay() const {
-			return Day;
-		}
-	};
-
-	Date date;
-	Time time;
+class Date {
+	uint16_t Year;
+	uint8_t Month;
+	uint8_t Day;
 
 public:
+	Date(uint16_t Year, uint8_t Month, uint8_t Day) :
+		Year(Year),
+		Month(Month),
+		Day(Day)
+	{}
+
+	uint16_t getYear() const {
+		return Year;
+	}
+	uint8_t getMonth() const {
+		return Month;
+	}
+	uint8_t getDay() const {
+		return Day;
+	}
+};
+
+class DateTime {
+public:
 	DateTime() :
-		  date(-1, -1, -1)
-		, time(-1, -1)
+		  date(0, 0, 0)
+		, time(0, 0)
 	{  }
-	DateTime(int Year, int Month, int Day, int Hour, int Minute) :
+	DateTime(uint16_t Year, uint8_t Month, uint8_t Day, uint8_t Hour, uint8_t Minute) :
 		  date(Year, Month, Day)
 		, time(Hour, Minute)
+	{  }
+	DateTime(Date date, Time time) :
+		  date(date)
+		, time(time)
 	{  }
 	Date getDate() const {
 		return date;
@@ -68,6 +71,9 @@ public:
 	Time getTime() const {
 		return time;
 	}
+private:
+	Date date;
+	Time time;
 };
 
 

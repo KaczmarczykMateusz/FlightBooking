@@ -6,6 +6,7 @@
  */
 
 #include "UserInterface.hpp"
+#include "Common/DateTime.hpp"
 
 #include <cstring>  ///TODO: get rid of together with func using it
 #include <iostream>
@@ -39,54 +40,105 @@ void UserInterface::Display(const std::string fmt, ...) {
 	std::cout << str;
 }
 
-std::string UserInterface::GetDate() {
+Date UserInterface::GetDate() {
+	uint16_t year = 0;
+	uint8_t month = 0, day = 0;
+
 	std::string input(DEPARTURE_DATE_LENGTH + 2, '\0');
 	const std::string date[4] = {"DAY", "MONTH", "YEAR", "SEPARATOR"};
 	const uint16_t minDate[3] = {1, 1, 2019};
 	const uint16_t maxDate[3] = {31, 12, 2050};
 	const std::string delimeter(1, '/');
 
-	std::string rc;
 	do {
-		rc = "";
 		std::cout << "Enter date (dd/mm/yyyy) :" << std::endl;
 		std::getline(std::cin, input);
 
-		size_t pos = 0;
 		for(uint8_t i = 0; i < 3; i++) {
-			pos = input.find(delimeter);
+			size_t pos = input.find(delimeter);
 
-			try {
-				if(		(std::string::npos == pos)
-						&& (2 != i)  ) {
-					i = 3;
-					throw std::invalid_argument("User; wrong separator");
-				}
-				std::string tmp(2, '\0');
-				tmp = input.substr(0, pos);
-				input.erase(0, pos + delimeter.length());
-				if(	(minDate[i] > std::stoul(tmp))
-						|| (maxDate[i] < std::stoul(tmp)) ) {
-					throw std::invalid_argument("User; out of range");
-				} else {
-					if(tmp.length() > ((DEPARTURE_DATE_LENGTH)/3)) {
-						tmp.erase(0, ((DEPARTURE_DATE_LENGTH)/3));
-					}
-					rc.append(tmp);
-				}
-			} catch(std::invalid_argument & arg) {
-				std::cout << "\n\n\n\n\n\n\n\nException caught by: " << arg.what()  << ".\n" << "You entered WRONG "  << date[i] << "!\n\n";
+			if(  (std::string::npos == pos) && (2 != i)  ) {
+				i = 3;
+				std::cout << "\n\nEnter correct separator (\"/\") !\n\n";
 				break;
-			} catch(std::out_of_range & arg) {
-				std::cout << "\n\n\n\n\n\n\n\nException caught by: " << arg.what()  << ".\n" << "You entered WRONG "  << date[i] << "!\n\n";
+			}
+			try {
+				std::string tmp = input.substr(0, pos);
+				input.erase(0, pos + delimeter.length());
+				uint32_t num = std::stoul(tmp);
+				if(  (minDate[i] > num) || (maxDate[i] < num)  ) {
+					std::cout << "\n\n"  << date[i] << " out of range !\n\n";
+					break;
+				} else {
+					switch(i) {
+					case 0:
+						day = static_cast<uint8_t>(num);
+						break;
+					case 1:
+						month = static_cast<uint8_t>(num);
+						break;
+					case 2:
+					default:
+						year = static_cast<uint16_t>(num);
+					}
+				}
+			} catch(...) {
+				std::cout << "\n\nInvalid number!\n\n";
 				break;
 			}
 		}
-	} while(6 != rc.size());
-	if(6 != rc.size()) {
-		throw "Wrong data size caused by program bug (not user)";
-	}
-	return rc;
+	} while(!year);
+
+	return Date(year, month, day);
+}
+
+Time UserInterface::GetTime() {
+	uint8_t hour = 0, minute = 0;
+	const std::string delimeter(":");
+	std::string input(DEPARTURE_TIME_LENGTH + 1, '\0');
+	do {
+		std::cout << "Enter time (hh:mm) :" << std::endl;
+		std::getline(std::cin, input);
+
+		for(uint8_t i = 0; i < 2; i++) {
+			size_t pos = input.find(delimeter);
+
+			if(  (std::string::npos == pos) && (1 != i)  ) {
+				i = 2;
+				std::cout << "\n\nEnter correct separator (\":\") !\n\n";
+				break;
+			}
+			try {
+				std::string tmp = input.substr(0, pos);
+				input.erase(0, pos + delimeter.length());
+				uint32_t num = std::stoul(tmp);
+				if(!i) {
+					if(24 < num) {
+						std::cout << "\n\nHour out of range !\n\n";
+						break;
+					}
+					hour = static_cast<uint8_t>(num);
+				} else {
+					if(60 < num) {
+						std::cout << "\n\nMinute out of range !\n\n";
+						break;
+					}
+					minute = static_cast<uint8_t>(num);
+				}
+			} catch(...) {
+				std::cout << "\n\nInvalid number!\n\n";
+				break;
+			}
+		}
+	} while(!minute);
+
+	return Time(hour, minute);
+}
+
+DateTime UserInterface::GetDateTime() {
+	Date date(this->GetDate());
+	Time time(this->GetTime());
+	return DateTime(date, time);
 }
 
 void UserInterface::getLine(std::string & dst, uint32_t length) {

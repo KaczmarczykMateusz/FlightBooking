@@ -9,14 +9,17 @@
 #define APPLICATION_COMMON_STRINGFORMATTER_HPP_
 
 #include <string>
-#include <cstring>  //strlen //TODO: remove strlen()
 #include <cassert>
+
+class DateTime;
 
 class StringFormatter {
 public:
 	StringFormatter() = default;
 
-	static std::string FormatLine(uint32_t flightNo, const std::string & company, const std::string & departureAirport, const std::string & arrivalAirport, const std::string & date);
+	static std::string FormatDateTime(const DateTime & date);
+	static std::string FormatDateUI(const DateTime & date);
+	static std::string FormatLine(uint32_t flightNo, const std::string & company, const std::string & departureAirport, const std::string & arrivalAirport, const DateTime & date);
 
 private:
 	//Ask user to enter detail and save this detail into dst string
@@ -24,7 +27,7 @@ private:
 		//dst.resize(length, ' ');
 		do {
 			try {
-				dst.replace(offset, strlen(input.c_str()), input);
+				dst.replace(offset, input.length(), input);
 			}
 			catch(...) {
 				//Display("dst.size: %d\toffset: %d\tlength: %d", dst.size(), offset, length);
@@ -32,6 +35,7 @@ private:
 			}
 		} while(0);
 	}
+
 };
 
 #endif /* APPLICATION_COMMON_STRINGFORMATTER_HPP_ */
