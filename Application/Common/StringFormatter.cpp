@@ -28,23 +28,23 @@ std::string StringFormatter::formatRecord(const Flight & flight) {
 }
 
 std::string StringFormatter::formatDateTime(const DateTime & date) {
-	std::ostringstream dateStream;
-	dateStream << std::setw(2) << std::setfill('0') << static_cast<int>(date.getDate().getDay())
+	std::ostringstream outStream;
+	outStream << std::setw(2) << std::setfill('0') << static_cast<int>(date.getDate().getDay())
 			<< std::setw(2) << std::setfill('0') << static_cast<int>(date.getDate().getMonth())
 			<< static_cast<int>(date.getDate().getYear() % 100)
 			<< std::setw(2) << std::setfill('0') << static_cast<int>(date.getTime().getHour())
 			<< std::setw(2) << std::setfill('0') << static_cast<int>(date.getTime().getMinute());
-	return dateStream.str();
+	return outStream.str();
 }
 
 std::string StringFormatter::formatRecordUI(const Flight & flight) {
-	std::string out(RECORD_LENGTH, ' ');
+	std::ostringstream outStream;
 
-	out << std::setw(4) << std::setfill('0') <<  flight.getNo() << "  "
+	outStream << std::setw(4) << std::setfill('0') <<  flight.getNo() << "  "
 			<< flight.getDeparture() << " " << flight.getArrival() << " "  << flight.getCompany() << " "
 			<< formatDateTimeUI(flight.getDateTime()) << "\n";
 
-	return out;
+	return outStream.str();
 }
 
 std::string StringFormatter::formatDateTimeUI(const DateTime & dateTime) {
