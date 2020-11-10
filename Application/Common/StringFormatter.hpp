@@ -12,14 +12,17 @@
 #include <cassert>
 
 class DateTime;
+class Flight;
 
 class StringFormatter {
 public:
 	StringFormatter() = default;
 
-	static std::string FormatDateTime(const DateTime & date);
-	static std::string FormatDateUI(const DateTime & date);
-	static std::string FormatLine(uint32_t flightNo, const std::string & company, const std::string & departureAirport, const std::string & arrivalAirport, const DateTime & date);
+	static std::string formatDateTime(const DateTime & date);
+	static std::string formatRecord(const Flight & flight);
+
+	static std::string formatDateTimeUI(const DateTime & dateTime);
+	static std::string formatRecordUI(const Flight & flight);
 
 private:
 	//Ask user to enter detail and save this detail into dst string

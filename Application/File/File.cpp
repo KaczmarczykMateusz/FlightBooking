@@ -10,18 +10,18 @@
 #include <cassert>
 #include <iostream>
 
-File::File(const std::string Name) :
-FileStream(nullptr)  //TODO: consider init with name and mode
-	, Name(Name)
+File::File(const std::string name) :
+fileStream(nullptr)  //TODO: consider init with name and mode
+	, name(name)
 {  }
 
 std::string File::read(uint32_t size, uint32_t offset) {
 	std::string str(size, '\0');
 	std::string rc = "";
 	openToRead();
-	FileStream.seekg(offset);
-	FileStream.read(&str[0], str.size());
-	if(!FileStream.eof()) {  //TODO: consider this check one line earlier
+	fileStream.seekg(offset);
+	fileStream.read(&str[0], str.size());
+	if(!fileStream.eof()) {  //TODO: consider this check one line earlier
 		rc = str;
 	}
 	closeFile();
@@ -30,18 +30,18 @@ std::string File::read(uint32_t size, uint32_t offset) {
 
 void File::write(const std::string & str) {
 	openToWrite();
-	FileStream << str;
+	fileStream << str;
 	closeFile();
 }
 
 void File::openToWrite() {
-	FileStream.open(Name, std::fstream::out | std::fstream::app);
+	fileStream.open(name, std::fstream::out | std::fstream::app);
 }
 
 void File::openToRead() {
-	FileStream.open(Name, std::fstream::in);
+	fileStream.open(name, std::fstream::in);
 }
 
 void File::closeFile() {
-	FileStream.close();
+	fileStream.close();
 }

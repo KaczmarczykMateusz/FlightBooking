@@ -12,41 +12,41 @@
 
 //TODO: consider to export to different files
 class Time {
-	uint8_t Hour;
-	uint8_t Minute;
+	uint8_t hour;
+	uint8_t minute;
 public:
-	Time(uint8_t Hour, uint8_t Minute) :
-		Hour(Hour),
-		Minute(Minute)
+	Time(uint8_t hour, uint8_t minute) :
+		hour(hour),
+		minute(minute)
 	{}
 	uint8_t getHour() const {
-		return Hour;
+		return hour;
 	}
 	uint8_t getMinute() const {
-		return Minute;
+		return minute;
 	}
 };
 
 class Date {
-	uint16_t Year;
-	uint8_t Month;
-	uint8_t Day;
+	uint16_t year;
+	uint8_t month;
+	uint8_t day;
 
 public:
-	Date(uint16_t Year, uint8_t Month, uint8_t Day) :
-		Year(Year),
-		Month(Month),
-		Day(Day)
+	Date(uint16_t year, uint8_t month, uint8_t day) :
+		year(year),
+		month(month),
+		day(day)
 	{}
 
 	uint16_t getYear() const {
-		return Year;
+		return year;
 	}
 	uint8_t getMonth() const {
-		return Month;
+		return month;
 	}
 	uint8_t getDay() const {
-		return Day;
+		return day;
 	}
 };
 
@@ -56,9 +56,9 @@ public:
 		  date(0, 0, 0)
 		, time(0, 0)
 	{  }
-	DateTime(uint16_t Year, uint8_t Month, uint8_t Day, uint8_t Hour, uint8_t Minute) :
-		  date(Year, Month, Day)
-		, time(Hour, Minute)
+	DateTime(uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute) :
+		  date(year, month, day)
+		, time(hour, minute)
 	{  }
 	DateTime(Date date, Time time) :
 		  date(date)

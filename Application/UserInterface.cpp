@@ -16,7 +16,7 @@
 static const std::string departureCityReq = "Insert departure airport name:\n\n";
 static const std::string arrivalCityReq = "Insert arrival airport name:\n\n";
 
-void UserInterface::Display(const std::string fmt, ...) {
+void UserInterface::display(const std::string fmt, ...) {
 	va_list ap;
 	std::string str;
 	int32_t size = fmt.length() * 2 + 20;
@@ -40,7 +40,7 @@ void UserInterface::Display(const std::string fmt, ...) {
 	std::cout << str;
 }
 
-Date UserInterface::GetDate() {
+Date UserInterface::getDate() {
 	uint16_t year = 0;
 	uint8_t month = 0, day = 0;
 
@@ -92,7 +92,7 @@ Date UserInterface::GetDate() {
 	return Date(year, month, day);
 }
 
-Time UserInterface::GetTime() {
+Time UserInterface::getTime() {
 	uint8_t hour = 0, minute = 0;
 	const std::string delimeter(":");
 	std::string input(DEPARTURE_TIME_LENGTH + 1, '\0');
@@ -135,9 +135,9 @@ Time UserInterface::GetTime() {
 	return Time(hour, minute);
 }
 
-DateTime UserInterface::GetDateTime() {
-	Date date(this->GetDate());
-	Time time(this->GetTime());
+DateTime UserInterface::getDateTime() {
+	Date date(this->getDate());
+	Time time(this->getTime());
 	return DateTime(date, time);
 }
 
@@ -150,24 +150,24 @@ void UserInterface::getLine(std::string & dst, uint32_t length) {
 	} while(0);
 }
 
-std::string UserInterface::GetCompany() {
-	Display("%sInsert company name:\n\n", newLineStr.c_str());
+std::string UserInterface::getCompany() {
+	display("%sInsert company name:\n\n", newLineStr.c_str());
 	std::string str;
 	getLine(str, COMPANY_NAME_LENGTH);
 	rtrim(str);
 	return str;
 }
 
-std::string UserInterface::GetDepartureCity() {
-	Display("%s%s", newLineStr.c_str(), departureCityReq.c_str());
+std::string UserInterface::getDepartureCity() {
+	display("%s%s", newLineStr.c_str(), departureCityReq.c_str());
 	std::string str;
 	getLine(str, DEPARTURE_AIRPORT_LENGTH);
 	rtrim(str);
 	return str;
 }
 
-std::string UserInterface::GetArrivalCity() {
-	Display("%s%s", newLineStr.c_str(), arrivalCityReq.c_str());
+std::string UserInterface::getArrivalCity() {
+	display("%s%s", newLineStr.c_str(), arrivalCityReq.c_str());
 	std::string str;
 	getLine(str, ARRIVAL_AIRPORT_LENGTH);
 	rtrim(str);
@@ -178,7 +178,7 @@ std::string UserInterface::GetArrivalCity() {
 bool UserInterface::validateLength(const std::string & str, uint32_t length) {
 	bool rc = (length > strlen(str.c_str()));
 	if(!rc) {
-		Display("Please enter name not longer than %d", (uint32_t)length-1 );
+		display("Please enter name not longer than %d", (uint32_t)length-1 );
 	}
 	return rc;
 }

@@ -14,7 +14,7 @@
 #include "../Common/StringFormatter.hpp"
 using std::ostream;
 
-uint8_t FlightManager::MainMenu() {
+uint8_t FlightManager::mainMenu() {
 	uint8_t choice = 0;
 	do {
 		std::ostringstream text;
@@ -27,11 +27,9 @@ uint8_t FlightManager::MainMenu() {
 		<< SEARCH	<< " - Search flight             " << SHOW_SCHEDULE << " - Check flight schedule\n"
 		<< REGISTER	<< " - Register new flight       " << DELETE << " - Delete flight\n"
 		<< EXIT		<< " - Exit system\n";
+		UI.display(text.str());
 
-		UI.Display(text.str());
 		std::string input(1, '\0');
-		//TODO: find solution for below
-//			getline(cin, input); //In debug session input is not clear and this eats cin buffer//TODO: check why
 		getline(std::cin, input);
 
 		try {
@@ -41,78 +39,75 @@ uint8_t FlightManager::MainMenu() {
 			choice = 255; //Invalid index
 		}
 		if(7 < choice-'0') {
-			//TODO: consider to replace new lines with console clearing
 			text << "\n\nInvalid number, please enter right digit\n\n"
-				 << "\n\n\n Entered digit:   " << choice << std::endl;
-			UI.Display(text.str());
+				 << "\n\nEntered digit:   " << choice << std::endl;
+			UI.display(text.str());
 		}
 	} while(7 < (choice-'0'));
 	return choice;
 }
 
-uint32_t FlightManager::GetGreatestFlightNo() {
-	uint32_t rc = File.SearchGreatestNo();
+uint32_t FlightManager::getGreatestFlightNo() {
+	uint32_t rc = flightsFile.searchGreatestNo();
 #if DEBUG
 	if(!rc) {
-		UI.Display("FAIL SEARCHING FOR NUMBER \n");
+		UI.display("FAIL SEARCHING FOR NUMBER \n");
 	}
 #endif
 	return rc;
 }
 
-void FlightManager::DisplayAllRecords() {
+void FlightManager::displayAllRecords() {
 	uint8_t getIndex = 1;
 	std::string record;
-	while(File.GetRecord(record, getIndex)) {
+	while(flightsFile.getRecord(record, getIndex)) {
 		Flight flight(record);
-		std::ostringstream flightStream;
-		flight.Print(flightStream);
-		UI.Display(flightStream.str());
+		std::string str = StringFormatter::formatRecordUI(flight);
+		UI.display(str);
 
 		getIndex += 1;
 	}
 }
 
-void FlightManager::Book() {
-	Search();
+void FlightManager::book() {
+	searchByAirports();
 	//TODO: continue with booking
 }
 
-void FlightManager::Search() {
-	std::string depatrureCity = UI.GetDepartureCity();
-	std::string arrivalCity = UI.GetArrivalCity();
+void FlightManager::searchByAirports() {
+	std::string depatrureCity = UI.getDepartureCity();
+	std::string arrivalCity = UI.getArrivalCity();
 
-	std::vector<Flight> flights = File.SearchFlight(depatrureCity, arrivalCity);
+	std::vector<Flight> flights = flightsFile.searchFlight(depatrureCity, arrivalCity);
 
 	if(!flights.empty()) {
-		UI.Display(FlightHeader);
+		UI.display(FlightHeader);
 		for(auto flight : flights) {
-			std::ostringstream flightInfo;
-			flight.Print(flightInfo);
-			UI.Display(flightInfo.str());
+			std::string str = StringFormatter::formatRecordUI(flight);
+			UI.display(str);
 		}
 	} else {
-		UI.Display("Not found \n");
+		UI.display("Not found \n");
 	}
 }
 
-void FlightManager::RegisterNew() {
-	uint32_t flightNo = GetGreatestFlightNo() + 1;
+void FlightManager::registerNew() {
+	uint32_t flightNo = getGreatestFlightNo() + 1;
 
-	std::string company = UI.GetCompany();
-	std::string departureCity = UI.GetDepartureCity();
-	std::string arrivalCity = UI.GetArrivalCity();
-	DateTime date = UI.GetDateTime();
+	std::string company = UI.getCompany();
+	std::string departureCity = UI.getDepartureCity();
+	std::string arrivalCity = UI.getArrivalCity();
+	DateTime date = UI.getDateTime();
 
 	Flight flight(flightNo, company, date, departureCity, arrivalCity, 300);
 
-	File.RegisterFlight(flight);
+	flightsFile.registerFlight(flight);
 }
 
-void FlightManager::ChooseAction(uint8_t mainChoice) {
+void FlightManager::chooseAction(uint8_t mainChoice) {
 	switch(mainChoice) {
 	case BOOK:
-		Book();
+		book();
 		break;
 	case CHECK_IN:
 		assert(0); //TODO: fill case
@@ -124,13 +119,13 @@ void FlightManager::ChooseAction(uint8_t mainChoice) {
 		 */
 		break;
 	case SEARCH:
-		Search();
+		searchByAirports();
 		break;
 	case SHOW_SCHEDULE:
-		DisplayAllRecords();
+		displayAllRecords();
 		break;
 	case REGISTER:
-		RegisterNew();
+		registerNew();
 		break;
 	case DELETE:
 		assert(0); //TODO: fill case
@@ -140,8 +135,6 @@ void FlightManager::ChooseAction(uint8_t mainChoice) {
 	default:
 		assert(0);
 	}
+	UI.display("\nPress enter in order to continue");
 }
 
-UserInterface & FlightManager::GetUI() {
-	return UI;
-}

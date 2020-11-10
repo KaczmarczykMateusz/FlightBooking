@@ -6,6 +6,7 @@
  */
 
 #include "Flight.hpp"
+#include "../Common/StringFormatter.hpp"
 #include "../Common/Common.hpp"
 
 #include <cstdint>
@@ -13,31 +14,21 @@
 #include <iomanip>  //setw, setfill
 
 
-Flight::Flight(uint32_t Number, std::string Company, DateTime date, std::string Departure, std::string Arrival, uint16_t Seats) :
-	Number(Number)
-	, Company(Company)
-	, date(date)
-	, Departure(Departure)
-	, Arrival(Arrival)
-	, Seats(Seats)
-	, OccupiedSeats(0)
+Flight::Flight(uint32_t number, std::string company, DateTime dateTime, std::string departure, std::string arrival, uint16_t seats) :
+	number(number)
+	, company(company)
+	, dateTime(dateTime)
+	, departure(departure)
+	, arrival(arrival)
+	, seats(seats)
+	, occupiedSeats(0)
 	{}
 
-void Flight::Print(std::ostringstream & out) {
-	out << std::setw(4) << std::setfill('0') <<  Number << "  "
-			<< Departure << " " << Arrival << " "  << Company << " "
-			<< std::setw(2) << std::setfill('0') << static_cast<int>(date.getDate().getDay()) << "/"
-			<< std::setw(2) << std::setfill('0') << static_cast<int>(date.getDate().getMonth()) << "/"
-			<< static_cast<int>(date.getDate().getYear()) << "   "
-			<< std::setw(2) << std::setfill('0') << static_cast<int>(date.getTime().getHour()) << ":"
-			<< std::setw(2) << std::setfill('0') << static_cast<int>(date.getTime().getMinute()) << "\n";
-}
-
 Flight::Flight(std::string str) :
-	OccupiedSeats(0)
+	occupiedSeats(0)
 {
-	Number = 0;
-	Company = str.substr(COMPANY_NAME_OFFSET, COMPANY_NAME_LENGTH);
+	number = 0;
+	company = str.substr(COMPANY_NAME_OFFSET, COMPANY_NAME_LENGTH);
 
 	std::string dateStr = str.substr(DEPARTURE_DATE_OFFSET, DEPARTURE_DATE_LENGTH);
 	int tmp = stoi(dateStr);
@@ -51,38 +42,34 @@ Flight::Flight(std::string str) :
 	int Minute = tmp % 100;
 	int Hour = tmp / 100;
 
-	date = DateTime(Year, Month, Day, Hour, Minute);
+	dateTime = DateTime(Year, Month, Day, Hour, Minute);
 
-	Departure = str.substr(DEPARTURE_AIRPORT_OFFSET, DEPARTURE_AIRPORT_LENGTH);
-	Arrival = str.substr(ARRIVAL_AIRPORT_OFFSET, ARRIVAL_AIRPORT_LENGTH);
-	Seats = 300;
+	departure = str.substr(DEPARTURE_AIRPORT_OFFSET, DEPARTURE_AIRPORT_LENGTH);
+	arrival = str.substr(ARRIVAL_AIRPORT_OFFSET, ARRIVAL_AIRPORT_LENGTH);
+	seats = 300;
 }
 
-void Flight::ChangeDate(const DateTime & depart) {
-	date = depart;
+uint16_t Flight::getNo() const {
+	return number;
 }
 
-uint16_t Flight::GetNo() const {
-	return Number;
-}
-
-std::string Flight::GetCompany() const {
-	return Company;
+std::string Flight::getCompany() const {
+	return company;
 }
 
 DateTime Flight::getDateTime() const {
-	return date;
+	return dateTime;
 }
 
-std::string Flight::GetDeparture() const {
-	return Departure;
+std::string Flight::getDeparture() const {
+	return departure;
 }
 
-std::string Flight::GetArrival() const {
-	return Arrival;
+std::string Flight::getArrival() const {
+	return arrival;
 }
 
-uint16_t Flight::GetLeftSeats() const {
-	return (Seats - OccupiedSeats);
+uint16_t Flight::getLeftSeats() const {
+	return (seats - occupiedSeats);
 }
 

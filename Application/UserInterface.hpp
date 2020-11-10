@@ -30,16 +30,16 @@ public:
 	 * number of values specified in the format specifiers.
 	 * Additional arguments are ignored by the function
 	 */
-	void Display(const std::string fmt, ...);
+	void display(const std::string fmt, ...);
 
 
-	Date GetDate();
-	Time GetTime();
-	DateTime GetDateTime();
+	Date getDate();
+	Time getTime();
+	DateTime getDateTime();
 
-	std::string GetCompany();
-	std::string GetDepartureCity();
-	std::string GetArrivalCity();
+	std::string getCompany();
+	std::string getDepartureCity();
+	std::string getArrivalCity();
 	bool validateLength(const std::string & str, uint32_t length);
 
 private:

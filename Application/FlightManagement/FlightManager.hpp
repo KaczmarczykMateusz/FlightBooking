@@ -16,13 +16,12 @@ class FlightManager {
 public:
 	FlightManager() = default;
 
-	uint8_t MainMenu();
-	void DisplayAllRecords();  //TODO: change to get records and display them in another function
-	void Book();
-	void Search();
-	void RegisterNew();  //TODO: consider returning error codes
-	void ChooseAction(uint8_t mainChoice);
-	UserInterface & GetUI();
+	uint8_t mainMenu();
+	void displayAllRecords();  //TODO: change to get records and display them in another function
+	void book();
+	void searchByAirports();
+	void registerNew();  //TODO: consider returning error codes
+	void chooseAction(uint8_t mainChoice);
 
 private:
 	enum CHOICE {
@@ -36,9 +35,9 @@ private:
 	};
 
 	UserInterface UI;
-	FlightFile File;
+	FlightFile flightsFile;
 
-	uint32_t GetGreatestFlightNo();
+	uint32_t getGreatestFlightNo();
 };
 
 

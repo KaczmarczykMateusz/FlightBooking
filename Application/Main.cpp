@@ -18,15 +18,13 @@
 #include <iostream>
 #include <string>
 #include <cstdint>
-//using std::__cxx11::string; //TODO: check wheteher to enablein windows
 
 int main() {
 	FlightManager flightCent;
 	uint8_t index = 0;
 	while(index != 7) {
-		index = flightCent.MainMenu();
-		flightCent.ChooseAction(index);
-		flightCent.GetUI().Display("\nPress enter in order to continue");
+		index = flightCent.mainMenu();
+		flightCent.chooseAction(index);
 		if(7 != index) {
 			std::string str;
 			std::getline(std::cin, str);

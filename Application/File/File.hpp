@@ -18,19 +18,19 @@
 
 class File {
 public:
-	File(const std::string Name);
+	File(const std::string name);
 
 	virtual ~File() = default;
 
-	virtual bool GetRecord(std::string &dst, uint16_t recordNumber) = 0;
+	virtual bool getRecord(std::string &dst, uint16_t recordNumber) = 0;
 
 protected:
 	std::string read(uint32_t size, uint32_t offset);
 	void write(const std::string & str);
 
 private:
-	std::fstream FileStream;  //TODO: implement separate streams for input and output
-	std::string Name;
+	std::fstream fileStream;  //TODO: implement separate streams for input and output
+	std::string name;
 
 	void openToWrite();
 	void openToRead();

@@ -15,14 +15,14 @@ FlightFile::FlightFile() :
 	File("flights.dat")
 {  }
 
-bool FlightFile::GetRecord(std::string &dst, uint16_t recordNumber) {
+bool FlightFile::getRecord(std::string &dst, uint16_t recordNumber) {
 	dst.resize(RECORD_LENGTH, '\0');
 	uint32_t offset = RECORD_OFFSET * (recordNumber - 1);
 	dst = File::read(RECORD_LENGTH, offset);
 	return !dst.empty();
 }
 
-uint32_t FlightFile::SearchGreatestNo() {
+uint32_t FlightFile::searchGreatestNo() {
 	uint32_t greatest = 0;
 	uint32_t i = 0;
 	std::string output = File::read(NUMBER_LENGTH, 0);
@@ -42,7 +42,7 @@ uint32_t FlightFile::SearchGreatestNo() {
 	return greatest;
 }
 
-std::string FlightFile::SearchDetail(uint32_t offset, uint16_t length) {
+std::string FlightFile::searchDetail(uint32_t offset, uint16_t length) {
 	std::string rc = "";
 	std::string str = File::read(length, offset);
 	if(!str.empty()) {
@@ -54,19 +54,19 @@ std::string FlightFile::SearchDetail(uint32_t offset, uint16_t length) {
 	return rc;
 }
 
-std::vector<Flight> FlightFile::SearchFlight(std::string departureAirport, std::string arrivalAirport) {
+std::vector<Flight> FlightFile::searchFlight(std::string departureAirport, std::string arrivalAirport) {
 	std::vector<Flight> retVal;
 	std::string output(DEPARTURE_AIRPORT_LENGTH, '\0');
 	uint32_t recordOffset = 0;
 	do {
-		output = SearchDetail(DEPARTURE_AIRPORT_OFFSET + recordOffset, DEPARTURE_AIRPORT_LENGTH);
+		output = searchDetail(DEPARTURE_AIRPORT_OFFSET + recordOffset, DEPARTURE_AIRPORT_LENGTH);
 		if(output == departureAirport) {
-			output = SearchDetail(ARRIVAL_AIRPORT_OFFSET + recordOffset, ARRIVAL_AIRPORT_LENGTH);
+			output = searchDetail(ARRIVAL_AIRPORT_OFFSET + recordOffset, ARRIVAL_AIRPORT_LENGTH);
 			if(!output.empty()) {
 				if(output == arrivalAirport) {
-					output = SearchDetail(NUMBER_OFFSET + recordOffset, NUMBER_LENGTH);
+					output = searchDetail(NUMBER_OFFSET + recordOffset, NUMBER_LENGTH);
 					uint16_t flightIndex = std::stoul(output);
-					GetRecord(output, flightIndex);
+					getRecord(output, flightIndex);
 					retVal.emplace_back(Flight(output));
 				}
 			}
@@ -76,7 +76,7 @@ std::vector<Flight> FlightFile::SearchFlight(std::string departureAirport, std::
 	return std::move(retVal);
 }
 
-void FlightFile::RegisterFlight(const Flight & flight) {
-	std::string record = StringFormatter::FormatLine(flight.GetNo(), flight.GetCompany(), flight.GetDeparture(), flight.GetArrival(), flight.getDateTime());
+void FlightFile::registerFlight(const Flight & flight) {
+	std::string record = StringFormatter::formatRecord(flight);
 	File::write(record);
 }

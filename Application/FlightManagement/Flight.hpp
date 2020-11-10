@@ -16,29 +16,26 @@
 
 class Flight {
 public:
-	Flight(uint32_t Number, std::string Company, DateTime date, std::string Departure, std::string Arrival, uint16_t Seats);
+	Flight(uint32_t number, std::string company, DateTime dateTime, std::string departure, std::string arrival, uint16_t seats);
 
 	Flight(std::string str);
 
-	void Print(std::ostringstream & out);
-	void ChangeDate(const DateTime & depart);
-
-	uint16_t GetNo() const;
-	std::string GetCompany() const;
+	uint16_t getNo() const;
+	std::string getCompany() const;
 	DateTime getDateTime() const;
-	std::string GetDeparture() const;
-	std::string GetArrival() const;
-	uint16_t GetLeftSeats() const;
+	std::string getDeparture() const;
+	std::string getArrival() const;
+	uint16_t getLeftSeats() const;
 
 private:
-	uint32_t Number;
-	std::string Company;
-	DateTime date;
-	std::string Departure;
-	std::string Arrival;
+	uint32_t number;
+	std::string company;
+	DateTime dateTime;
+	std::string departure;
+	std::string arrival;
 
-	uint16_t Seats;
-	uint16_t OccupiedSeats;
+	uint16_t seats;
+	uint16_t occupiedSeats;
 };
 
 #endif /* APPLICATION_FLIGHT_HPP_ */
