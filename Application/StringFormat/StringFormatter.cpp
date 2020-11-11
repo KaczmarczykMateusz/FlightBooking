@@ -1,11 +1,11 @@
 /*
  * StringFormatter.cpp
  *
- *  Created on: 9 lis 2020
+ *  Created on: 9 Nov 2020
  *      Author: Mateusz
  */
 
-#include "DateTime.hpp"
+#include "../Common/DateTime.hpp"
 #include "../FlightManagement/Flight.hpp"
 #include "../Common/Common.hpp"
 #include "StringFormatter.hpp"
@@ -14,15 +14,15 @@
 #include <sstream>
 
 std::string StringFormatter::formatRecord(const Flight & flight) {
-	std::string dst(RECORD_LENGTH, ' ');
+	std::string dst(FlightDef::RECORD_LENGTH, ' ');
 
-	RegisterRecordLow(dst, std::to_string(flight.getNo()), NUMBER_OFFSET, NUMBER_LENGTH);
-	RegisterRecordLow(dst, flight.getCompany(), COMPANY_NAME_OFFSET, COMPANY_NAME_LENGTH);
-	RegisterRecordLow(dst, flight.getDeparture(), DEPARTURE_AIRPORT_OFFSET, DEPARTURE_AIRPORT_LENGTH);
-	RegisterRecordLow(dst, flight.getArrival(), ARRIVAL_AIRPORT_OFFSET, ARRIVAL_AIRPORT_LENGTH);
+	repalaceInString(dst, std::to_string(flight.getNo()), FlightDef::NUMBER_OFFSET);
+	repalaceInString(dst, flight.getCompany(), FlightDef::COMPANY_NAME_OFFSET);
+	repalaceInString(dst, flight.getDeparture(), FlightDef::DEPARTURE_AIRPORT_OFFSET);
+	repalaceInString(dst, flight.getArrival(), FlightDef::ARRIVAL_AIRPORT_OFFSET);
 	std::string dateStr = formatDateTime(flight.getDateTime());
-	RegisterRecordLow(dst, dateStr, DEPARTURE_DATE_OFFSET, DEPARTURE_DATE_LENGTH + DEPARTURE_TIME_LENGTH);
-	RegisterRecordLow(dst, "\n", NEW_LINE_OFFSET, NEW_LINE_LENGTH);
+	repalaceInString(dst, dateStr, FlightDef::DEPARTURE_DATE_OFFSET);
+	repalaceInString(dst, "\n", FlightDef::NEW_LINE_OFFSET);
 
 	return dst;
 }

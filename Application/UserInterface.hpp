@@ -9,7 +9,7 @@
 #define APPLICATION_USERINTERFACE_HPP_
 
 #include "Common/Common.hpp"
-#include "Common/StringUtilities.hpp"
+#include "StringFormat/StringUtilities.hpp"
 
 #include <string>
 

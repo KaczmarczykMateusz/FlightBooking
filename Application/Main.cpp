@@ -22,10 +22,10 @@
 int main() {
 	FlightManager flightCent;
 	uint8_t index = 0;
-	while(index != 7) {
+	while(index != FlightManager::EXIT) {
 		index = flightCent.mainMenu();
 		flightCent.chooseAction(index);
-		if(7 != index) {
+		if(FlightManager::EXIT != index) {
 			std::string str;
 			std::getline(std::cin, str);
 		}

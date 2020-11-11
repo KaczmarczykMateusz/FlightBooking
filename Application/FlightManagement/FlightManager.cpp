@@ -11,8 +11,7 @@
 #include <iostream>
 #include <vector>
 
-#include "../Common/StringFormatter.hpp"
-using std::ostream;
+#include "../StringFormat/StringFormatter.hpp"
 
 uint8_t FlightManager::mainMenu() {
 	uint8_t choice = 0;
@@ -58,14 +57,13 @@ uint32_t FlightManager::getGreatestFlightNo() {
 }
 
 void FlightManager::displayAllRecords() {
-	uint8_t getIndex = 1;
+	uint8_t getIndex = 0;
 	std::string record;
-	while(flightsFile.getRecord(record, getIndex)) {
+	while(flightsFile.getRecord(record, ++getIndex)) {
 		Flight flight(record);
 		std::string str = StringFormatter::formatRecordUI(flight);
 		UI.display(str);
 
-		getIndex += 1;
 	}
 }
 

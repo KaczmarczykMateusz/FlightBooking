@@ -6,12 +6,13 @@
  */
 
 #include "Flight.hpp"
-#include "../Common/StringFormatter.hpp"
+#include "../StringFormat/StringFormatter.hpp"
 #include "../Common/Common.hpp"
 
 #include <cstdint>
 #include <sstream>
 #include <iomanip>  //setw, setfill
+#include <iostream>
 
 
 Flight::Flight(uint32_t number, std::string company, DateTime dateTime, std::string departure, std::string arrival, uint16_t seats) :
@@ -28,24 +29,24 @@ Flight::Flight(std::string str) :
 	occupiedSeats(0)
 {
 	number = 0;
-	company = str.substr(COMPANY_NAME_OFFSET, COMPANY_NAME_LENGTH);
+	company = str.substr(FlightDef::COMPANY_NAME_OFFSET, Config::COMPANY_NAME_LENGTH);
 
-	std::string dateStr = str.substr(DEPARTURE_DATE_OFFSET, DEPARTURE_DATE_LENGTH);
+	std::string dateStr = str.substr(FlightDef::DEPARTURE_DATE_OFFSET, Config::DATE_LENGTH);
 	int tmp = stoi(dateStr);
 	int Year = tmp % 100;
 	tmp /= 100;
 	int Month = tmp % 100;
 	int Day = tmp / 100;
 
-	std::string time = str.substr(DEPARTURE_TIME_OFFSET, DEPARTURE_TIME_LENGTH);
+	std::string time = str.substr(FlightDef::DEPARTURE_TIME_OFFSET, Config::TIME_LENGTH);
 	tmp = stoi(time);
 	int Minute = tmp % 100;
 	int Hour = tmp / 100;
 
 	dateTime = DateTime(Year, Month, Day, Hour, Minute);
 
-	departure = str.substr(DEPARTURE_AIRPORT_OFFSET, DEPARTURE_AIRPORT_LENGTH);
-	arrival = str.substr(ARRIVAL_AIRPORT_OFFSET, ARRIVAL_AIRPORT_LENGTH);
+	departure = str.substr(FlightDef::DEPARTURE_AIRPORT_OFFSET, Config::AIRPORT_LENGTH);
+	arrival = str.substr(FlightDef::ARRIVAL_AIRPORT_OFFSET, Config::AIRPORT_LENGTH);
 	seats = 300;
 }
 

@@ -44,14 +44,14 @@ Date UserInterface::getDate() {
 	uint16_t year = 0;
 	uint8_t month = 0, day = 0;
 
-	std::string input(DEPARTURE_DATE_LENGTH + 2, '\0');
+	std::string input(Config::DATE_LENGTH + 2, '\0');
 	const std::string date[4] = {"DAY", "MONTH", "YEAR", "SEPARATOR"};
 	const uint16_t minDate[3] = {1, 1, 2019};
 	const uint16_t maxDate[3] = {31, 12, 2050};
 	const std::string delimeter(1, '/');
 
 	do {
-		std::cout << "Enter date (dd/mm/yyyy) :" << std::endl;
+		std::cout << "\n\nEnter date (dd/mm/yyyy) :" << std::endl;
 		std::getline(std::cin, input);
 
 		for(uint8_t i = 0; i < 3; i++) {
@@ -93,11 +93,12 @@ Date UserInterface::getDate() {
 }
 
 Time UserInterface::getTime() {
-	uint8_t hour = 0, minute = 0;
+	uint8_t hour = 0;
+	int16_t minute = -1;
 	const std::string delimeter(":");
-	std::string input(DEPARTURE_TIME_LENGTH + 1, '\0');
+	std::string input(Config::TIME_LENGTH + 1, '\0');
 	do {
-		std::cout << "Enter time (hh:mm) :" << std::endl;
+		std::cout << "\n\nEnter time (hh:mm) :" << std::endl;
 		std::getline(std::cin, input);
 
 		for(uint8_t i = 0; i < 2; i++) {
@@ -123,14 +124,14 @@ Time UserInterface::getTime() {
 						std::cout << "\n\nMinute out of range !\n\n";
 						break;
 					}
-					minute = static_cast<uint8_t>(num);
+					minute = static_cast<int16_t>(num);
 				}
 			} catch(...) {
 				std::cout << "\n\nInvalid number!\n\n";
 				break;
 			}
 		}
-	} while(!minute);
+	} while(0 > minute);
 
 	return Time(hour, minute);
 }
@@ -151,25 +152,25 @@ void UserInterface::getLine(std::string & dst, uint32_t length) {
 }
 
 std::string UserInterface::getCompany() {
-	display("%sInsert company name:\n\n", newLineStr.c_str());
+	display("\n\nInsert company name:\n\n");
 	std::string str;
-	getLine(str, COMPANY_NAME_LENGTH);
+	getLine(str, Config::COMPANY_NAME_LENGTH);
 	rtrim(str);
 	return str;
 }
 
 std::string UserInterface::getDepartureCity() {
-	display("%s%s", newLineStr.c_str(), departureCityReq.c_str());
+	display("\n\n%s", departureCityReq.c_str());
 	std::string str;
-	getLine(str, DEPARTURE_AIRPORT_LENGTH);
+	getLine(str, Config::AIRPORT_LENGTH);
 	rtrim(str);
 	return str;
 }
 
 std::string UserInterface::getArrivalCity() {
-	display("%s%s", newLineStr.c_str(), arrivalCityReq.c_str());
+	display("\n\n%s", arrivalCityReq.c_str());
 	std::string str;
-	getLine(str, ARRIVAL_AIRPORT_LENGTH);
+	getLine(str, Config::AIRPORT_LENGTH);
 	rtrim(str);
 	return str;
 }
