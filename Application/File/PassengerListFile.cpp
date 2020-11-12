@@ -58,10 +58,8 @@ Passenger PassengerListFile::searchPassanger(std::string name, std::string surna
 			output = File::read(Config::FIRST_NAME_LENGTH, PassengerListStrFormat::FIRST_NAME_OFFSET + offset);
 			if(!output.empty()) {
 				if(output == name) {
-					output = File::read(Config::NUMBER_LENGTH, PassengerListStrFormat::ID_OFFSET + offset);
 					getRecord(output, offset);
 					return Passenger(output);
-					break;
 				}
 			}
 		}

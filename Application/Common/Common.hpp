@@ -24,8 +24,8 @@ struct Config {
 };
 
 
-static const std::string FlightHeader = "\n\nNo.:  Departure city:       Arrival City:         "
-										"Company:          Date:      Time:\n";
+static const std::string FlightHeader = "\n\nNo.:  Departure city:      Arrival City:        "
+										"Company:         Date:      Time:\n";
 
 static const char SEPARATOR = ' ';
 

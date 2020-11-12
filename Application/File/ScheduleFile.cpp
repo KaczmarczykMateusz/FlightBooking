@@ -49,11 +49,12 @@ std::vector<Flight> ScheduleFile::searchFlight(std::string departureAirport, std
 	uint16_t i = 1;
 	do {
 		output = File::read(Config::AIRPORT_LENGTH, ScheduleStrFormat::DEPARTURE_AIRPORT_OFFSET + recordOffset);
+		StringUtilities::rtrim(output);
 		if(output == departureAirport) {
 			output = File::read(Config::AIRPORT_LENGTH, ScheduleStrFormat::ARRIVAL_AIRPORT_OFFSET + recordOffset);
+			StringUtilities::rtrim(output);
 			if(!output.empty()) {
 				if(output == arrivalAirport) {
-					output = File::read(Config::NUMBER_LENGTH, ScheduleStrFormat::NUMBER_OFFSET + recordOffset);
 					getRecord(output, i);
 					retVal.emplace_back(Flight(output));
 				}
