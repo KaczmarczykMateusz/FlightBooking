@@ -11,7 +11,7 @@
 #include <iostream>
 
 File::File(const std::string name) :
-fileStream(nullptr)  //TODO: consider init with name and mode
+	  fileStream(nullptr)  //TODO: consider init with name and mode
 	, name(name)
 {  }
 
@@ -28,10 +28,22 @@ std::string File::read(uint32_t size, uint32_t offset) {
 	return rc;
 }
 
+std::string File::read(char delimeter) {
+	std::string rc = "";
+	openToRead();
+	getline(fileStream, rc, delimeter);
+	closeFile();
+	return rc;
+}
+
 void File::write(const std::string & str) {
 	openToWrite();
 	fileStream << str;
 	closeFile();
+}
+
+void File::setName(const std::string & str) {
+	name = str;
 }
 
 void File::openToWrite() {

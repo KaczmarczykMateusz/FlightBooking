@@ -6,12 +6,14 @@
  */
 
 #include "FlightManager.hpp"
+#include "Passenger.h"
+#include "../StringFormat/ScheduleStrFormat.hpp"
+#include "../File/PassengerListFile.hpp"
+#include "../StringFormat/StringFormatter.hpp"
 
 #include <cassert>
 #include <iostream>
 #include <vector>
-
-#include "../StringFormat/StringFormatter.hpp"
 
 uint8_t FlightManager::mainMenu() {
 	uint8_t choice = 0;
@@ -47,7 +49,7 @@ uint8_t FlightManager::mainMenu() {
 }
 
 uint32_t FlightManager::getGreatestFlightNo() {
-	uint32_t rc = flightsFile.searchGreatestNo();
+	uint32_t rc = scheduleFile.searchGreatestNo();
 #if DEBUG
 	if(!rc) {
 		UI.display("FAIL SEARCHING FOR NUMBER \n");
@@ -59,9 +61,9 @@ uint32_t FlightManager::getGreatestFlightNo() {
 void FlightManager::displayAllRecords() {
 	uint8_t getIndex = 0;
 	std::string record;
-	while(flightsFile.getRecord(record, ++getIndex)) {
+	while(scheduleFile.getRecord(record, ++getIndex)) {
 		Flight flight(record);
-		std::string str = StringFormatter::formatRecordUI(flight);
+		std::string str = ScheduleStrFormat::formatRecordUI(flight);
 		UI.display(str);
 
 	}
@@ -69,19 +71,22 @@ void FlightManager::displayAllRecords() {
 
 void FlightManager::book() {
 	searchByAirports();
-	//TODO: continue with booking
+	Passenger passenger("John", "Smith", 1050604896);  //TODO: get data from user
+	uint32_t flightNo = 5;
+	PassengerListFile file(flightNo);
+	file.registerPassanger(passenger);
 }
 
 void FlightManager::searchByAirports() {
 	std::string depatrureCity = UI.getDepartureCity();
 	std::string arrivalCity = UI.getArrivalCity();
 
-	std::vector<Flight> flights = flightsFile.searchFlight(depatrureCity, arrivalCity);
+	std::vector<Flight> flights = scheduleFile.searchFlight(depatrureCity, arrivalCity);
 
 	if(!flights.empty()) {
 		UI.display(FlightHeader);
 		for(auto flight : flights) {
-			std::string str = StringFormatter::formatRecordUI(flight);
+			std::string str = ScheduleStrFormat::formatRecordUI(flight);
 			UI.display(str);
 		}
 	} else {
@@ -99,7 +104,7 @@ void FlightManager::registerNew() {
 
 	Flight flight(flightNo, company, date, departureCity, arrivalCity, 300);
 
-	flightsFile.registerFlight(flight);
+	scheduleFile.registerFlight(flight);
 }
 
 void FlightManager::chooseAction(uint8_t mainChoice) {

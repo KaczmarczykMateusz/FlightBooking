@@ -35,7 +35,7 @@ public:
 
 private:
 	UserInterface UI;
-	ScheduleFile flightsFile;
+	ScheduleFile scheduleFile;
 
 	uint32_t getGreatestFlightNo();
 };

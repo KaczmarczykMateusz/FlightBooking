@@ -28,7 +28,6 @@ public:
 
 	uint32_t searchGreatestNo();
 
-	std::string searchDetail(uint32_t offset, uint16_t length);  //TODO: remove this function as far as it is totally unnecessary
 
 	std::vector<Flight> searchFlight(std::string departureAirport, std::string arrivalAirport);
 

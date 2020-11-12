@@ -19,12 +19,9 @@ public:
 	StringFormatter() = default;
 
 	static std::string formatDateTime(const DateTime & date);
-	static std::string formatRecord(const Flight & flight);
 
 	static std::string formatDateTimeUI(const DateTime & dateTime);
-	static std::string formatRecordUI(const Flight & flight);
-
-private:
+protected:
 	//Ask user to enter detail and save this detail into dst string
 	static void repalaceInString(std::string & dst, std::string input, uint32_t offset) {
 		try {
