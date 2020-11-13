@@ -18,7 +18,7 @@ static const std::string arrivalCityReq = "Insert arrival airport name:\n";
 static const std::string firstNameReq = "Insert first name:\n";
 static const std::string surnameReq = "Insert surname:\n";
 static const std::string personalIdReq = "Insert ID card number:\n";
-static const std::string flightIdReq = "Insert number of flight to book:\n";
+static const std::string flightIdReq = "Insert number of flight:\n";
 static const std::string notFound = "\n\nNot found, would you like to repeat "
 										"search (y/n)\n";
 
@@ -159,6 +159,20 @@ std::string UserInterface::getLine(uint32_t length) {
 	return str;
 }
 
+uint64_t UserInterface::getNumber(uint32_t length) {
+	uint64_t rc = 0;
+	do {
+		std::string str = getLine(length);
+		try {
+			rc = std::stoull(str);
+		}
+		catch(...) {
+			rc = 0;
+		}
+	} while(!rc);
+	return rc;
+}
+
 std::string UserInterface::getCompany() {
 	display("\n\nInsert company name:\n");
 	std::string str = getLine(Config::COMPANY_NAME_LENGTH);
@@ -191,28 +205,12 @@ std::string UserInterface::getSurname() {
 
 uint64_t UserInterface::getPersonalId() {
 	display("\n\n%s", personalIdReq.c_str());
-	std::string str = getLine(Config::PERSONAL_ID_LENGTH);
-	uint64_t rc = 0;
-	try {
-		rc = std::stoull(str);
-	}
-	catch(...) {
-
-	}
-	return rc;
+	return getNumber(Config::PERSONAL_ID_LENGTH);
 }
 
 uint32_t UserInterface::getFlightId() {
 	display("\n\n%s", flightIdReq.c_str());
-	std::string str = getLine(Config::FLIGHT_ID_LENGTH);
-	uint32_t rc = 0;
-	try {
-		rc = std::stoul(str);
-	}
-	catch(...) {
-
-	}
-	return rc;
+	return static_cast<uint32_t>(getNumber(Config::FLIGHT_ID_LENGTH));
 }
 
 bool UserInterface::getRepeat() {

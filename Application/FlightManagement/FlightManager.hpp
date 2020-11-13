@@ -29,6 +29,7 @@ public:
 	uint8_t mainMenu();
 	void displayAllRecords();  //TODO: change to get records and display them in another function
 	void book();
+	void checkIn();
 	bool searchByAirports();
 	void registerNew();  //TODO: consider returning error codes
 	void chooseAction(uint8_t mainChoice);

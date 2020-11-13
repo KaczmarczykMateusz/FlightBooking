@@ -94,6 +94,27 @@ void FlightManager::book() {
 	}
 }
 
+void FlightManager::checkIn() {
+	std::string firstName = UI.getFirstName();
+	std::string surname = UI.getSurname();
+	uint64_t personalId = UI.getPersonalId();
+
+	Flight flight("");
+	bool repeat = false;
+	do {
+		uint32_t flightId = UI.getFlightId();
+
+		flight = scheduleFile.searchFlight(flightId);
+
+		if(!flight.getId()) {
+			repeat = UI.getRepeat();
+		}
+	} while(repeat);
+	PassengerListFile file(flight.getId());
+	Passenger passenger(firstName, surname, personalId);
+	file.setCheckedIn(passenger);
+}
+
 bool FlightManager::searchByAirports() {
 	bool repeat = false;
 	bool rc = false;
@@ -136,13 +157,7 @@ void FlightManager::chooseAction(uint8_t mainChoice) {
 		book();
 		break;
 	case CHECK_IN:
-		assert(0); //TODO: fill case
-		/*
-		 * We will generate separate files for every flight number,
-		 * they will contain passangers check-in info, file will be
-		 * generated automaticallly after firt passanger check in.
-		 * We will put those files i separate folder
-		 */
+		checkIn();
 		break;
 	case SEARCH:
 		searchByAirports();

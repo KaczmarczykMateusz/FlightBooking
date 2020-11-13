@@ -33,9 +33,8 @@ public:
 
 	uint32_t getNewRecordOffset();
 
-	Passenger searchPassanger(std::string name, std::string surname);
-
 	void registerPassanger(const Passenger & flight);
+	void setCheckedIn(Passenger & flight);
 };
 
 

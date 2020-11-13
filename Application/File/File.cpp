@@ -42,6 +42,15 @@ void File::write(const std::string & str) {
 	closeFile();
 }
 
+void File::write(const std::string & str, uint32_t offset) {
+	fileStream.open(name, std::fstream::in | std::fstream::out);
+	fileStream.seekp(offset);
+	if(!fileStream.eof()) {
+		fileStream.write(&str[0], str.size());
+	}
+	closeFile();
+}
+
 void File::setName(const std::string & str) {
 	name = str;
 }

@@ -19,6 +19,7 @@ public:
 	std::string getSurname() const;
 	uint64_t getPersonalId() const;
 	bool getCheckedIn() const;
+	void setCheckedIn(bool checkIn);
 
 private:
 	std::string firstName;

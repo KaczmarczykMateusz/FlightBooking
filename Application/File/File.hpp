@@ -28,6 +28,7 @@ protected:
 	std::string read(uint32_t size, uint32_t offset);
 	std::string read(char delimeter);
 	void write(const std::string & str);
+	void write(const std::string & str, uint32_t offset);
 	void setName(const std::string & str);
 
 private:

@@ -51,6 +51,7 @@ public:
 
 private:
 	std::string getLine(uint32_t length);
+	uint64_t getNumber(uint32_t length);
 };
 
 #endif /* APPLICATION_USERINTERFACE_HPP_ */

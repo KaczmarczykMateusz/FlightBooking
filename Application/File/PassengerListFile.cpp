@@ -49,26 +49,38 @@ uint32_t PassengerListFile::getNewRecordOffset() {
 	return greatest;
 }
 
-Passenger PassengerListFile::searchPassanger(std::string name, std::string surname) {
-	std::string output;
-	uint16_t offset = 0;
-	do {
-		output = File::read(Config::SURNAME_LENGTH, PassengerListStrFormat::SURNAME_OFFSET + offset);
-		if(output == surname) {
-			output = File::read(Config::FIRST_NAME_LENGTH, PassengerListStrFormat::FIRST_NAME_OFFSET + offset);
-			if(!output.empty()) {
-				if(output == name) {
-					getRecord(output, offset);
-					return Passenger(output);
-				}
-			}
-		}
-		offset += output.length();
-	} while(!output.empty());
-	return Passenger("");
-}
-
 void PassengerListFile::registerPassanger(const Passenger & passenger) {
 	std::string record = PassengerListStrFormat::formatRecord(passenger);
 	File::write(record);
+}
+
+void PassengerListFile::setCheckedIn(Passenger & passenger) {
+	std::string output;
+	uint16_t offset = 0;
+	uint16_t nextRecordOffset = 0;
+	do {
+		offset += nextRecordOffset;
+		nextRecordOffset = PassengerListStrFormat::RECORD_OFFSET;
+
+		output = File::read(Config::SURNAME_LENGTH, PassengerListStrFormat::SURNAME_OFFSET + offset);
+		StringUtilities::rtrim(output);
+		if(passenger.getSurname() != output) {
+			continue;
+		}
+
+		output = File::read(Config::FIRST_NAME_LENGTH, PassengerListStrFormat::FIRST_NAME_OFFSET + offset);
+		StringUtilities::rtrim(output);
+		if(passenger.getFirstName() != output) {
+			continue;
+		}
+
+		output = File::read(Config::PERSONAL_ID_LENGTH, PassengerListStrFormat::PERSONAL_ID_OFFSET + offset);
+		StringUtilities::rtrim(output);
+		uint64_t personalId = std::stoll(output);
+		if(passenger.getPersonalId() == personalId) {
+			std::string toWrite("1");
+			File::write(toWrite, offset + PassengerListStrFormat::CHECKED_IN_OFFSET);
+			break;
+		}
+	} while(!output.empty());
 }

@@ -37,3 +37,7 @@ uint64_t Passenger::getPersonalId() const  {
 bool Passenger::getCheckedIn() const  {
 	return checkedIn;
 }
+
+void Passenger::setCheckedIn(bool checkIn) {
+	checkedIn = checkIn;
+}
