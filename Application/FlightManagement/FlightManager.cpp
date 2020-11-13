@@ -69,7 +69,9 @@ void FlightManager::displayAllRecords() {
 }
 
 void FlightManager::book() {
-	searchByAirports();
+	if(!searchByAirports()) {
+		return;
+	}
 	Flight flight("");
 	bool repeat = false;
 	do {
@@ -92,8 +94,9 @@ void FlightManager::book() {
 	}
 }
 
-void FlightManager::searchByAirports() {
+bool FlightManager::searchByAirports() {
 	bool repeat = false;
+	bool rc = false;
 	do {
 		std::string depatrureCity = UI.getDepartureCity();
 		std::string arrivalCity = UI.getArrivalCity();
@@ -106,10 +109,12 @@ void FlightManager::searchByAirports() {
 				std::string str = ScheduleStrFormat::formatRecordUI(flight);
 				UI.display(str);
 			}
+			rc = true;
 		} else {
 			repeat = UI.getRepeat();
 		}
 	} while(repeat);
+	return rc;
 }
 
 void FlightManager::registerNew() {

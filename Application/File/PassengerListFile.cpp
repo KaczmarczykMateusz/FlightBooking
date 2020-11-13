@@ -14,10 +14,10 @@
 #include <sstream>
 
 PassengerListFile::PassengerListFile(uint32_t flightNo) :
-	File("DB/EMPTY")
+	File("DB/PassengerLists/EMPTY")
 {
 	std::ostringstream name;
-	name << "DB/flight_no_" << std::to_string(flightNo) << ".dat";
+	name << "DB/PassengerLists/flight_no_" << std::to_string(flightNo) << ".dat";
 	File::setName(name.str());
 }
 

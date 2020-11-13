@@ -13,14 +13,14 @@
 #include <stdarg.h>  // For va_start, etc.
 #include <cassert>
 
-static const std::string departureCityReq = "Insert departure airport name:\n\n";
-static const std::string arrivalCityReq = "Insert arrival airport name:\n\n";
-static const std::string firstNameReq = "Insert first name:\n\n";
-static const std::string surnameReq = "Insert surname:\n\n";
-static const std::string personalIdReq = "Insert ID card number:\n\n";
-static const std::string flightIdReq = "Insert number of flight to book:\n\n";
+static const std::string departureCityReq = "Insert departure airport name:\n";
+static const std::string arrivalCityReq = "Insert arrival airport name:\n";
+static const std::string firstNameReq = "Insert first name:\n";
+static const std::string surnameReq = "Insert surname:\n";
+static const std::string personalIdReq = "Insert ID card number:\n";
+static const std::string flightIdReq = "Insert number of flight to book:\n";
 static const std::string notFound = "\n\nNot found, would you like to repeat "
-										"search (y/n)\n\n";
+										"search (y/n)\n";
 
 void UserInterface::display(const std::string fmt, ...) {
 	va_list ap;
@@ -151,18 +151,16 @@ DateTime UserInterface::getDateTime() {
 std::string UserInterface::getLine(uint32_t length) {
 	std::string str("");
 	do {
+		str = "";
 		getline(std::cin, str);
-		if(!validateLength(str, length)) {
-			continue;
-		}
-	} while(0);
+	} while(!validateLength(str, length));
 
 	rtrim(str);
 	return str;
 }
 
 std::string UserInterface::getCompany() {
-	display("\n\nInsert company name:\n\n");
+	display("\n\nInsert company name:\n");
 	std::string str = getLine(Config::COMPANY_NAME_LENGTH);
 	return str;
 }
@@ -231,9 +229,13 @@ bool UserInterface::getRepeat() {
 }
 
 bool UserInterface::validateLength(const std::string & str, uint32_t length) {
-	bool rc = (length > strlen(str.c_str()));
-	if(!rc) {
-		display("Please enter name not longer than %d", (uint32_t)length-1 );
+	bool rc = true;
+	if(str.empty()) {
+		display("Please enter requested input\n", length-1 );
+		rc = false;
+	} else if(length < strlen(str.c_str())) {
+		display("Please enter input not longer than %d\n", length-1 );
+		rc = false;
 	}
 	return rc;
 }
