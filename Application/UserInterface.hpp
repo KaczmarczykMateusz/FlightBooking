@@ -40,10 +40,15 @@ public:
 	std::string getCompany();
 	std::string getDepartureCity();
 	std::string getArrivalCity();
+	std::string getFirstName();
+	std::string getSurname();
+	uint64_t getPersonalId();
+	uint32_t getFlightId();
+
 	bool validateLength(const std::string & str, uint32_t length);
 
 private:
-	void getLine(std::string & dst, uint32_t length);
+	std::string getLine(uint32_t length);
 };
 
 #endif /* APPLICATION_USERINTERFACE_HPP_ */

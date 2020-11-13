@@ -12,18 +12,18 @@
 
 class Passenger {
 public:
-	Passenger(std::string firstName, std::string surname, uint32_t id);
+	Passenger(std::string firstName, std::string surname, uint64_t personalId);
 	Passenger(std::string str);
 
 	std::string getFirstName() const;
 	std::string getSurname() const;
-	uint32_t getId() const;
+	uint64_t getPersonalId() const;
 	bool getCheckedIn() const;
 
 private:
 	std::string firstName;
 	std::string surname;
-	uint32_t id;
+	uint64_t personalId;
 	bool checkedIn;
 };
 

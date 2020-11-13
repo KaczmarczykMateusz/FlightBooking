@@ -12,10 +12,10 @@
 #include <string>
 
 struct Config {
-	static const uint32_t NUMBER_LENGTH = 5;
+	static const uint32_t FLIGHT_ID_LENGTH = 5;
 	static const uint32_t FIRST_NAME_LENGTH = 15;
 	static const uint32_t SURNAME_LENGTH = 15;
-	static const uint32_t PASSENGER_ID_LENGTH = 10;
+	static const uint32_t PERSONAL_ID_LENGTH = 10;
 	static const uint32_t COMPANY_NAME_LENGTH = 16;
 	static const uint32_t AIRPORT_LENGTH = 20;
 	static const uint32_t DATE_LENGTH = 6;

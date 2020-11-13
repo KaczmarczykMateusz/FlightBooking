@@ -24,7 +24,7 @@ public:
 	ScheduleStrFormat() = default;
 
 	static const uint32_t NUMBER_OFFSET = 0;
-	static const uint32_t COMPANY_NAME_OFFSET = NUMBER_OFFSET + Config::NUMBER_LENGTH;
+	static const uint32_t COMPANY_NAME_OFFSET = NUMBER_OFFSET + Config::FLIGHT_ID_LENGTH;
 	static const uint32_t DEPARTURE_AIRPORT_OFFSET = COMPANY_NAME_OFFSET + Config::COMPANY_NAME_LENGTH;
 	static const uint32_t ARRIVAL_AIRPORT_OFFSET = DEPARTURE_AIRPORT_OFFSET + Config::AIRPORT_LENGTH;
 	static const uint8_t  DEPARTURE_DATE_OFFSET = ARRIVAL_AIRPORT_OFFSET + Config::AIRPORT_LENGTH;

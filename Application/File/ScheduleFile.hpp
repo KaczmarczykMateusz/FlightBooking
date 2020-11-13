@@ -26,7 +26,7 @@ public:
 	// Return: false if record doesn't exist
 	virtual bool getRecord(std::string &dst, uint16_t recordNumber) override;
 
-	uint32_t searchGreatestNo();
+	uint32_t searchGreatestNo();  //TODO: consider whether to remove this func
 
 
 	std::vector<Flight> searchFlight(std::string departureAirport, std::string arrivalAirport);

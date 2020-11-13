@@ -31,7 +31,7 @@ bool PassengerListFile::getRecord(std::string &dst, uint16_t recordNumber) {
 uint32_t PassengerListFile::getNewRecordOffset() {
 	uint32_t greatest = 0;
 	uint32_t offset = 0;
-	std::string output = File::read(Config::NUMBER_LENGTH, 0);
+	std::string output = File::read(Config::FLIGHT_ID_LENGTH, 0);
 	while(!output.empty()) {
 		try {
 			if(greatest < std::stoul(output)) {
@@ -43,7 +43,7 @@ uint32_t PassengerListFile::getNewRecordOffset() {
 			assert(false);
 		}
 		offset += output.length();
-		output = File::read(Config::NUMBER_LENGTH, offset);
+		output = File::read(Config::FLIGHT_ID_LENGTH, offset);
 	}
 
 	return greatest;

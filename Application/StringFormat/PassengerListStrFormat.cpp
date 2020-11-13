@@ -19,7 +19,7 @@ std::string PassengerListStrFormat::formatRecord(const Passenger & passenger) {
 
 	repalaceInString(dst, passenger.getFirstName(), FIRST_NAME_OFFSET);
 	repalaceInString(dst, passenger.getSurname(), SURNAME_OFFSET);
-	repalaceInString(dst, std::to_string(passenger.getId()), ID_OFFSET);
+	repalaceInString(dst, std::to_string(passenger.getPersonalId()), PERSONAL_ID_OFFSET);
 	std::string checkedIn = std::to_string(passenger.getCheckedIn() ? 1 : 0);
 	repalaceInString(dst, checkedIn, CHECKED_IN_OFFSET);
 	repalaceInString(dst, "\n", NEW_LINE_OFFSET);
@@ -32,8 +32,38 @@ std::string PassengerListStrFormat::formatRecordUI(const Passenger & passenger) 
 
 	outStream << passenger.getFirstName() << "  "
 			<< passenger.getSurname() << " "
-			<< passenger.getId() << "  "
+			<< passenger.getPersonalId() << "  "
 			<< passenger.getCheckedIn() << "\n";
 
 	return outStream.str();
+}
+
+std::string PassengerListStrFormat::getFirstName(const std::string & passengerListRecord) {
+	return passengerListRecord.substr(FIRST_NAME_OFFSET, Config::FIRST_NAME_LENGTH);
+}
+
+std::string PassengerListStrFormat::getSurname(const std::string & passengerListRecord) {
+	return passengerListRecord.substr(SURNAME_OFFSET, Config::SURNAME_LENGTH);
+}
+
+uint64_t PassengerListStrFormat::getPersonalId(const std::string & passengerListRecord) {
+	std::string str = passengerListRecord.substr(PERSONAL_ID_OFFSET, Config::PERSONAL_ID_LENGTH);
+	uint64_t rc = 0;
+	try {
+		rc = stoull(str);
+	}
+	catch(...) {
+	}
+	return rc;
+}
+
+bool PassengerListStrFormat::getCheckedIn(const std::string & passengerListRecord) {
+	std::string str = passengerListRecord.substr(CHECKED_IN_OFFSET, CHECKED_IN_LENGTH);
+	bool checkedIn = false;
+	try {
+		checkedIn = stoul(str) ? true : false;
+	}
+	catch(...) {
+	}
+	return checkedIn;
 }

@@ -65,15 +65,19 @@ void FlightManager::displayAllRecords() {
 		Flight flight(record);
 		std::string str = ScheduleStrFormat::formatRecordUI(flight);
 		UI.display(str);
-
 	}
 }
 
 void FlightManager::book() {
 	searchByAirports();
-	Passenger passenger("John", "Smith", 1050604896);  //TODO: get data from user
-	uint32_t flightNo = 5;
-	PassengerListFile file(flightNo);
+	uint32_t flightId = UI.getFlightId();
+	//TODO: validate flight ID
+	PassengerListFile file(flightId);
+
+	std::string firstName = UI.getFirstName();
+	std::string surname = UI.getSurname();
+	uint64_t personalId = UI.getPersonalId();
+	Passenger passenger(firstName, surname, personalId);
 	file.registerPassanger(passenger);
 }
 

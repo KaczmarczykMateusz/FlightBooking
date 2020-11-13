@@ -15,6 +15,10 @@
 
 static const std::string departureCityReq = "Insert departure airport name:\n\n";
 static const std::string arrivalCityReq = "Insert arrival airport name:\n\n";
+static const std::string firstNameReq = "Insert first name:\n\n";
+static const std::string surnameReq = "Insert surname:\n\n";
+static const std::string personalIdReq = "Insert ID card number:\n\n";
+static const std::string flightIdReq = "Insert number of flight to book:\n\n";
 
 void UserInterface::display(const std::string fmt, ...) {
 	va_list ap;
@@ -142,37 +146,73 @@ DateTime UserInterface::getDateTime() {
 	return DateTime(date, time);
 }
 
-void UserInterface::getLine(std::string & dst, uint32_t length) {
+std::string UserInterface::getLine(uint32_t length) {
+	std::string str("");
 	do {
-		getline(std::cin, dst);
-		if(!validateLength(dst, length)) {
+		getline(std::cin, str);
+		if(!validateLength(str, length)) {
 			continue;
 		}
 	} while(0);
+
+	rtrim(str);
+	return str;
 }
 
 std::string UserInterface::getCompany() {
 	display("\n\nInsert company name:\n\n");
-	std::string str;
-	getLine(str, Config::COMPANY_NAME_LENGTH);
-	rtrim(str);
+	std::string str = getLine(Config::COMPANY_NAME_LENGTH);
 	return str;
 }
 
 std::string UserInterface::getDepartureCity() {
 	display("\n\n%s", departureCityReq.c_str());
-	std::string str;
-	getLine(str, Config::AIRPORT_LENGTH);
-	rtrim(str);
+	std::string str = getLine(Config::AIRPORT_LENGTH);
 	return str;
 }
 
 std::string UserInterface::getArrivalCity() {
 	display("\n\n%s", arrivalCityReq.c_str());
-	std::string str;
-	getLine(str, Config::AIRPORT_LENGTH);
-	rtrim(str);
+	std::string str = getLine(Config::AIRPORT_LENGTH);
 	return str;
+}
+
+std::string UserInterface::getFirstName() {
+	display("\n\n%s", firstNameReq.c_str());
+	std::string str = getLine(Config::FIRST_NAME_LENGTH);
+	return str;
+}
+
+std::string UserInterface::getSurname() {
+	display("\n\n%s", surnameReq.c_str());
+	std::string str = getLine(Config::SURNAME_LENGTH);
+	return str;
+}
+
+uint64_t UserInterface::getPersonalId() {
+	display("\n\n%s", personalIdReq.c_str());
+	std::string str = getLine(Config::PERSONAL_ID_LENGTH);
+	uint64_t rc = 0;
+	try {
+		rc = std::stoull(str);
+	}
+	catch(...) {
+
+	}
+	return rc;
+}
+
+uint32_t UserInterface::getFlightId() {
+	display("\n\n%s", flightIdReq.c_str());
+	std::string str = getLine(Config::FLIGHT_ID_LENGTH);
+	uint32_t rc = 0;
+	try {
+		rc = std::stoul(str);
+	}
+	catch(...) {
+
+	}
+	return rc;
 }
 
 
