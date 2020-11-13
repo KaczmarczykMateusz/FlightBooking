@@ -70,32 +70,46 @@ void FlightManager::displayAllRecords() {
 
 void FlightManager::book() {
 	searchByAirports();
-	uint32_t flightId = UI.getFlightId();
-	//TODO: validate flight ID
-	PassengerListFile file(flightId);
+	Flight flight("");
+	bool repeat = false;
+	do {
+		uint32_t flightId = UI.getFlightId();
 
-	std::string firstName = UI.getFirstName();
-	std::string surname = UI.getSurname();
-	uint64_t personalId = UI.getPersonalId();
-	Passenger passenger(firstName, surname, personalId);
-	file.registerPassanger(passenger);
+		flight = scheduleFile.searchFlight(flightId);
+
+		if(!flight.getId()) {
+			repeat = UI.getRepeat();
+		}
+	} while(repeat);
+	if(flight.getId()) {
+		PassengerListFile file(flight.getId());
+
+		std::string firstName = UI.getFirstName();
+		std::string surname = UI.getSurname();
+		uint64_t personalId = UI.getPersonalId();
+		Passenger passenger(firstName, surname, personalId);
+		file.registerPassanger(passenger);
+	}
 }
 
 void FlightManager::searchByAirports() {
-	std::string depatrureCity = UI.getDepartureCity();
-	std::string arrivalCity = UI.getArrivalCity();
+	bool repeat = false;
+	do {
+		std::string depatrureCity = UI.getDepartureCity();
+		std::string arrivalCity = UI.getArrivalCity();
 
-	std::vector<Flight> flights = scheduleFile.searchFlight(depatrureCity, arrivalCity);
+		std::vector<Flight> flights = scheduleFile.searchFlight(depatrureCity, arrivalCity);
 
-	if(!flights.empty()) {
-		UI.display(FlightHeader);
-		for(auto flight : flights) {
-			std::string str = ScheduleStrFormat::formatRecordUI(flight);
-			UI.display(str);
+		if(!flights.empty()) {
+			UI.display(FlightHeader);
+			for(auto flight : flights) {
+				std::string str = ScheduleStrFormat::formatRecordUI(flight);
+				UI.display(str);
+			}
+		} else {
+			repeat = UI.getRepeat();
 		}
-	} else {
-		UI.display("Not found \n");
-	}
+	} while(repeat);
 }
 
 void FlightManager::registerNew() {
@@ -142,6 +156,6 @@ void FlightManager::chooseAction(uint8_t mainChoice) {
 	default:
 		assert(0);
 	}
-	UI.display("\nPress enter in order to continue");
+	UI.display("\n\nPress enter in order to continue");
 }
 

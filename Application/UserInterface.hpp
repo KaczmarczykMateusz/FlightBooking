@@ -45,6 +45,8 @@ public:
 	uint64_t getPersonalId();
 	uint32_t getFlightId();
 
+	bool getRepeat();
+
 	bool validateLength(const std::string & str, uint32_t length);
 
 private:

@@ -32,6 +32,7 @@ protected:
 			assert(0);// TODO: consider some action
 		}
 	}
+	static std::string getSubStr(const std::string & str, size_t offset, size_t length);
 };
 
 #endif /* APPLICATION_COMMON_STRINGFORMATTER_HPP_ */

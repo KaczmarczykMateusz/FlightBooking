@@ -19,6 +19,8 @@ static const std::string firstNameReq = "Insert first name:\n\n";
 static const std::string surnameReq = "Insert surname:\n\n";
 static const std::string personalIdReq = "Insert ID card number:\n\n";
 static const std::string flightIdReq = "Insert number of flight to book:\n\n";
+static const std::string notFound = "\n\nNot found, would you like to repeat "
+										"search (y/n)\n\n";
 
 void UserInterface::display(const std::string fmt, ...) {
 	va_list ap;
@@ -215,6 +217,18 @@ uint32_t UserInterface::getFlightId() {
 	return rc;
 }
 
+bool UserInterface::getRepeat() {
+	display(notFound);
+	std::string str;
+	getline(std::cin, str);
+	switch(str[0]) {
+	case 'y':
+		return true;
+	case 'n':
+	default:
+		return false;
+	};
+}
 
 bool UserInterface::validateLength(const std::string & str, uint32_t length) {
 	bool rc = (length > strlen(str.c_str()));

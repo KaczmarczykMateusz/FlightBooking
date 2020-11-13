@@ -16,8 +16,8 @@
 
 #include "../StringFormat/ScheduleStrFormat.hpp"
 
-Flight::Flight(uint32_t number, std::string company, DateTime dateTime, std::string departure, std::string arrival, uint16_t seats) :
-	number(number)
+Flight::Flight(uint32_t id, std::string company, DateTime dateTime, std::string departure, std::string arrival, uint16_t seats) :
+	id(id)
 	, company(company)
 	, dateTime(dateTime)
 	, departure(departure)
@@ -27,32 +27,37 @@ Flight::Flight(uint32_t number, std::string company, DateTime dateTime, std::str
 	{}
 
 Flight::Flight(std::string str) :
-	occupiedSeats(0)
+	  occupiedSeats(0)
 {
-	number = 0;
+	std::string idStr = ScheduleStrFormat::getId(str);
 	company = ScheduleStrFormat::getCompany(str);
 
 	std::string dateStr = ScheduleStrFormat::getDate(str);
-	int tmp = stoi(dateStr);
-	int Year = tmp % 100;
-	tmp /= 100;
-	int Month = tmp % 100;
-	int Day = tmp / 100;
+	try {
+		id = stoi(idStr);
 
-	std::string time = ScheduleStrFormat::getTime(str);
-	tmp = stoi(time);
-	int Minute = tmp % 100;
-	int Hour = tmp / 100;
+		int tmp = stoi(dateStr);
+		int Year = tmp % 100;
+		tmp /= 100;
+		int Month = tmp % 100;
+		int Day = tmp / 100;
 
-	dateTime = DateTime(Year, Month, Day, Hour, Minute);
+		std::string time = ScheduleStrFormat::getTime(str);
+		tmp = stoi(time);
+		int Minute = tmp % 100;
+		int Hour = tmp / 100;
+		dateTime = DateTime(Year, Month, Day, Hour, Minute);
+	}
+	catch(...) {
+	};
 
 	departure = ScheduleStrFormat::getDepartureCity(str);
 	arrival = ScheduleStrFormat::getArrivalCity(str);
 	seats = 300;
 }
 
-uint16_t Flight::getNo() const {
-	return number;
+uint16_t Flight::getId() const {
+	return id;
 }
 
 std::string Flight::getCompany() const {

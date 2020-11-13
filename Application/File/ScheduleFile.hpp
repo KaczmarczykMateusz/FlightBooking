@@ -30,6 +30,7 @@ public:
 
 
 	std::vector<Flight> searchFlight(std::string departureAirport, std::string arrivalAirport);
+	Flight searchFlight(uint32_t flightId);
 
 	void registerFlight(const Flight & flight);
 };

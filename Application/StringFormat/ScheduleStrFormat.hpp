@@ -23,7 +23,7 @@ class ScheduleStrFormat: public StringFormatter {
 public:
 	ScheduleStrFormat() = default;
 
-	static const uint32_t NUMBER_OFFSET = 0;
+	static const uint32_t NUMBER_OFFSET = 0;  //TODO: change name
 	static const uint32_t COMPANY_NAME_OFFSET = NUMBER_OFFSET + Config::FLIGHT_ID_LENGTH;
 	static const uint32_t DEPARTURE_AIRPORT_OFFSET = COMPANY_NAME_OFFSET + Config::COMPANY_NAME_LENGTH;
 	static const uint32_t ARRIVAL_AIRPORT_OFFSET = DEPARTURE_AIRPORT_OFFSET + Config::AIRPORT_LENGTH;
@@ -37,11 +37,13 @@ public:
 	static std::string formatRecord(const Flight & flight);
 	static std::string formatRecordUI(const Flight & flight);
 
+	static std::string getId(const std::string & scheduleRecord);
 	static std::string getCompany(const std::string & scheduleRecord);
 	static std::string getDate(const std::string & scheduleRecord);
 	static std::string getTime(const std::string & scheduleRecord);
 	static std::string getDepartureCity(const std::string & scheduleRecord);
 	static std::string getArrivalCity(const std::string & scheduleRecord);
+
 };
 
 #endif /* APPLICATION_STRINGFORMAT_SCHEDULESTRINGFORMATTER_HPP_ */

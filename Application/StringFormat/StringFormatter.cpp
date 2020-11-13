@@ -32,3 +32,11 @@ std::string StringFormatter::formatDateTimeUI(const DateTime & dateTime) {
 	<< std::setw(2) << std::setfill('0') << static_cast<int>(dateTime.getTime().getMinute());
 	return dateStream.str();
 }
+
+std::string StringFormatter::getSubStr(const std::string & str, size_t offset, size_t length) {
+	std::string retStr("");
+	if(  (offset + length) < str.length()) {
+		retStr = str.substr(offset, length);
+	}
+	return retStr;
+}

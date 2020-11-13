@@ -66,6 +66,28 @@ std::vector<Flight> ScheduleFile::searchFlight(std::string departureAirport, std
 	return std::move(retVal);
 }
 
+Flight ScheduleFile::searchFlight(uint32_t flightId) {
+	std::string record;
+	uint32_t currentRecordId = 0;
+	uint32_t recordOffset = 0;
+	do {
+		record = File::read(Config::FLIGHT_ID_LENGTH, ScheduleStrFormat::NUMBER_OFFSET + recordOffset);
+		if(record.empty()) {
+			break;
+		}
+		StringUtilities::rtrim(record);
+		currentRecordId = std::stol(record);
+		recordOffset += ScheduleStrFormat::RECORD_OFFSET;
+	} while(currentRecordId != flightId);
+
+	if(currentRecordId == flightId) {
+		record = File::read(ScheduleStrFormat::RECORD_LENGTH, recordOffset - ScheduleStrFormat::RECORD_OFFSET);
+		return Flight(record);
+	} else {
+		return Flight("");
+	}
+}
+
 void ScheduleFile::registerFlight(const Flight & flight) {
 	std::string record = ScheduleStrFormat::formatRecord(flight);
 	File::write(record);
