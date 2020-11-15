@@ -111,8 +111,10 @@ void FlightManager::checkIn() {
 		}
 	} while(repeat);
 	PassengerListFile file(flight.getId());
+	//Handle case if booking not available
 	Passenger passenger(firstName, surname, personalId);
 	file.setCheckedIn(passenger);
+	//TODO: inform about success
 }
 
 bool FlightManager::searchByAirports() {
@@ -151,6 +153,25 @@ void FlightManager::registerNew() {
 	scheduleFile.registerFlight(flight);
 }
 
+void FlightManager::deleteFlight() {
+	Flight flight("");
+	bool repeat = false;
+	do {
+		uint32_t flightId = UI.getFlightId();
+
+		flight = scheduleFile.searchFlight(flightId);
+
+		if(!flight.getId()) {
+			repeat = UI.getRepeat();
+		}
+	} while(repeat);
+
+	if(flight.getId()) {
+		bool result = scheduleFile.deleteRecord(flight);
+		UI.displayResult(result);
+	}
+}
+
 void FlightManager::chooseAction(uint8_t mainChoice) {
 	switch(mainChoice) {
 	case BOOK:
@@ -169,7 +190,7 @@ void FlightManager::chooseAction(uint8_t mainChoice) {
 		registerNew();
 		break;
 	case DELETE:
-		assert(0); //TODO: fill case
+		deleteFlight();
 		break;
 	case EXIT:
 		break;

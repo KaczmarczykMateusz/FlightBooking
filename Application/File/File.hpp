@@ -26,17 +26,17 @@ public:
 
 protected:
 	std::string read(uint32_t size, uint32_t offset);
-	std::string read(char delimeter);
 	void write(const std::string & str);
 	void write(const std::string & str, uint32_t offset);
+	bool erase(uint32_t offset, uint32_t length);
 	void setName(const std::string & str);
 
 private:
 	std::fstream fileStream;  //TODO: implement separate streams for input and output
 	std::string name;
 
-	void openToWrite();
-	void openToRead();
+	bool openToWrite();
+	bool openToRead();
 	void closeFile();
 };
 

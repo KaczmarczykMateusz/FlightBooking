@@ -46,6 +46,14 @@ void UserInterface::display(const std::string fmt, ...) {
 	std::cout << str;
 }
 
+void UserInterface::displayResult(bool result) {
+	if(result) {
+		display("\n\nSuccess.");
+	} else {
+		display("\n\nFail, please try again.");
+	}
+
+}
 Date UserInterface::getDate() {
 	uint16_t year = 0;
 	uint8_t month = 0, day = 0;

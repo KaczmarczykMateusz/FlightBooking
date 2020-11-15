@@ -33,6 +33,7 @@ public:
 	Flight searchFlight(uint32_t flightId);
 
 	void registerFlight(const Flight & flight);
+	bool deleteRecord(const Flight & flight);
 };
 
 

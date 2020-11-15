@@ -32,6 +32,7 @@ public:
 	void checkIn();
 	bool searchByAirports();
 	void registerNew();  //TODO: consider returning error codes
+	void deleteFlight();
 	void chooseAction(uint8_t mainChoice);
 
 private:

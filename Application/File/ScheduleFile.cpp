@@ -76,7 +76,11 @@ Flight ScheduleFile::searchFlight(uint32_t flightId) {
 			break;
 		}
 		StringUtilities::rtrim(record);
-		currentRecordId = std::stol(record);
+		try {
+			currentRecordId = std::stol(record);
+		}
+		catch(...) {
+		};
 		recordOffset += ScheduleStrFormat::RECORD_OFFSET;
 	} while(currentRecordId != flightId);
 
@@ -91,4 +95,22 @@ Flight ScheduleFile::searchFlight(uint32_t flightId) {
 void ScheduleFile::registerFlight(const Flight & flight) {
 	std::string record = ScheduleStrFormat::formatRecord(flight);
 	File::write(record);
+}
+
+bool ScheduleFile::deleteRecord(const Flight & flight) {
+	bool rc = false;
+	std::string deleteFlightNo = std::to_string(flight.getId());
+
+	std::string checkRecord;
+	uint32_t recordOffset = 0;
+	do {
+		checkRecord = File::read(Config::FLIGHT_ID_LENGTH, ScheduleStrFormat::NUMBER_OFFSET + recordOffset);
+		StringUtilities::rtrim(checkRecord);
+		if(deleteFlightNo == checkRecord) {
+			rc = File::erase(recordOffset, ScheduleStrFormat::RECORD_OFFSET);
+			break;
+		}
+		recordOffset += ScheduleStrFormat::RECORD_OFFSET;
+	} while(!checkRecord.empty());
+	return rc;
 }

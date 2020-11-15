@@ -31,7 +31,7 @@ public:
 	 * Additional arguments are ignored by the function
 	 */
 	void display(const std::string fmt, ...);
-
+	void displayResult(bool result);
 
 	Date getDate();
 	Time getTime();
