@@ -8,7 +8,6 @@
 #include "UserInterface.hpp"
 #include "Common/DateTime.hpp"
 
-#include <cstring>  ///TODO: get rid of together with func using it
 #include <iostream>
 #include <stdarg.h>  // For va_start, etc.
 #include <cassert>
@@ -237,10 +236,10 @@ bool UserInterface::getRepeat() {
 bool UserInterface::validateLength(const std::string & str, uint32_t length) {
 	bool rc = true;
 	if(str.empty()) {
-		display("Please enter requested input\n", length-1 );
+		display("Please enter requested input\n", length - 1 );
 		rc = false;
-	} else if(length < strlen(str.c_str())) {
-		display("Please enter input not longer than %d\n", length-1 );
+	} else if(length < str.length()) {
+		display("Please enter input not longer than %d\n", length - 1 );
 		rc = false;
 	}
 	return rc;

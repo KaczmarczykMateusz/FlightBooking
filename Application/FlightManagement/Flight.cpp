@@ -29,6 +29,7 @@ Flight::Flight(uint32_t id, std::string company, DateTime dateTime, std::string 
 Flight::Flight(std::string str) :
 	  occupiedSeats(0)
 {
+	assert(!str.empty());
 	std::string idStr = ScheduleStrFormat::getId(str);
 	company = ScheduleStrFormat::getCompany(str);
 

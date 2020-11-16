@@ -54,7 +54,9 @@ void PassengerListFile::registerPassanger(const Passenger & passenger) {
 	File::write(record);
 }
 
-void PassengerListFile::setCheckedIn(Passenger & passenger) {
+//TODO: Check on the same way as deleting record in schedule file
+bool PassengerListFile::setCheckedIn(Passenger & passenger) {
+	bool rc = false;
 	std::string output;
 	uint16_t offset = 0;
 	uint16_t nextRecordOffset = 0;
@@ -83,4 +85,6 @@ void PassengerListFile::setCheckedIn(Passenger & passenger) {
 			break;
 		}
 	} while(!output.empty());
+
+	return rc;  //TODO: modify return value checking whether operation succeed
 }

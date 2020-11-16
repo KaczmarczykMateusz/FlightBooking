@@ -16,7 +16,7 @@
 std::string ScheduleStrFormat::formatRecord(const Flight & flight) {
 	std::string dst(RECORD_LENGTH, ' ');
 
-	repalaceInString(dst, std::to_string(flight.getId()), NUMBER_OFFSET);
+	repalaceInString(dst, std::to_string(flight.getId()), ID_OFFSET);
 	repalaceInString(dst, flight.getCompany(), COMPANY_NAME_OFFSET);
 	repalaceInString(dst, flight.getDeparture(), DEPARTURE_AIRPORT_OFFSET);
 	repalaceInString(dst, flight.getArrival(), ARRIVAL_AIRPORT_OFFSET);
@@ -38,7 +38,7 @@ std::string ScheduleStrFormat::formatRecordUI(const Flight & flight) {
 }
 
 std::string ScheduleStrFormat::getId(const std::string & scheduleRecord) {
-	return getSubStr(scheduleRecord, NUMBER_OFFSET, Config::FLIGHT_ID_LENGTH);
+	return getSubStr(scheduleRecord, ID_OFFSET, Config::FLIGHT_ID_LENGTH);
 }
 
 std::string ScheduleStrFormat::getCompany(const std::string & scheduleRecord) {

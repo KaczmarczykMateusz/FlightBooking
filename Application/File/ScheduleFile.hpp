@@ -15,7 +15,9 @@
 
 #include <fstream>
 #include <vector>
+#include <memory>
 
+//TODO: handle case when file empty
 class ScheduleFile : public File {
 
 public:
@@ -30,7 +32,7 @@ public:
 
 
 	std::vector<Flight> searchFlight(std::string departureAirport, std::string arrivalAirport);
-	Flight searchFlight(uint32_t flightId);
+	std::unique_ptr<Flight> searchFlight(uint32_t flightId);
 
 	void registerFlight(const Flight & flight);
 	bool deleteRecord(const Flight & flight);

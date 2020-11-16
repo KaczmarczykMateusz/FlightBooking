@@ -66,12 +66,12 @@ std::vector<Flight> ScheduleFile::searchFlight(std::string departureAirport, std
 	return std::move(retVal);
 }
 
-Flight ScheduleFile::searchFlight(uint32_t flightId) {
+std::unique_ptr<Flight> ScheduleFile::searchFlight(uint32_t flightId) {
 	std::string record;
 	uint32_t currentRecordId = 0;
 	uint32_t recordOffset = 0;
 	do {
-		record = File::read(Config::FLIGHT_ID_LENGTH, ScheduleStrFormat::NUMBER_OFFSET + recordOffset);
+		record = File::read(Config::FLIGHT_ID_LENGTH, ScheduleStrFormat::ID_OFFSET + recordOffset);
 		if(record.empty()) {
 			break;
 		}
@@ -80,15 +80,16 @@ Flight ScheduleFile::searchFlight(uint32_t flightId) {
 			currentRecordId = std::stol(record);
 		}
 		catch(...) {
+			currentRecordId = 0;
 		};
 		recordOffset += ScheduleStrFormat::RECORD_OFFSET;
 	} while(currentRecordId != flightId);
 
 	if(currentRecordId == flightId) {
 		record = File::read(ScheduleStrFormat::RECORD_LENGTH, recordOffset - ScheduleStrFormat::RECORD_OFFSET);
-		return Flight(record);
+		return std::make_unique<Flight>(record);
 	} else {
-		return Flight("");
+		return nullptr;
 	}
 }
 
@@ -104,7 +105,7 @@ bool ScheduleFile::deleteRecord(const Flight & flight) {
 	std::string checkRecord;
 	uint32_t recordOffset = 0;
 	do {
-		checkRecord = File::read(Config::FLIGHT_ID_LENGTH, ScheduleStrFormat::NUMBER_OFFSET + recordOffset);
+		checkRecord = File::read(Config::FLIGHT_ID_LENGTH, ScheduleStrFormat::ID_OFFSET + recordOffset);
 		StringUtilities::rtrim(checkRecord);
 		if(deleteFlightNo == checkRecord) {
 			rc = File::erase(recordOffset, ScheduleStrFormat::RECORD_OFFSET);

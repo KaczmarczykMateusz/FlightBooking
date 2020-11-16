@@ -72,19 +72,19 @@ void FlightManager::book() {
 	if(!searchByAirports()) {
 		return;
 	}
-	Flight flight("");
+	std::unique_ptr<Flight> flight = nullptr;
 	bool repeat = false;
 	do {
 		uint32_t flightId = UI.getFlightId();
 
 		flight = scheduleFile.searchFlight(flightId);
 
-		if(!flight.getId()) {
+		if(!flight) {
 			repeat = UI.getRepeat();
 		}
 	} while(repeat);
-	if(flight.getId()) {
-		PassengerListFile file(flight.getId());
+	if(flight) {
+		PassengerListFile file(flight->getId());
 
 		std::string firstName = UI.getFirstName();
 		std::string surname = UI.getSurname();
@@ -99,22 +99,24 @@ void FlightManager::checkIn() {
 	std::string surname = UI.getSurname();
 	uint64_t personalId = UI.getPersonalId();
 
-	Flight flight("");
+	std::unique_ptr<Flight> flight = nullptr;
 	bool repeat = false;
 	do {
 		uint32_t flightId = UI.getFlightId();
 
 		flight = scheduleFile.searchFlight(flightId);
 
-		if(!flight.getId()) {
+		if(!flight) {
 			repeat = UI.getRepeat();
 		}
 	} while(repeat);
-	PassengerListFile file(flight.getId());
-	//Handle case if booking not available
-	Passenger passenger(firstName, surname, personalId);
-	file.setCheckedIn(passenger);
-	//TODO: inform about success
+
+	if(flight) {
+		PassengerListFile file(flight->getId());
+		//Handle case if booking not available
+		Passenger passenger(firstName, surname, personalId);
+		file.setCheckedIn(passenger);
+	}
 }
 
 bool FlightManager::searchByAirports() {
@@ -154,20 +156,20 @@ void FlightManager::registerNew() {
 }
 
 void FlightManager::deleteFlight() {
-	Flight flight("");
+	std::unique_ptr<Flight> flight = nullptr;
 	bool repeat = false;
 	do {
 		uint32_t flightId = UI.getFlightId();
 
 		flight = scheduleFile.searchFlight(flightId);
 
-		if(!flight.getId()) {
+		if(!flight) {
 			repeat = UI.getRepeat();
 		}
 	} while(repeat);
 
-	if(flight.getId()) {
-		bool result = scheduleFile.deleteRecord(flight);
+	if(flight) {
+		bool result = scheduleFile.deleteRecord(*flight);
 		UI.displayResult(result);
 	}
 }
