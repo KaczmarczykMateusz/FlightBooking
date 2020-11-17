@@ -93,9 +93,13 @@ std::unique_ptr<Flight> ScheduleFile::searchFlight(uint32_t flightId) {
 	}
 }
 
-void ScheduleFile::registerFlight(const Flight & flight) {
+bool ScheduleFile::registerFlight(const Flight & flight) {
+	bool rc = false;
 	std::string record = ScheduleStrFormat::formatRecord(flight);
-	File::write(record);
+	if(!record.empty()) {
+		rc = File::write(record);
+	}
+	return rc;
 }
 
 bool ScheduleFile::deleteRecord(const Flight & flight) {

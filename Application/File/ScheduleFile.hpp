@@ -34,7 +34,7 @@ public:
 	std::vector<Flight> searchFlight(std::string departureAirport, std::string arrivalAirport);
 	std::unique_ptr<Flight> searchFlight(uint32_t flightId);
 
-	void registerFlight(const Flight & flight);
+	bool registerFlight(const Flight & flight);
 	bool deleteRecord(const Flight & flight);
 };
 

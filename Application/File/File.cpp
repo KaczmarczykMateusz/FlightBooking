@@ -28,19 +28,26 @@ std::string File::read(uint32_t size, uint32_t offset) {
 	return rc;
 }
 
-void File::write(const std::string & str) {
-	openToWrite();
-	fileStream << str;
-	closeFile();
+bool File::write(const std::string & str) {
+	bool openSuccess = openToWrite();
+	if(openSuccess) {
+		fileStream << str;
+		closeFile();
+	}
+	return openSuccess;
 }
 
-void File::write(const std::string & str, uint32_t offset) {
+bool File::write(const std::string & str, uint32_t offset) {
 	fileStream.open(name, std::fstream::in | std::fstream::out);
-	fileStream.seekp(offset);
-	if(!fileStream.eof()) {
-		fileStream.write(&str[0], str.size());
+	bool openSuccess = fileStream.is_open();
+	if(openSuccess) {
+		fileStream.seekp(offset);
+		if(!fileStream.eof()) {
+			fileStream.write(&str[0], str.size());
+		}
+		closeFile();
 	}
-	closeFile();
+	return openSuccess;
 }
 
 bool File::erase(uint32_t offset, uint32_t length) {

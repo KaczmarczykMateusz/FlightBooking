@@ -27,12 +27,12 @@ public:
 	FlightManager() = default;
 
 	uint8_t mainMenu();
-	void displayAllRecords();  //TODO: change to get records and display them in another function
-	void book();
-	void checkIn();
+	bool displayAllRecords();
+	bool book();
+	bool checkIn();
 	bool searchByAirports();
-	void registerNew();  //TODO: consider returning error codes
-	void deleteFlight();
+	bool registerNew();
+	bool deleteFlight();
 	void chooseAction(uint8_t mainChoice);
 
 private:

@@ -49,9 +49,13 @@ uint32_t PassengerListFile::getNewRecordOffset() {
 	return greatest;
 }
 
-void PassengerListFile::registerPassanger(const Passenger & passenger) {
+bool PassengerListFile::registerPassanger(const Passenger & passenger) {
+	bool rc = false;
 	std::string record = PassengerListStrFormat::formatRecord(passenger);
-	File::write(record);
+	if(!record.empty()) {
+		rc = File::write(record);
+	}
+	return rc;
 }
 
 //TODO: Check on the same way as deleting record in schedule file

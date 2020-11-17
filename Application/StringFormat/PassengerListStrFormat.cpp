@@ -17,12 +17,16 @@
 std::string PassengerListStrFormat::formatRecord(const Passenger & passenger) {
 	std::string dst(RECORD_LENGTH, ' ');
 
-	repalaceInString(dst, passenger.getFirstName(), FIRST_NAME_OFFSET);
-	repalaceInString(dst, passenger.getSurname(), SURNAME_OFFSET);
-	repalaceInString(dst, std::to_string(passenger.getPersonalId()), PERSONAL_ID_OFFSET);
+	bool success = repalaceInString(dst, passenger.getFirstName(), FIRST_NAME_OFFSET);
+	success &= repalaceInString(dst, passenger.getSurname(), SURNAME_OFFSET);
+	success &= repalaceInString(dst, std::to_string(passenger.getPersonalId()), PERSONAL_ID_OFFSET);
 	std::string checkedIn = std::to_string(passenger.getCheckedIn() ? 1 : 0);
-	repalaceInString(dst, checkedIn, CHECKED_IN_OFFSET);
-	repalaceInString(dst, "\n", NEW_LINE_OFFSET);
+	success &= repalaceInString(dst, checkedIn, CHECKED_IN_OFFSET);
+	success &= repalaceInString(dst, "\n", NEW_LINE_OFFSET);
+
+	if(!success) {
+		dst.clear();
+	}
 
 	return dst;
 }

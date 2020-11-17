@@ -33,7 +33,7 @@ public:
 
 	uint32_t getNewRecordOffset();
 
-	void registerPassanger(const Passenger & flight);
+	bool registerPassanger(const Passenger & flight);
 	bool setCheckedIn(Passenger & flight);
 };
 

@@ -23,14 +23,17 @@ public:
 	static std::string formatDateTimeUI(const DateTime & dateTime);
 protected:
 	//Ask user to enter detail and save this detail into dst string
-	static void repalaceInString(std::string & dst, std::string input, uint32_t offset) {
+	static bool repalaceInString(std::string & dst, std::string input, uint32_t offset) {
+		bool rc = false;
 		try {
 			dst.replace(offset, input.length(), input);
+			rc = true;
 		}
 		catch(...) {
-			//Display("dst.size: %d\toffset: %d\tlength: %d", dst.size(), offset, length);
+			rc = false;
 			assert(0);// TODO: consider some action
 		}
+		return rc;
 	}
 	static std::string getSubStr(const std::string & str, size_t offset, size_t length);
 };

@@ -26,8 +26,8 @@ public:
 
 protected:
 	std::string read(uint32_t size, uint32_t offset);
-	void write(const std::string & str);
-	void write(const std::string & str, uint32_t offset);
+	bool write(const std::string & str);
+	bool write(const std::string & str, uint32_t offset);
 	bool erase(uint32_t offset, uint32_t length);
 	void setName(const std::string & str);
 
