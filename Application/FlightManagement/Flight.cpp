@@ -17,7 +17,7 @@
 #include "../StringFormat/ScheduleStrFormat.hpp"
 
 Flight::Flight(uint32_t id, std::string company, DateTime dateTime, std::string departure, std::string arrival, uint16_t seats) :
-	id(id)
+	  id(id)
 	, company(company)
 	, dateTime(dateTime)
 	, departure(departure)

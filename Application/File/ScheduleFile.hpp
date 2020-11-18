@@ -17,7 +17,6 @@
 #include <vector>
 #include <memory>
 
-//TODO: handle case when file empty
 class ScheduleFile : public File {
 
 public:
@@ -28,7 +27,7 @@ public:
 	// Return: false if record doesn't exist
 	virtual bool getRecord(std::string &dst, uint16_t recordNumber) override;
 
-	uint32_t searchGreatestNo();  //TODO: consider whether to remove this func
+	uint32_t getHightstId();
 
 
 	std::vector<Flight> searchFlight(std::string departureAirport, std::string arrivalAirport);

@@ -48,8 +48,8 @@ uint8_t FlightManager::mainMenu() {
 	return choice;
 }
 
-uint32_t FlightManager::getGreatestFlightNo() {
-	uint32_t rc = scheduleFile.searchGreatestNo();
+uint32_t FlightManager::getHightstId() {
+	uint32_t rc = scheduleFile.getHightstId();
 #if DEBUG
 	if(!rc) {
 		UI.display("FAIL SEARCHING FOR NUMBER \n");
@@ -87,7 +87,7 @@ bool FlightManager::book() {
 		if(!flight) {
 			repeat = UI.getRepeat();
 		}
-	} while(repeat);
+	} while(!flight && repeat);
 
 	bool result = false;
 	if(flight) {
@@ -118,7 +118,7 @@ bool FlightManager::checkIn() {
 		if(!flight) {
 			repeat = UI.getRepeat();
 		}
-	} while(repeat);
+	} while(!flight && repeat);
 
 	bool result = false;
 	if(flight) {
@@ -135,6 +135,7 @@ bool FlightManager::searchByAirports() {
 	bool repeat = false;
 	bool rc = false;
 	do {
+		repeat = false;
 		std::string depatrureCity = UI.getDepartureCity();
 		std::string arrivalCity = UI.getArrivalCity();
 
@@ -150,20 +151,20 @@ bool FlightManager::searchByAirports() {
 		} else {
 			repeat = UI.getRepeat();
 		}
-	} while(repeat);
+	} while(!rc && repeat);
 
 	return rc;
 }
 
 bool FlightManager::registerNew() {
-	uint32_t flightNo = getGreatestFlightNo() + 1;
+	uint32_t flightId = getHightstId() + 1;
 
 	std::string company = UI.getCompany();
 	std::string departureCity = UI.getDepartureCity();
 	std::string arrivalCity = UI.getArrivalCity();
 	DateTime date = UI.getDateTime();
 
-	Flight flight(flightNo, company, date, departureCity, arrivalCity, 300);
+	Flight flight(flightId, company, date, departureCity, arrivalCity, 300);
 
 	bool result = scheduleFile.registerFlight(flight);
 	return result;
@@ -180,7 +181,7 @@ bool FlightManager::deleteFlight() {
 		if(!flight) {
 			repeat = UI.getRepeat();
 		}
-	} while(repeat);
+	} while(!flight && repeat);
 
 	bool result = false;
 	if(flight) {

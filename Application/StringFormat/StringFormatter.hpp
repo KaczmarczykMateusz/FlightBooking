@@ -31,7 +31,7 @@ protected:
 		}
 		catch(...) {
 			rc = false;
-			assert(0);// TODO: consider some action
+			assert(0);
 		}
 		return rc;
 	}

@@ -47,9 +47,9 @@ void UserInterface::display(const std::string fmt, ...) {
 
 void UserInterface::displayResult(bool result) {
 	if(result) {
-		display("\n\nSuccess.");
+		display("\n\nOperation success.");
 	} else {
-		display("\n\nFail, please try again.");
+		display("\n\nOperation failed, please try again.");
 	}
 
 }

@@ -39,7 +39,7 @@ private:
 	UserInterface UI;
 	ScheduleFile scheduleFile;
 
-	uint32_t getGreatestFlightNo();
+	uint32_t getHightstId();
 };
 
 

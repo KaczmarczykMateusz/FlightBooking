@@ -22,7 +22,7 @@ bool ScheduleFile::getRecord(std::string &dst, uint16_t recordNumber) {
 	return !dst.empty();
 }
 
-uint32_t ScheduleFile::searchGreatestNo() {
+uint32_t ScheduleFile::getHightstId() {
 	uint32_t greatest = 0;
 	uint32_t i = 0;
 	std::string output = File::read(Config::FLIGHT_ID_LENGTH, 0);

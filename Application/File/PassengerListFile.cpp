@@ -14,7 +14,7 @@
 #include <sstream>
 
 PassengerListFile::PassengerListFile(uint32_t flightNo) :
-	File("DB/PassengerLists/EMPTY")
+	File()
 {
 	std::ostringstream name;
 	name << "DB/PassengerLists/flight_no_" << std::to_string(flightNo) << ".dat";

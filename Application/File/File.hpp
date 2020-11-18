@@ -16,8 +16,10 @@
 #include <string>
 #include <vector>
 
+//XXX: Define only globally
 class File {
 public:
+	File();
 	File(const std::string name);
 
 	virtual ~File() = default;
@@ -25,19 +27,19 @@ public:
 	virtual bool getRecord(std::string &dst, uint16_t recordNumber) = 0;
 
 protected:
-	std::string read(uint32_t size, uint32_t offset);
+	std::string read(uint32_t size, uint32_t offset);  //TODO: Provide method for reading further than max stream size
 	bool write(const std::string & str);
-	bool write(const std::string & str, uint32_t offset);
+	bool write(const std::string & str, uint32_t offset);  //TODO: Provide method for writing further than max stream size
 	bool erase(uint32_t offset, uint32_t length);
 	void setName(const std::string & str);
 
 private:
-	std::fstream fileStream;  //TODO: implement separate streams for input and output
+	std::fstream fileStream;
 	std::string name;
 
 	bool openToWrite();
 	bool openToRead();
-	void closeFile();
+	void close();
 };
 
 

@@ -8,23 +8,34 @@
 #include "File.hpp"
 
 #include <cassert>
-#include <iostream>
+
+File::File() :
+	  fileStream(nullptr)
+	, name("")
+{   }
 
 File::File(const std::string name) :
-	  fileStream(nullptr)  //TODO: consider init with name and mode
+	  fileStream(nullptr)
 	, name(name)
 {  }
 
 std::string File::read(uint32_t size, uint32_t offset) {
-	std::string str(size, '\0');
 	std::string rc = "";
 	openToRead();
-	fileStream.seekg(offset);
-	fileStream.read(&str[0], str.size());
-	if(!fileStream.eof()) {  //TODO: consider this check one line earlier
-		rc = str;
+	if(fileStream.is_open()) {
+		fileStream.seekg(offset);
+		if(!fileStream.eof()) {
+			std::string str(size, '\0');
+			fileStream.read(&str[0], str.size());
+			//Failbit may be set when reaching eof or exceeding uint32_t max stream size etc.
+			if(!fileStream.fail()) {
+				rc = str;
+			} else {
+				fileStream.clear();
+			}
+		}
+		close();
 	}
-	closeFile();
 	return rc;
 }
 
@@ -32,20 +43,20 @@ bool File::write(const std::string & str) {
 	bool openSuccess = openToWrite();
 	if(openSuccess) {
 		fileStream << str;
-		closeFile();
+		fileStream.flush();
+		close();
 	}
 	return openSuccess;
 }
 
 bool File::write(const std::string & str, uint32_t offset) {
-	fileStream.open(name, std::fstream::in | std::fstream::out);
 	bool openSuccess = fileStream.is_open();
 	if(openSuccess) {
 		fileStream.seekp(offset);
 		if(!fileStream.eof()) {
 			fileStream.write(&str[0], str.size());
 		}
-		closeFile();
+		fileStream.flush();
 	}
 	return openSuccess;
 }
@@ -60,8 +71,9 @@ bool File::erase(uint32_t offset, uint32_t length) {
 
 		openToRead();
 		std::string str(length, '\0');
+		fileStream.seekg(0);
 		fileStream.read(&str[0], length);
-		while(!fileStream.eof()) {
+		while(!fileStream.fail()) {
 			if(fileStream.tellg() != (offset + length)) {
 				newFileStream << str;
 			}
@@ -69,7 +81,7 @@ bool File::erase(uint32_t offset, uint32_t length) {
 		}
 
 		newFileStream.close();
-		fileStream.close();
+		close();
 
 		if(0 != remove(name.c_str())) {
 			break;
@@ -99,6 +111,6 @@ bool File::openToRead() {
 	return fileStream.is_open();
 }
 
-void File::closeFile() {
+void File::close() {
 	fileStream.close();
 }
