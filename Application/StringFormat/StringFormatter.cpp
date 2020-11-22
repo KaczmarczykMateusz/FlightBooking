@@ -13,13 +13,19 @@
 #include <iomanip>
 #include <sstream>
 
-std::string StringFormatter::formatDateTime(const DateTime & date) {
+std::string StringFormatter::formatDate(const Date & date) {
 	std::ostringstream outStream;
-	outStream << std::setw(2) << std::setfill('0') << static_cast<int>(date.getDate().getDay())
-			<< std::setw(2) << std::setfill('0') << static_cast<int>(date.getDate().getMonth())
-			<< static_cast<int>(date.getDate().getYear() % 100)
-			<< std::setw(2) << std::setfill('0') << static_cast<int>(date.getTime().getHour())
-			<< std::setw(2) << std::setfill('0') << static_cast<int>(date.getTime().getMinute());
+	outStream << std::setw(2) << std::setfill('0') << static_cast<int>(date.getDay())
+			<< std::setw(2) << std::setfill('0') << static_cast<int>(date.getMonth())
+			<< static_cast<int>(date.getYear() % 100);
+	return outStream.str();
+}
+
+std::string StringFormatter::formatDateTime(const DateTime & dateTime) {
+	std::ostringstream outStream;
+	outStream << formatDate(dateTime.getDate())
+			<< std::setw(2) << std::setfill('0') << static_cast<int>(dateTime.getTime().getHour())
+			<< std::setw(2) << std::setfill('0') << static_cast<int>(dateTime.getTime().getMinute());
 	return outStream.str();
 }
 

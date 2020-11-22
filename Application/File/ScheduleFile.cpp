@@ -9,7 +9,6 @@
 #include "../StringFormat/ScheduleStrFormat.hpp"
 
 #include <cassert>
-#include <iostream>
 
 ScheduleFile::ScheduleFile() :
 	File("DB/schedule.dat")
@@ -42,31 +41,68 @@ uint32_t ScheduleFile::getHightstId() {
 	return greatest;
 }
 
-std::vector<Flight> ScheduleFile::searchFlight(std::string departureAirport, std::string arrivalAirport) {
-	std::vector<Flight> retVal;
+std::vector<Flight> ScheduleFile::searchFlight(const Date & date) {
 	std::string output;
-	uint32_t recordOffset = 0;
 	uint16_t i = 1;
+	std::vector<uint32_t> foundIndexes;
+	std::string targetDateString = ScheduleStrFormat::formatDate(date);
+	openToRead();
+	uint32_t skipBefore = ScheduleStrFormat::DEPARTURE_DATE_OFFSET;
 	do {
-		output = File::read(Config::AIRPORT_LENGTH, ScheduleStrFormat::DEPARTURE_AIRPORT_OFFSET + recordOffset);
+		output = File::readOff(Config::DATE_LENGTH, skipBefore);
+		skipBefore = ScheduleStrFormat::RECORD_OFFSET - Config::DATE_LENGTH;
+
 		StringUtilities::rtrim(output);
-		if(output == departureAirport) {
-			output = File::read(Config::AIRPORT_LENGTH, ScheduleStrFormat::ARRIVAL_AIRPORT_OFFSET + recordOffset);
-			StringUtilities::rtrim(output);
-			if(!output.empty()) {
-				if(output == arrivalAirport) {
-					getRecord(output, i);
-					retVal.emplace_back(Flight(output));
-				}
-			}
+		if(targetDateString == output) {
+			foundIndexes.push_back(i);
 		}
-		recordOffset += ScheduleStrFormat::RECORD_OFFSET;
 		++i;
 	} while(!output.empty());
+	close();
+
+	std::vector<Flight> retVal;
+	for(auto index : foundIndexes) {
+		getRecord(output, index);
+		retVal.emplace_back(Flight(output));
+	}
 	return std::move(retVal);
 }
 
-std::unique_ptr<Flight> ScheduleFile::searchFlight(uint32_t flightId) {
+std::vector<Flight> ScheduleFile::searchFlight(std::string departureAirport, std::string arrivalAirport) {
+	std::string output;
+	uint16_t i = 1;
+	std::vector<uint32_t> foundIndexes;
+	uint32_t skipBefore = ScheduleStrFormat::DEPARTURE_AIRPORT_OFFSET;
+	openToRead();
+	do {
+		output = File::readOff(Config::AIRPORT_LENGTH, skipBefore);
+		StringUtilities::rtrim(output);
+		if(output == departureAirport) {
+			skipBefore = 0;
+			output = File::readOff(Config::AIRPORT_LENGTH, skipBefore);
+			skipBefore = ScheduleStrFormat::RECORD_OFFSET - ScheduleStrFormat::ARRIVAL_AIRPORT_OFFSET + 1;
+			StringUtilities::rtrim(output);
+			if(!output.empty()) {
+				if(output == arrivalAirport) {
+					foundIndexes.push_back(i);
+				}
+			}
+		} else {
+			skipBefore = ScheduleStrFormat::RECORD_OFFSET - (Config::AIRPORT_LENGTH);
+		}
+		++i;
+	} while(!output.empty());
+	close();
+
+	std::vector<Flight> retVal;
+	for(auto index : foundIndexes) {
+		getRecord(output, index);
+		retVal.emplace_back(Flight(output));
+	}
+	return std::move(retVal);
+}
+
+std::unique_ptr<Flight> ScheduleFile::searchFlight(uint32_t flightId) {  //TODO: use readOff function
 	std::string record;
 	uint32_t currentRecordId = 0;
 	uint32_t recordOffset = 0;

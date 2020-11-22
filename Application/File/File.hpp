@@ -3,6 +3,8 @@
  *
  *  Created on: 29 Oct 2020
  *      Author: Mateusz Kaczmarczyk
+ *
+ *  Description: Base class for handling record files
  */
 
 #ifndef APPLICATION_FILE_HPP_
@@ -16,7 +18,6 @@
 #include <string>
 #include <vector>
 
-//XXX: Define only globally
 class File {
 public:
 	File();
@@ -25,12 +26,17 @@ public:
 	virtual ~File() = default;
 
 	virtual bool getRecord(std::string &dst, uint16_t recordNumber) = 0;
+	void close();
 
 protected:
-	std::string read(uint32_t size, uint32_t offset);  //TODO: Provide method for reading further than max stream size
+	bool openToRead();
+	std::string read(uint32_t size, uint32_t offset);
+	//In order to use ensure to open file before and close after
+	std::string readOff(uint32_t size, uint32_t skipBefore);
+
 	bool write(const std::string & str);
-	bool write(const std::string & str, uint32_t offset);  //TODO: Provide method for writing further than max stream size
-	bool erase(uint32_t offset, uint32_t length);
+	bool write(const std::string & str, uint32_t offset);  //TODO: Remove method
+	bool erase(uint32_t offset, uint32_t length); //TODO: Provide method for erasing further than max stream size
 	void setName(const std::string & str);
 
 private:
@@ -38,8 +44,6 @@ private:
 	std::string name;
 
 	bool openToWrite();
-	bool openToRead();
-	void close();
 };
 
 

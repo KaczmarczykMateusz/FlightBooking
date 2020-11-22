@@ -58,17 +58,13 @@ uint32_t FlightManager::getHightstId() {
 	return rc;
 }
 
-bool FlightManager::displayAllRecords() {
-	uint8_t getIndex = 0;
-	std::string record;
-	bool result = true;
-	while(scheduleFile.getRecord(record, ++getIndex)) {
-		Flight flight(record);
+bool FlightManager::showSchedule() {
+	Date date = UI.getDate();
+	std::vector<Flight> flights = scheduleFile.searchFlight(date);
+	bool result = !flights.empty();
+	for(auto flight : flights) {
 		std::string str = ScheduleStrFormat::formatRecordUI(flight);
 		UI.display(str);
-		if(str.empty()) {
-			result = false;
-		}
 	}
 	return result;
 }
@@ -203,7 +199,7 @@ void FlightManager::chooseAction(uint8_t mainChoice) {
 		result = searchByAirports();
 		break;
 	case SHOW_SCHEDULE:
-		result = displayAllRecords();
+		result = showSchedule();
 		break;
 	case REGISTER:
 		result = registerNew();

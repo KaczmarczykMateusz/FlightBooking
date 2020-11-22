@@ -27,7 +27,7 @@ public:
 	FlightManager() = default;
 
 	uint8_t mainMenu();
-	bool displayAllRecords();
+	bool showSchedule();
 	bool book();
 	bool checkIn();
 	bool searchByAirports();

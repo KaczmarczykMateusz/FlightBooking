@@ -39,6 +39,26 @@ std::string File::read(uint32_t size, uint32_t offset) {
 	return rc;
 }
 
+std::string File::readOff(uint32_t size, uint32_t skipBefore) {
+	std::string rc = "";
+	if(fileStream.is_open()) {
+		fileStream.seekg(skipBefore, std::fstream::seekdir::_S_cur);
+		if(!fileStream.eof()) {
+			std::string str(size, '\0');
+			fileStream.read(&str[0], str.size());
+			//Failbit may be set when reaching eof or exceeding uint32_t max stream size etc.
+			if(!fileStream.fail()) {
+				rc = str;
+			} else {
+				fileStream.clear();
+			}
+		}
+	} else {
+		assert(0);
+	}
+	return rc;
+}
+
 bool File::write(const std::string & str) {
 	bool openSuccess = openToWrite();
 	if(openSuccess) {
@@ -106,7 +126,6 @@ bool File::openToWrite() {
 }
 
 bool File::openToRead() {
-	//XXX: Reading in text (not binary) mode causes tellg() to return wrong pos
 	fileStream.open(name, std::fstream::in | std::fstream::binary);
 	return fileStream.is_open();
 }

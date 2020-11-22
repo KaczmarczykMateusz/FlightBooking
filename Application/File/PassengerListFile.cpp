@@ -58,7 +58,7 @@ bool PassengerListFile::registerPassanger(const Passenger & passenger) {
 	return rc;
 }
 
-//TODO: Check on the same way as deleting record in schedule file
+//TODO: Check on the same way as deleting record in schedule file then attach at the end
 bool PassengerListFile::setCheckedIn(Passenger & passenger) {
 	bool rc = false;
 	std::string output;
@@ -85,10 +85,10 @@ bool PassengerListFile::setCheckedIn(Passenger & passenger) {
 		uint64_t personalId = std::stoll(output);
 		if(passenger.getPersonalId() == personalId) {
 			std::string toWrite("1");
-			File::write(toWrite, offset + PassengerListStrFormat::CHECKED_IN_OFFSET);
+			rc = File::write(toWrite, offset + PassengerListStrFormat::CHECKED_IN_OFFSET);
 			break;
 		}
 	} while(!output.empty());
 
-	return rc;  //TODO: modify return value checking whether operation succeed
+	return rc;
 }

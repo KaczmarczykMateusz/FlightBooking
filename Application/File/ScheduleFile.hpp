@@ -30,6 +30,7 @@ public:
 	uint32_t getHightstId();
 
 
+	std::vector<Flight> searchFlight(const Date & date);
 	std::vector<Flight> searchFlight(std::string departureAirport, std::string arrivalAirport);
 	std::unique_ptr<Flight> searchFlight(uint32_t flightId);
 

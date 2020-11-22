@@ -11,6 +11,7 @@
 #include <string>
 #include <cassert>
 
+class Date;
 class DateTime;
 class Flight;
 
@@ -18,7 +19,8 @@ class StringFormatter {
 public:
 	StringFormatter() = default;
 
-	static std::string formatDateTime(const DateTime & date);
+	static std::string formatDate(const Date & date);
+	static std::string formatDateTime(const DateTime & dateTime);
 
 	static std::string formatDateTimeUI(const DateTime & dateTime);
 protected:
