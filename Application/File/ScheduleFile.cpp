@@ -102,12 +102,13 @@ std::vector<Flight> ScheduleFile::searchFlight(std::string departureAirport, std
 	return std::move(retVal);
 }
 
-std::unique_ptr<Flight> ScheduleFile::searchFlight(uint32_t flightId) {  //TODO: use readOff function
+std::unique_ptr<Flight> ScheduleFile::searchFlight(uint32_t flightId) {
 	std::string record;
 	uint32_t currentRecordId = 0;
-	uint32_t recordOffset = 0;
+	uint32_t skipBefore = ScheduleStrFormat::ID_OFFSET;
+	openToRead();
 	do {
-		record = File::read(Config::FLIGHT_ID_LENGTH, ScheduleStrFormat::ID_OFFSET + recordOffset);
+		record = File::readOff(Config::FLIGHT_ID_LENGTH, skipBefore);
 		if(record.empty()) {
 			break;
 		}
@@ -118,11 +119,12 @@ std::unique_ptr<Flight> ScheduleFile::searchFlight(uint32_t flightId) {  //TODO:
 		catch(...) {
 			currentRecordId = 0;
 		};
-		recordOffset += ScheduleStrFormat::RECORD_OFFSET;
+		skipBefore = ScheduleStrFormat::RECORD_OFFSET - (Config::FLIGHT_ID_LENGTH);
 	} while(currentRecordId != flightId);
+	close();
 
 	if(currentRecordId == flightId) {
-		record = File::read(ScheduleStrFormat::RECORD_LENGTH, recordOffset - ScheduleStrFormat::RECORD_OFFSET);
+		getRecord(record, currentRecordId);
 		return std::make_unique<Flight>(record);
 	} else {
 		return nullptr;
@@ -140,18 +142,7 @@ bool ScheduleFile::registerFlight(const Flight & flight) {
 
 bool ScheduleFile::deleteRecord(const Flight & flight) {
 	bool rc = false;
-	std::string deleteFlightNo = std::to_string(flight.getId());
-
-	std::string checkRecord;
-	uint32_t recordOffset = 0;
-	do {
-		checkRecord = File::read(Config::FLIGHT_ID_LENGTH, ScheduleStrFormat::ID_OFFSET + recordOffset);
-		StringUtilities::rtrim(checkRecord);
-		if(deleteFlightNo == checkRecord) {
-			rc = File::erase(recordOffset, ScheduleStrFormat::RECORD_OFFSET);
-			break;
-		}
-		recordOffset += ScheduleStrFormat::RECORD_OFFSET;
-	} while(!checkRecord.empty());
+	std::string toRemove = ScheduleStrFormat::formatRecord(flight);
+	rc = File::eraseRecord(toRemove, ScheduleStrFormat::RECORD_LENGTH);
 	return rc;
 }

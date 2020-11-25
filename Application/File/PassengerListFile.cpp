@@ -58,37 +58,15 @@ bool PassengerListFile::registerPassanger(const Passenger & passenger) {
 	return rc;
 }
 
-//TODO: Check on the same way as deleting record in schedule file then attach at the end
 bool PassengerListFile::setCheckedIn(Passenger & passenger) {
 	bool rc = false;
-	std::string output;
-	uint16_t offset = 0;
-	uint16_t nextRecordOffset = 0;
-	do {
-		offset += nextRecordOffset;
-		nextRecordOffset = PassengerListStrFormat::RECORD_OFFSET;
 
-		output = File::read(Config::SURNAME_LENGTH, PassengerListStrFormat::SURNAME_OFFSET + offset);
-		StringUtilities::rtrim(output);
-		if(passenger.getSurname() != output) {
-			continue;
-		}
+	std::string toDelete = PassengerListStrFormat::formatRecord(passenger);
+	rc = File::eraseRecord(toDelete, PassengerListStrFormat::RECORD_LENGTH);
 
-		output = File::read(Config::FIRST_NAME_LENGTH, PassengerListStrFormat::FIRST_NAME_OFFSET + offset);
-		StringUtilities::rtrim(output);
-		if(passenger.getFirstName() != output) {
-			continue;
-		}
-
-		output = File::read(Config::PERSONAL_ID_LENGTH, PassengerListStrFormat::PERSONAL_ID_OFFSET + offset);
-		StringUtilities::rtrim(output);
-		uint64_t personalId = std::stoll(output);
-		if(passenger.getPersonalId() == personalId) {
-			std::string toWrite("1");
-			rc = File::write(toWrite, offset + PassengerListStrFormat::CHECKED_IN_OFFSET);
-			break;
-		}
-	} while(!output.empty());
+	passenger.setCheckedIn(true);
+	registerPassanger(passenger);
 
 	return rc;
 }
+

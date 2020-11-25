@@ -20,6 +20,13 @@ public:
 	        return !std::isspace(ch);
 	    }).base(), s.end());
 	}
+
+	//Trim from end
+	static inline void rtrimNewLine(std::string &s) {
+	    s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {
+	        return !(  (ch == '\n') || (ch == '\r')  );
+	    }).base(), s.end());
+	}
 };
 
 

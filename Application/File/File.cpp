@@ -8,6 +8,7 @@
 #include "File.hpp"
 
 #include <cassert>
+#include <iostream>
 
 File::File() :
 	  fileStream(nullptr)
@@ -39,10 +40,10 @@ std::string File::read(uint32_t size, uint32_t offset) {
 	return rc;
 }
 
-std::string File::readOff(uint32_t size, uint32_t skipBefore) {
+std::string File::readOff(uint32_t size, uint32_t relativeOffset) {
 	std::string rc = "";
 	if(fileStream.is_open()) {
-		fileStream.seekg(skipBefore, std::fstream::seekdir::_S_cur);
+		fileStream.seekg(relativeOffset, std::fstream::seekdir::_S_cur);
 		if(!fileStream.eof()) {
 			std::string str(size, '\0');
 			fileStream.read(&str[0], str.size());
@@ -69,19 +70,7 @@ bool File::write(const std::string & str) {
 	return openSuccess;
 }
 
-bool File::write(const std::string & str, uint32_t offset) {
-	bool openSuccess = fileStream.is_open();
-	if(openSuccess) {
-		fileStream.seekp(offset);
-		if(!fileStream.eof()) {
-			fileStream.write(&str[0], str.size());
-		}
-		fileStream.flush();
-	}
-	return openSuccess;
-}
-
-bool File::erase(uint32_t offset, uint32_t length) {
+bool File::eraseRecord(std::string & toRemove, uint32_t recordLength) {
 	bool rc = false;
 	do {
 		std::ofstream newFileStream("tmp.dat", std::fstream::trunc | std::fstream::binary);
@@ -90,14 +79,18 @@ bool File::erase(uint32_t offset, uint32_t length) {
 		}
 
 		openToRead();
-		std::string str(length, '\0');
+		uint32_t recordOffset = recordLength + 1;
+		//XXX: For cross platform compatibility ('\n' vs 'r''n')
+		StringUtilities::rtrimNewLine(toRemove);
 		fileStream.seekg(0);
-		fileStream.read(&str[0], length);
+		std::string str(recordOffset, ' ');
+		fileStream.read(&str[0], recordOffset);
 		while(!fileStream.fail()) {
-			if(fileStream.tellg() != (offset + length)) {
-				newFileStream << str;
+			StringUtilities::rtrimNewLine(str);
+			if(str.compare(toRemove)) {
+				newFileStream << str << '\n';
 			}
-			fileStream.read(&str[0], length);
+			fileStream.read(&str[0], recordOffset);
 		}
 
 		newFileStream.close();

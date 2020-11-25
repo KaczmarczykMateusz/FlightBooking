@@ -31,12 +31,14 @@ public:
 protected:
 	bool openToRead();
 	std::string read(uint32_t size, uint32_t offset);
-	//In order to use ensure to open file before and close after
-	std::string readOff(uint32_t size, uint32_t skipBefore);
+	/*
+	 * Provides interface for reading at offset relative to last read
+	 * In order to use ensure to open file before and close after
+	 */
+	std::string readOff(uint32_t size, uint32_t relativeOffset);
 
 	bool write(const std::string & str);
-	bool write(const std::string & str, uint32_t offset);  //TODO: Remove method
-	bool erase(uint32_t offset, uint32_t length); //TODO: Provide method for erasing further than max stream size
+	bool eraseRecord(std::string & toRemove, uint32_t recordLength);
 	void setName(const std::string & str);
 
 private:
