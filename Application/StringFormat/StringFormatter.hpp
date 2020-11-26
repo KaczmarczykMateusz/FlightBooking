@@ -12,7 +12,7 @@
 #include <cassert>
 
 class Date;
-class DateTime;
+class Time;
 class Flight;
 
 class StringFormatter {
@@ -20,9 +20,10 @@ public:
 	StringFormatter() = default;
 
 	static std::string formatDate(const Date & date);
-	static std::string formatDateTime(const DateTime & dateTime);
+	static std::string formatTime(const Time & time);
 
-	static std::string formatDateTimeUI(const DateTime & dateTime);
+	static std::string formatDateUI(const Date & date);
+	static std::string formatTimeUI(const Time & time);
 protected:
 	//Ask user to enter detail and save this detail into dst string
 	static bool repalaceInString(std::string & dst, std::string input, uint32_t offset) {

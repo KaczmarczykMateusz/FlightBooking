@@ -3,6 +3,8 @@
  *
  *  Created on: 29 Oct 2020
  *      Author: Mateusz Kaczmarczyk
+ *  Description: Collects data from User Interface (UI)
+ *  then call functions from specific classes to handle them
  */
 
 #ifndef APPLICATION_FLIGHTMANAGER_HPP_

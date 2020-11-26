@@ -20,27 +20,7 @@ File::File(const std::string name) :
 	, name(name)
 {  }
 
-std::string File::read(uint32_t size, uint32_t offset) {
-	std::string rc = "";
-	openToRead();
-	if(fileStream.is_open()) {
-		fileStream.seekg(offset);
-		if(!fileStream.eof()) {
-			std::string str(size, '\0');
-			fileStream.read(&str[0], str.size());
-			//Failbit may be set when reaching eof or exceeding uint32_t max stream size etc.
-			if(!fileStream.fail()) {
-				rc = str;
-			} else {
-				fileStream.clear();
-			}
-		}
-		close();
-	}
-	return rc;
-}
-
-std::string File::readOff(uint32_t size, uint32_t relativeOffset) {
+std::string File::read(uint32_t size, int32_t relativeOffset) {
 	std::string rc = "";
 	if(fileStream.is_open()) {
 		fileStream.seekg(relativeOffset, std::fstream::seekdir::_S_cur);
@@ -79,18 +59,17 @@ bool File::eraseRecord(std::string & toRemove, uint32_t recordLength) {
 		}
 
 		openToRead();
-		uint32_t recordOffset = recordLength + 1;
+		recordLength += 1;
 		//XXX: For cross platform compatibility ('\n' vs 'r''n')
 		StringUtilities::rtrimNewLine(toRemove);
-		fileStream.seekg(0);
-		std::string str(recordOffset, ' ');
-		fileStream.read(&str[0], recordOffset);
+		std::string str;
+		getline(fileStream, str);
 		while(!fileStream.fail()) {
 			StringUtilities::rtrimNewLine(str);
 			if(str.compare(toRemove)) {
 				newFileStream << str << '\n';
 			}
-			fileStream.read(&str[0], recordOffset);
+			getline(fileStream, str);
 		}
 
 		newFileStream.close();

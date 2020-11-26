@@ -158,9 +158,10 @@ bool FlightManager::registerNew() {
 	std::string company = UI.getCompany();
 	std::string departureCity = UI.getDepartureCity();
 	std::string arrivalCity = UI.getArrivalCity();
-	DateTime date = UI.getDateTime();
+	Date date = UI.getDate();
+	Time time = UI.getTime();
 
-	Flight flight(flightId, company, date, departureCity, arrivalCity, 300);
+	Flight flight(flightId, company, date ,time, departureCity, arrivalCity, 300);
 
 	bool result = scheduleFile.registerFlight(flight);
 	return result;

@@ -5,8 +5,9 @@
  *      Author: Mateusz
  */
 
-#include "../Common/DateTime.hpp"
 #include "../FlightManagement/Flight.hpp"
+#include "../Common/Date.hpp"
+#include "../Common/Time.hpp"
 #include "../Common/Common.hpp"
 #include "StringFormatter.hpp"
 
@@ -21,23 +22,28 @@ std::string StringFormatter::formatDate(const Date & date) {
 	return outStream.str();
 }
 
-std::string StringFormatter::formatDateTime(const DateTime & dateTime) {
+std::string StringFormatter::formatTime(const Time & time) {
 	std::ostringstream outStream;
-	outStream << formatDate(dateTime.getDate())
-			<< std::setw(2) << std::setfill('0') << static_cast<int>(dateTime.getTime().getHour())
-			<< std::setw(2) << std::setfill('0') << static_cast<int>(dateTime.getTime().getMinute());
+	outStream << std::setw(2) << std::setfill('0') << static_cast<int>(time.getHour())
+			<< std::setw(2) << std::setfill('0') << static_cast<int>(time.getMinute());
 	return outStream.str();
 }
 
-std::string StringFormatter::formatDateTimeUI(const DateTime & dateTime) {
+std::string StringFormatter::formatDateUI(const Date& date) {
 	std::ostringstream dateStream;
-	dateStream << std::setw(2) << std::setfill('0') << static_cast<int>(dateTime.getDate().getDay()) << "/"
-	<< std::setw(2) << std::setfill('0') << static_cast<int>(dateTime.getDate().getMonth()) << "/"
-	<< static_cast<int>(dateTime.getDate().getYear()) << "   "
-	<< std::setw(2) << std::setfill('0') << static_cast<int>(dateTime.getTime().getHour()) << ":"
-	<< std::setw(2) << std::setfill('0') << static_cast<int>(dateTime.getTime().getMinute());
+	dateStream << std::setw(2) << std::setfill('0') << static_cast<int>(date.getDay()) << "/"
+	<< std::setw(2) << std::setfill('0') << static_cast<int>(date.getMonth()) << "/"
+	<< static_cast<int>(date.getYear()) << "   ";
 	return dateStream.str();
 }
+
+std::string StringFormatter::formatTimeUI(const Time & time) {
+	std::ostringstream dateStream;
+	dateStream << std::setw(2) << std::setfill('0') << static_cast<int>(time.getHour()) << ":"
+	<< std::setw(2) << std::setfill('0') << static_cast<int>(time.getMinute());
+	return dateStream.str();
+}
+
 
 std::string StringFormatter::getSubStr(const std::string & str, size_t offset, size_t length) {
 	std::string retStr("");

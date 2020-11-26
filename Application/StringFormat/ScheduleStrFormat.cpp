@@ -5,8 +5,9 @@
  *      Author: Mateusz Kaczmarczyk
  */
 
-#include "../Common/DateTime.hpp"
 #include "../FlightManagement/Flight.hpp"
+#include "../Common/Date.hpp"
+#include "../Common/Time.hpp"
 #include "../Common/Common.hpp"
 #include "ScheduleStrFormat.hpp"
 
@@ -20,8 +21,10 @@ std::string ScheduleStrFormat::formatRecord(const Flight & flight) {
 	repalaceInString(dst, flight.getCompany(), COMPANY_NAME_OFFSET);
 	repalaceInString(dst, flight.getDeparture(), DEPARTURE_AIRPORT_OFFSET);
 	repalaceInString(dst, flight.getArrival(), ARRIVAL_AIRPORT_OFFSET);
-	std::string dateStr = formatDateTime(flight.getDateTime());
+	std::string dateStr = formatDate(flight.getDate());
 	repalaceInString(dst, dateStr, DEPARTURE_DATE_OFFSET);
+	std::string timeStr = formatTime(flight.getTime());
+	repalaceInString(dst, timeStr, DEPARTURE_TIME_OFFSET);
 	repalaceInString(dst, "\n", NEW_LINE_OFFSET);
 
 	return dst;
@@ -32,7 +35,7 @@ std::string ScheduleStrFormat::formatRecordUI(const Flight & flight) {
 
 	outStream << std::setw(4) << std::setfill(' ') <<  flight.getId() << "  "
 			<< flight.getDeparture() << " " << flight.getArrival() << " "  << flight.getCompany() << " "
-			<< formatDateTimeUI(flight.getDateTime()) << "\n";
+			<< formatDateUI(flight.getDate()) << formatTimeUI(flight.getTime()) << "\n";
 
 	return outStream.str();
 }

@@ -6,7 +6,8 @@
  */
 
 #include "UserInterface.hpp"
-#include "Common/DateTime.hpp"
+#include "Common/Date.hpp"
+#include "Common/Time.hpp"
 
 #include <iostream>
 #include <stdarg.h>  // For va_start, etc.
@@ -147,12 +148,6 @@ Time UserInterface::getTime() {
 	} while(0 > minute);
 
 	return Time(hour, minute);
-}
-
-DateTime UserInterface::getDateTime() {
-	Date date(this->getDate());
-	Time time(this->getTime());
-	return DateTime(date, time);
 }
 
 std::string UserInterface::getLine(uint32_t length) {

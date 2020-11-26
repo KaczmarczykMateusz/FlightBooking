@@ -5,8 +5,9 @@
  *      Author: Mateusz
  */
 
-#include "../Common/DateTime.hpp"
 #include "../FlightManagement/Flight.hpp"
+#include "../Common/Date.hpp"
+#include "../Common/Time.hpp"
 #include "../Common/Common.hpp"
 #include "../FlightManagement/Passenger.h"
 #include "PassengerListStrFormat.hpp"

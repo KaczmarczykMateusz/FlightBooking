@@ -16,10 +16,11 @@
 
 #include "../StringFormat/ScheduleStrFormat.hpp"
 
-Flight::Flight(uint32_t id, std::string company, DateTime dateTime, std::string departure, std::string arrival, uint16_t seats) :
+Flight::Flight(uint32_t id, std::string company, Date date, Time time, std::string departure, std::string arrival, uint16_t seats) :
 	  id(id)
 	, company(company)
-	, dateTime(dateTime)
+	, date(date)
+	, time(time)
 	, departure(departure)
 	, arrival(arrival)
 	, seats(seats)
@@ -43,11 +44,12 @@ Flight::Flight(std::string str) :
 		int Month = tmp % 100;
 		int Day = tmp / 100;
 
-		std::string time = ScheduleStrFormat::getTime(str);
-		tmp = stoi(time);
+		std::string timeStr = ScheduleStrFormat::getTime(str);
+		tmp = stoi(timeStr);
 		int Minute = tmp % 100;
 		int Hour = tmp / 100;
-		dateTime = DateTime(Year, Month, Day, Hour, Minute);
+		date = Date(Year, Month, Day);
+		time = Time(Hour, Minute);
 	}
 	catch(...) {
 	};
@@ -65,8 +67,12 @@ std::string Flight::getCompany() const {
 	return company;
 }
 
-DateTime Flight::getDateTime() const {
-	return dateTime;
+Date Flight::getDate() const {
+	return date;
+}
+
+Time Flight::getTime() const {
+	return time;
 }
 
 std::string Flight::getDeparture() const {

@@ -24,9 +24,6 @@ public:
 
 	virtual ~ScheduleFile() = default;
 
-	// Return: false if record doesn't exist
-	virtual bool getRecord(std::string &dst, uint16_t recordNumber) override;
-
 	uint32_t getHightstId();
 
 

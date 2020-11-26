@@ -28,11 +28,6 @@ public:
 
 	virtual ~PassengerListFile() = default;
 
-	// Return: false if record doesn't exist
-	virtual bool getRecord(std::string &dst, uint16_t recordNumber) override;
-
-	uint32_t getNewRecordOffset();
-
 	bool registerPassanger(const Passenger & flight);
 	bool setCheckedIn(Passenger & flight);
 };

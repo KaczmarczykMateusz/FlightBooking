@@ -15,7 +15,6 @@
 
 class Date;
 class Time;
-class DateTime;
 
 class UserInterface: public StringUtilities {
 public:
@@ -35,7 +34,6 @@ public:
 
 	Date getDate();
 	Time getTime();
-	DateTime getDateTime();
 
 	std::string getCompany();
 	std::string getDepartureCity();

@@ -25,17 +25,17 @@ public:
 
 	virtual ~File() = default;
 
-	virtual bool getRecord(std::string &dst, uint16_t recordNumber) = 0;
-	void close();
 
 protected:
+	//Opens file and sets pointer for reading at first char
 	bool openToRead();
-	std::string read(uint32_t size, uint32_t offset);
+	//Ensure you close the file every time after you open it
+	void close();
 	/*
 	 * Provides interface for reading at offset relative to last read
 	 * In order to use ensure to open file before and close after
 	 */
-	std::string readOff(uint32_t size, uint32_t relativeOffset);
+	std::string read(uint32_t size, int32_t relativeOffset);
 
 	bool write(const std::string & str);
 	bool eraseRecord(std::string & toRemove, uint32_t recordLength);
