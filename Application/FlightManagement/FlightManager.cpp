@@ -62,10 +62,15 @@ bool FlightManager::showSchedule() {
 	Date date = UI.getDate();
 	std::vector<Flight> flights = scheduleFile.searchFlight(date);
 	bool result = !flights.empty();
-	for(auto flight : flights) {
-		std::string str = ScheduleStrFormat::formatRecordUI(flight);
-		UI.display(str);
+
+	if(!flights.empty()) {
+		UI.display(FlightHeader);
+		for(auto flight : flights) {
+			std::string str = ScheduleStrFormat::formatRecordUI(flight);
+			UI.display(str);
+		}
 	}
+
 	return result;
 }
 
