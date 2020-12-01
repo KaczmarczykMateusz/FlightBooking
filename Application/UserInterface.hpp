@@ -42,6 +42,7 @@ public:
 	std::string getSurname();
 	uint64_t getPersonalId();
 	uint32_t getFlightId();
+	uint16_t getSeats();
 
 	bool getRepeat();
 

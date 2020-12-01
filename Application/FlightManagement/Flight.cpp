@@ -24,11 +24,9 @@ Flight::Flight(uint32_t id, std::string company, Date date, Time time, std::stri
 	, departure(departure)
 	, arrival(arrival)
 	, seats(seats)
-	, occupiedSeats(0)
 	{}
 
-Flight::Flight(std::string str) :
-	  occupiedSeats(0)
+Flight::Flight(std::string str)
 {
 	assert(!str.empty());
 	std::string idStr = ScheduleStrFormat::getId(str);
@@ -56,7 +54,7 @@ Flight::Flight(std::string str) :
 
 	departure = ScheduleStrFormat::getDepartureCity(str);
 	arrival = ScheduleStrFormat::getArrivalCity(str);
-	seats = 300;
+	seats = ScheduleStrFormat::getSeats(str);
 }
 
 uint16_t Flight::getId() const {
@@ -84,6 +82,6 @@ std::string Flight::getArrival() const {
 }
 
 uint16_t Flight::getLeftSeats() const {
-	return (seats - occupiedSeats);
+	return seats;
 }
 

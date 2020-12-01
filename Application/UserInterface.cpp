@@ -19,6 +19,7 @@ static const std::string firstNameReq = "Insert first name:\n";
 static const std::string surnameReq = "Insert surname:\n";
 static const std::string personalIdReq = "Insert ID card number:\n";
 static const std::string flightIdReq = "Insert number of flight:\n";
+static const std::string seatsReq = "Insert number of seats available for flight:\n";
 static const std::string notFound = "\n\nNot found, would you like to repeat "
 										"search (y/n)\n";
 
@@ -213,6 +214,11 @@ uint64_t UserInterface::getPersonalId() {
 uint32_t UserInterface::getFlightId() {
 	display("\n\n%s", flightIdReq.c_str());
 	return static_cast<uint32_t>(getNumber(Config::FLIGHT_ID_LENGTH));
+}
+
+uint16_t UserInterface::getSeats() {
+	display("\n\n%s", seatsReq.c_str());
+	return static_cast<uint16_t>(getNumber(Config::SEATS_AVAILABLE_LENGTH));
 }
 
 bool UserInterface::getRepeat() {

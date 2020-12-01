@@ -44,6 +44,12 @@ std::string StringFormatter::formatTimeUI(const Time & time) {
 	return dateStream.str();
 }
 
+std::string StringFormatter::formatSeatsUI(uint32_t seats) {
+	std::ostringstream dateStream;
+	dateStream << std::setw(3) << std::setfill(' ') << static_cast<int>(seats);
+	return dateStream.str();
+}
+
 
 std::string StringFormatter::getSubStr(const std::string & str, size_t offset, size_t length) {
 	std::string retStr("");

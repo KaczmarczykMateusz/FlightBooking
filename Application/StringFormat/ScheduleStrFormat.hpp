@@ -29,7 +29,8 @@ public:
 	static const uint32_t ARRIVAL_AIRPORT_OFFSET = DEPARTURE_AIRPORT_OFFSET + Config::AIRPORT_LENGTH;
 	static const uint8_t  DEPARTURE_DATE_OFFSET = ARRIVAL_AIRPORT_OFFSET + Config::AIRPORT_LENGTH;
 	static const uint8_t  DEPARTURE_TIME_OFFSET = DEPARTURE_DATE_OFFSET + Config::DATE_LENGTH;
-	static const uint32_t NEW_LINE_OFFSET = DEPARTURE_TIME_OFFSET + Config::TIME_LENGTH;
+	static const uint8_t  SEATS_AVAILABLE_OFFSET = DEPARTURE_TIME_OFFSET + Config::TIME_LENGTH;
+	static const uint32_t NEW_LINE_OFFSET = SEATS_AVAILABLE_OFFSET + Config::SEATS_AVAILABLE_LENGTH;
 
 	static const uint32_t RECORD_LENGTH = NEW_LINE_OFFSET + Config::NEW_LINE_LENGTH;
 	static const uint32_t RECORD_OFFSET = RECORD_LENGTH + 1;
@@ -43,6 +44,7 @@ public:
 	static std::string getTime(const std::string & scheduleRecord);
 	static std::string getDepartureCity(const std::string & scheduleRecord);
 	static std::string getArrivalCity(const std::string & scheduleRecord);
+	static uint16_t getSeats(const std::string & scheduleRecord);
 
 };
 

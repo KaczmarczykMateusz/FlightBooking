@@ -37,8 +37,7 @@ private:
 	std::string departure;
 	std::string arrival;
 
-	uint16_t seats;  //TODO: implement seats in flight schedule file
-	uint16_t occupiedSeats;
+	uint16_t seats;
 };
 
 #endif /* APPLICATION_FLIGHT_HPP_ */

@@ -1,52 +1,54 @@
-1    LOT             Skopie              Sofia               12121911100
-2    Wizz Air        Sofia               Warsaw              01121911100
-3    Wizz Air        Berlin              Warsaw              13121911100
-4    Wizz Air        Sofia               Warsaw              08121911100
-5    Wizz Air        Berlin              Warsaw              13121911100
-6    Wizz Air        Sofia               Warsaw              15121911100
-7    Wizz Air        Berlin              Warsaw              13121911100
-8    Wizz Air        Sofia               Warna               22121911100
-9    Wizz Air        Gdansk              Warsaw              13121911100
-10   Wizz Air        Sofia               Warsaw              29121911100
-11   Wizz Air        Hong-Kong           Warsaw              13121911100
-12   Wizz Air        Sofia               Warsaw              06012011100
-13   Wizz Air        Katowice            Warsaw              13121911100
-14   Turkish AirlinesIstanbul            Ankara              15121911100
-15   LOT             Aqaba               Warsaw              15121911100
-16   Air Bulgaria    Warna               Burgas              16121911100
-19   Air Canada      Toronto             New York            18121911100
-20   Wizz Air        Belgrade            Budapest            15121911100
-21   Turkish AirlinesAnkara              Bukurest            16121911100
-22   LOT             Wroclaw             Krakow              18121911100
-23   Wizz Air        Dubai               Berlin              18121911100
-24   Lufthansa       Frankfurt Der Oder  Berlin              15121911100
-25   China Air       Berlin              Moscow              15112011100
-26   Lufthansa       Warsaw              Berlin              15112011100
-27   Lufthansa       Berlin              Warsaw              15112011100
-28   China Air       Hong Kong           Kioto               16112011100
-29   Wizz Air        Paris               London              16112011100
-30   LOT             Krakow              Gdansk              20112011100
-31   Russia Air      Vostock             Petersburg          16112011100
-32   LOT             Skopie              Tirana              15112011100
-33   Wizz Air        Barcelona           Madrid              19112011100
-34   Fly Emirates    Abu-Dabi            Dubai               20112011100
-35   LOT             Praga               Brno                19122011100
-36   British AirlinesLondon              Birmingam           19112011100
-37   LOT             Wroclaw             Gdansk              20112011100
-38   Wizz Air        Vienna              Rome                25112011100
-39   Russia Air      Moscow              Tokyo               22122011100
-40   LOT             Barcelona           Madrid              18122011100
-41   Russia Air      Tokyo               Kioto               15122011100
-42   Lot             Kiev                Minsk               12012111100
-43   Turkish AirlinesStanbul             Ankara              15121211100
-47   Lot             Rzeszow             Krakow              15122011100
-48   BulgAir         Sofia               Burgas              18122011100
-49   BulgAir         Warna               Sofia               12122011100
-50   LOT             Katowice            Wroclaw             12112011100
-51   LOT             Rzeszow             Krakow              15122011100
-53   LOT             Barcelona           New York            12122012150
-56   Wizz Air        Sofia               Warsaw              29121911100
-58   LOT             Berlin              Warsaw              15122015250
-59   RyanAir         Helsinki            Oslo                16112013000
-60   AbuAIr          sf                  ankara              15122015500
-61   sfasfa          dgas                dgas                15122012000
+1    LOT             Skopie              Sofia               1212191110 300
+2    Wizz Air        Sofia               Warsaw              0112191110 300
+3    Wizz Air        Berlin              Warsaw              1312191110 300
+4    Wizz Air        Sofia               Warsaw              0812191110 300
+5    Wizz Air        Berlin              Warsaw              1312191110 300
+6    Wizz Air        Sofia               Warsaw              1512191110 300
+7    Wizz Air        Berlin              Warsaw              1312191110 300
+8    Wizz Air        Sofia               Warna               2212191110 300
+9    Wizz Air        Gdansk              Warsaw              1312191110 300
+10   Wizz Air        Sofia               Warsaw              2912191110 300
+11   Wizz Air        Hong-Kong           Warsaw              1312191110 300
+12   Wizz Air        Sofia               Warsaw              0601201110 300
+13   Wizz Air        Katowice            Warsaw              1312191110 300
+14   Turkish AirlinesIstanbul            Ankara              1512191110 300
+15   LOT             Aqaba               Warsaw              1512191110 300
+16   Air Bulgaria    Warna               Burgas              1612191110 300
+19   Air Canada      Toronto             New York            1812191110 300
+20   Wizz Air        Belgrade            Budapest            1512191110 300
+21   Turkish AirlinesAnkara              Bukurest            1612191110 300
+22   LOT             Wroclaw             Krakow              1812191110 300
+23   Wizz Air        Dubai               Berlin              1812191110 300
+24   Lufthansa       Frankfurt Der Oder  Berlin              1512191110 300
+25   China Air       Berlin              Moscow              1511201110 300
+26   Lufthansa       Warsaw              Berlin              1511201110 300
+27   Lufthansa       Berlin              Warsaw              1511201110 300
+28   China Air       Hong Kong           Kioto               1611201110 300
+29   Wizz Air        Paris               London              1611201110 300
+30   LOT             Krakow              Gdansk              2011201110 300
+31   Russia Air      Vostock             Petersburg          1611201110 300
+32   LOT             Skopie              Tirana              1511201110 300
+33   Wizz Air        Barcelona           Madrid              1911201110 300
+34   Fly Emirates    Abu-Dabi            Dubai               2011201110 300
+35   LOT             Praga               Brno                1912201110 300
+36   British AirlinesLondon              Birmingam           1911201110 300
+37   LOT             Wroclaw             Gdansk              2011201110 300
+38   Wizz Air        Vienna              Rome                2511201110 300
+39   Russia Air      Moscow              Tokyo               2212201110 300
+40   LOT             Barcelona           Madrid              1812201110 300
+41   Russia Air      Tokyo               Kioto               1512201110 300
+42   Lot             Kiev                Minsk               1201211110 300
+43   Turkish AirlinesStanbul             Ankara              1512121110 300
+47   Lot             Rzeszow             Krakow              1512201110 300
+48   BulgAir         Sofia               Burgas              1812201110 300
+49   BulgAir         Warna               Sofia               1212201110 300
+50   LOT             Katowice            Wroclaw             1211201110 300
+51   LOT             Rzeszow             Krakow              1512201110 300
+53   LOT             Barcelona           New York            1212201215 300
+56   Wizz Air        Sofia               Warsaw              2912191110 300
+58   LOT             Berlin              Warsaw              1512201525 300
+59   RyanAir         Helsinki            Oslo                1611201300 300
+60   AbuAIr          sf                  ankara              1512201550 300
+61   sfasfa          dgas                dgas                1512201200 300
+62   LOT             New York            Frankfurt           1512201700 600
+63   WizzAir         Barcelona           Bilbao              1812201535 300

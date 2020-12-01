@@ -30,8 +30,9 @@ public:
 
 	uint8_t mainMenu();
 	bool showSchedule();
-	bool book();
+	bool book();  //TODO: implement taking flight seat as occupied while booking
 	bool checkIn();
+	//TODO: implement case tolerance (no metter whether you enter lower or upper-case, you find what you search for)
 	bool searchByAirports();
 	bool registerNew();
 	bool deleteFlight();

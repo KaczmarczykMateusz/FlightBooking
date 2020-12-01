@@ -165,8 +165,9 @@ bool FlightManager::registerNew() {
 	std::string arrivalCity = UI.getArrivalCity();
 	Date date = UI.getDate();
 	Time time = UI.getTime();
+	uint16_t seats = UI.getSeats();
 
-	Flight flight(flightId, company, date ,time, departureCity, arrivalCity, 300);
+	Flight flight(flightId, company, date ,time, departureCity, arrivalCity, seats);
 
 	bool result = scheduleFile.registerFlight(flight);
 	return result;

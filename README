@@ -10,4 +10,7 @@
  *
  *     @Notes: Program builds with Gcc compiler with c++ dialect selected to C++14 (-std=c++14)
  *
+ * XXX: reverting files by GIT may cause replace of the \n symbol with \r\n
+ *
  */
+//TODO: update file

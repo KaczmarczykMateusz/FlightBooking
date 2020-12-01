@@ -20,12 +20,13 @@ struct Config {
 	static const uint32_t AIRPORT_LENGTH = 20;
 	static const uint32_t DATE_LENGTH = 6;
 	static const uint32_t TIME_LENGTH = 4;
+	static const uint32_t SEATS_AVAILABLE_LENGTH = 4;
 	static const uint32_t NEW_LINE_LENGTH = 1;
 };
 
 
 static const std::string FlightHeader = "\n\nNo.:  Departure city:      Arrival City:        "
-										"Company:         Date:      Time:\n";
+										"Company:         Date:      Time:    Seats:\n";
 
 static const char SEPARATOR = ' ';
 

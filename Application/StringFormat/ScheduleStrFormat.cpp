@@ -12,7 +12,10 @@
 #include "ScheduleStrFormat.hpp"
 
 #include <iomanip>
+#include <iostream>
 #include <sstream>
+
+using std::stringstream;
 
 std::string ScheduleStrFormat::formatRecord(const Flight & flight) {
 	std::string dst(RECORD_LENGTH, ' ');
@@ -25,6 +28,9 @@ std::string ScheduleStrFormat::formatRecord(const Flight & flight) {
 	repalaceInString(dst, dateStr, DEPARTURE_DATE_OFFSET);
 	std::string timeStr = formatTime(flight.getTime());
 	repalaceInString(dst, timeStr, DEPARTURE_TIME_OFFSET);
+	stringstream ss;
+	ss <<  std::setw(4) << std::setfill(' ') << flight.getLeftSeats();
+	repalaceInString(dst, ss.str(), SEATS_AVAILABLE_OFFSET);
 	repalaceInString(dst, "\n", NEW_LINE_OFFSET);
 
 	return dst;
@@ -35,7 +41,8 @@ std::string ScheduleStrFormat::formatRecordUI(const Flight & flight) {
 
 	outStream << std::setw(4) << std::setfill(' ') <<  flight.getId() << "  "
 			<< flight.getDeparture() << " " << flight.getArrival() << " "  << flight.getCompany() << " "
-			<< formatDateUI(flight.getDate()) << formatTimeUI(flight.getTime()) << "\n";
+			<< formatDateUI(flight.getDate()) << formatTimeUI(flight.getTime()) << "    "
+			<< formatSeatsUI(flight.getLeftSeats()) << "\n";
 
 	return outStream.str();
 }
@@ -62,4 +69,16 @@ std::string ScheduleStrFormat::getDepartureCity(const std::string & scheduleReco
 
 std::string ScheduleStrFormat::getArrivalCity(const std::string & scheduleRecord) {
 	return getSubStr(scheduleRecord, ARRIVAL_AIRPORT_OFFSET, Config::AIRPORT_LENGTH);
+}
+
+uint16_t ScheduleStrFormat::getSeats(const std::string & scheduleRecord) {
+	std::string str = getSubStr(scheduleRecord, SEATS_AVAILABLE_OFFSET, Config::SEATS_AVAILABLE_LENGTH);
+	uint16_t seats = 0;
+	try {
+		seats = std::stoi(str);
+	} catch(...) {
+		seats = 0;
+	};
+
+	return seats;
 }
