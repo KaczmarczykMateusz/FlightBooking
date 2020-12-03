@@ -137,10 +137,12 @@ bool FlightManager::searchByAirports() {
 	bool rc = false;
 	do {
 		repeat = false;
-		std::string depatrureCity = UI.getDepartureCity();
+		std::string departureCity = UI.getDepartureCity();
+		StringUtilities::toLower(departureCity);
 		std::string arrivalCity = UI.getArrivalCity();
+		StringUtilities::toLower(arrivalCity);
 
-		std::vector<Flight> flights = scheduleFile.searchFlight(depatrureCity, arrivalCity);
+		std::vector<Flight> flights = scheduleFile.searchFlight(departureCity, arrivalCity);
 
 		if(!flights.empty()) {
 			UI.display(FlightHeader);
@@ -163,6 +165,7 @@ bool FlightManager::registerNew() {
 	std::string company = UI.getCompany();
 	std::string departureCity = UI.getDepartureCity();
 	std::string arrivalCity = UI.getArrivalCity();
+
 	Date date = UI.getDate();
 	Time time = UI.getTime();
 	uint16_t seats = UI.getSeats();

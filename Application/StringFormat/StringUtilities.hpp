@@ -27,6 +27,11 @@ public:
 	        return !(  (ch == '\n') || (ch == '\r')  );
 	    }).base(), s.end());
 	}
+
+	static inline void toLower(std::string & s) {
+		std::transform(s.begin(), s.end(), s.begin(),
+			[](unsigned char c){ return std::tolower(c); });
+	}
 };
 
 

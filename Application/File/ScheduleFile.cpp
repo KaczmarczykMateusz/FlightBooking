@@ -72,11 +72,13 @@ std::vector<Flight> ScheduleFile::searchFlight(std::string departureAirport, std
 	std::string output = File::read(Config::AIRPORT_LENGTH, relativeOffset);
 	while(!output.empty()) {
 		StringUtilities::rtrim(output);
+		StringUtilities::toLower(output);
 		if(output == departureAirport) {
 			relativeOffset = 0;
 			output = File::read(Config::AIRPORT_LENGTH, relativeOffset);
 			relativeOffset = ScheduleStrFormat::RECORD_LENGTH - ScheduleStrFormat::ARRIVAL_AIRPORT_OFFSET + 1;
 			StringUtilities::rtrim(output);
+			StringUtilities::toLower(output);
 			if(!output.empty()) {
 				if(output == arrivalAirport) {
 					relativeOffset = -(ScheduleStrFormat::ARRIVAL_AIRPORT_OFFSET + Config::AIRPORT_LENGTH);
