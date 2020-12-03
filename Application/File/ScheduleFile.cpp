@@ -66,6 +66,8 @@ std::vector<Flight> ScheduleFile::searchFlight(const Date & date) {
 
 std::vector<Flight> ScheduleFile::searchFlight(std::string departureAirport, std::string arrivalAirport) {
 	std::vector<Flight> retVal;
+	StringUtilities::toLower(departureAirport);
+	StringUtilities::toLower(arrivalAirport);
 
 	openToRead();
 	uint32_t relativeOffset = ScheduleStrFormat::DEPARTURE_AIRPORT_OFFSET;

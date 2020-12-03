@@ -138,9 +138,7 @@ bool FlightManager::searchByAirports() {
 	do {
 		repeat = false;
 		std::string departureCity = UI.getDepartureCity();
-		StringUtilities::toLower(departureCity);
 		std::string arrivalCity = UI.getArrivalCity();
-		StringUtilities::toLower(arrivalCity);
 
 		std::vector<Flight> flights = scheduleFile.searchFlight(departureCity, arrivalCity);
 
